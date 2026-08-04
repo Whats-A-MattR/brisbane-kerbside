@@ -48,6 +48,7 @@ h1, h2 { margin: 0; font-family: 'Fraunces', Georgia, serif; letter-spacing: -.0
 .search-input { min-height: 72px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px; padding: 0 24px; border-radius: 18px; background: var(--white); color: var(--ink); }
 .search-input > span { font-size: 1.7rem; }
 .search-input input { min-width: 0; width: 100%; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 1.15rem; }
+.search-input input::-webkit-search-cancel-button { display: none; appearance: none; }
 .search-input button { width: 38px; height: 38px; border: 0; border-radius: 50%; background: var(--mist); color: var(--ink); cursor: pointer; font-size: 1.4rem; }
 .recall-card, .suggestion-card { margin: 0 0 26px; padding: 22px 24px; display: flex; justify-content: space-between; align-items: center; gap: 20px; border: 1px solid rgba(223,255,89,.55); border-radius: 14px; background: rgba(223,255,89,.09); }
 .recall-card div, .suggestion-card div { display: grid; gap: 5px; }
@@ -66,6 +67,10 @@ h1, h2 { margin: 0; font-family: 'Fraunces', Georgia, serif; letter-spacing: -.0
 .council-card > p { margin: 0; color: #587069; }
 .next-date { margin: 28px 0; display: grid; gap: 5px; }
 .next-date span { color: #6c7f79; font-size: .68rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.matched-areas { margin: 22px 0; padding: 15px 16px; border-radius: 10px; background: #edf1eb; }
+.matched-areas > span { display: block; margin-bottom: 9px; color: #5f756f; font-size: .64rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+.matched-areas > div { display: flex; flex-wrap: wrap; gap: 7px; }
+.matched-areas a { padding: 6px 9px; border-radius: 999px; color: var(--ink); background: var(--white); font-size: .76rem; font-weight: 800; text-underline-offset: 2px; }
 .card-actions { margin-top: auto; display: flex; align-items: center; gap: 22px; }
 .primary-action { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 46px; padding: 0 18px; border-radius: 999px; background: var(--lime); color: var(--ink); font-weight: 800; text-decoration: none; }
 .primary-action.large { min-height: 54px; padding-inline: 24px; }
