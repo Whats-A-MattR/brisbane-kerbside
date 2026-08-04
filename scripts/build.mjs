@@ -26,6 +26,20 @@ function longDate(value) {
 }
 
 function pageDetails(schedule, route) {
+  if (route.type === 'about') {
+    return {
+      path: '/about/',
+      title: 'About and methodology | Brisbane Kerbside Collection Map',
+      description: 'How Brisbane Kerbside Collection Map turns Council open data into a current, searchable static schedule—and where its limits are.',
+    };
+  }
+  if (route.type === 'guide') {
+    return {
+      path: '/guide/',
+      title: 'Brisbane kerbside collection guide | What Council accepts',
+      description: 'Prepare for Brisbane large-item kerbside collection: timing, the 2 cubic metre limit, accepted items, exclusions and common questions.',
+    };
+  }
   if (route.type === 'privacy') {
     return {
       path: '/privacy/',
@@ -109,6 +123,20 @@ function structuredData(schedule, route, details) {
     });
   }
 
+  if (route.type === 'guide') {
+    graph.push({
+      '@type': 'FAQPage',
+      mainEntity: [
+        { '@type': 'Question', name: 'Is Brisbane kerbside collection available to every property?', acceptedAnswer: { '@type': 'Answer', text: 'Residential households in the Brisbane local government area are eligible, including houses and multi-unit dwellings. Commercial properties, caravan parks, schools and vacant land are excluded.' } },
+        { '@type': 'Question', name: 'Can I put a mattress out for Brisbane kerbside collection?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Brisbane City Council currently lists mattresses as accepted kerbside items.' } },
+        { '@type': 'Question', name: 'Can televisions and computers go out for collection?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Electronic waste such as televisions and computer monitors is currently accepted.' } },
+        { '@type': 'Question', name: 'Can I put out paint, glass or tyres?', acceptedAnswer: { '@type': 'Answer', text: 'No. Council directs paint, glass, mirrors and tyres to other disposal or recycling options.' } },
+        { '@type': 'Question', name: 'Why is my suburb missing from the kerbside search?', acceptedAnswer: { '@type': 'Answer', text: 'The map lists current and future dates in the published open dataset. A suburb may be absent after its collection has passed or before its next date is published.' } },
+        { '@type': 'Question', name: 'Is this the official Brisbane City Council calendar?', acceptedAnswer: { '@type': 'Answer', text: 'No. This is an independent presentation of Council open data. Use the official calendar for final confirmation.' } },
+      ],
+    });
+  }
+
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replaceAll('<', '\\u003c');
 }
 
@@ -125,6 +153,8 @@ const adsenseHead = adsenseClient
 const suburbIds = [...new Set(schedule.collections.flatMap((item) => item.suburbs.map((suburb) => suburb.id)))];
 const routes = [
   { type: 'home' },
+  { type: 'guide' },
+  { type: 'about' },
   { type: 'privacy' },
   ...schedule.collections.map((item) => ({ type: 'collection', id: item.id })),
   ...suburbIds.map((id) => ({ type: 'suburb', id })),

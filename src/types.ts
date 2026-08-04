@@ -18,6 +18,8 @@ export type Schedule = {
 
 export type Route =
   | { type: 'home' }
+  | { type: 'about' }
+  | { type: 'guide' }
   | { type: 'privacy' }
   | { type: 'collection'; id: string }
   | { type: 'suburb'; id: string };

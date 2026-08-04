@@ -71,8 +71,9 @@ page before deployment.
    record, then submit `https://brisbanekerbside.app/sitemap.xml` in the
    Sitemaps report.
 
-The one ad appears as a short strip below the desktop map and directly between
-the map and page content on mobile. Local development shows a labelled preview;
+The restrained ad placement appears below the map on the main schedule and once
+inside the detailed kerbside guide. Generated suburb, collection and privacy
+pages do not request an ad unit. Local development shows a labelled preview;
 production renders nothing until valid AdSense variables are configured.
 
 No Cloudflare credentials belong in the repository or in local `.env` files.

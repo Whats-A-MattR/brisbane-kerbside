@@ -1,15 +1,19 @@
 import { useEffect, useId, useMemo, useState } from 'react';
-import { MdArrowUpward, MdClose, MdMenu, MdSearch } from 'react-icons/md';
+import { MdClose, MdMenu, MdSearch } from 'react-icons/md';
 import { AdStrip } from './AdStrip';
 import { trackEvent } from './analytics';
+import { BackToTop } from './BackToTop';
 import { formatCollectionDate, formatGeneratedAt } from './date';
+import { AboutPage, GuidePage, PrivacyPage } from './EditorialPages';
 import { CollectionMap } from './Map';
+import {
+  ACCEPTED_ITEMS_URL,
+  COUNCIL_CALENDAR_URL,
+  REPOSITORY_URL,
+  SPONSOR_URL,
+  sitePath,
+} from './site';
 import type { Collection, Route, Schedule, Suburb } from './types';
-
-const REPOSITORY_URL = 'https://github.com/Whats-A-MattR/brisbane-kerbside';
-const SPONSOR_URL = 'https://github.com/sponsors/Whats-A-MattR';
-const COUNCIL_CALENDAR_URL = 'https://www.brisbane.qld.gov.au/bins-waste-and-recycling/kerbside-collection/kerbside-collection-calendar';
-const ACCEPTED_ITEMS_URL = 'https://www.brisbane.qld.gov.au/bins-waste-and-recycling/kerbside-collection/acceptable-kerbside-collection-items';
 
 type AppProps = {
   schedule: Schedule;
@@ -20,10 +24,6 @@ type SuburbOption = Suburb & {
   collection: Collection;
 };
 
-function sitePath(path: string) {
-  return `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
-}
-
 function collectionsForRoute(schedule: Schedule, route: Route) {
   if (route.type === 'collection') {
     return schedule.collections.filter((item) => item.id === route.id);
@@ -32,129 +32,6 @@ function collectionsForRoute(schedule: Schedule, route: Route) {
     return schedule.collections.filter((item) => item.suburbs.some((suburb) => suburb.id === route.id));
   }
   return schedule.collections;
-}
-
-type BackToTopProps = {
-  disabled?: boolean;
-  target?: 'page' | 'mobile-sheet';
-};
-
-function BackToTop({ disabled = false, target = 'page' }: BackToTopProps) {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    if (disabled) {
-      setVisible(false);
-      return undefined;
-    }
-
-    if (target === 'mobile-sheet') {
-      const dateList = document.querySelector<HTMLElement>('.date-sheet-list');
-      if (!dateList) return undefined;
-
-      const updateVisibility = () => setVisible(dateList.scrollTop > 280);
-      dateList.addEventListener('scroll', updateVisibility, { passive: true });
-      updateVisibility();
-
-      return () => dateList.removeEventListener('scroll', updateVisibility);
-    }
-
-    const mobileLayout = window.matchMedia('(max-width: 900px)');
-    const schedulePanel = document.querySelector<HTMLElement>('.schedule-panel');
-    let scrollTarget: EventTarget = window;
-
-    const updateVisibility = () => {
-      const scrollTop = mobileLayout.matches || !schedulePanel ? window.scrollY : schedulePanel.scrollTop;
-      setVisible(scrollTop > (mobileLayout.matches ? 320 : 520));
-    };
-
-    const bindScrollTarget = () => {
-      scrollTarget.removeEventListener('scroll', updateVisibility);
-      scrollTarget = mobileLayout.matches || !schedulePanel ? window : schedulePanel;
-      scrollTarget.addEventListener('scroll', updateVisibility, { passive: true });
-      updateVisibility();
-    };
-
-    bindScrollTarget();
-    mobileLayout.addEventListener('change', bindScrollTarget);
-
-    return () => {
-      scrollTarget.removeEventListener('scroll', updateVisibility);
-      mobileLayout.removeEventListener('change', bindScrollTarget);
-    };
-  }, [disabled, target]);
-
-  const returnToTop = () => {
-    const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
-
-    if (target === 'mobile-sheet') {
-      document.querySelector<HTMLElement>('.date-sheet-list')?.scrollTo({ top: 0, behavior });
-      trackEvent('back_to_top', { layout: 'mobile_sheet' });
-      return;
-    }
-
-    const mobileLayout = window.matchMedia('(max-width: 900px)').matches;
-    const schedulePanel = document.querySelector<HTMLElement>('.schedule-panel');
-
-    if (mobileLayout || !schedulePanel) {
-      window.scrollTo({ top: 0, behavior });
-    } else {
-      schedulePanel.scrollTo({ top: 0, behavior });
-    }
-
-    trackEvent('back_to_top', { layout: mobileLayout ? 'mobile' : 'desktop' });
-  };
-
-  return (
-    <button
-      className={`back-to-top${target === 'mobile-sheet' ? ' back-to-top--sheet' : ''}`}
-      data-visible={visible}
-      type="button"
-      aria-label="Back to top"
-      aria-hidden={!visible}
-      tabIndex={visible ? 0 : -1}
-      onClick={returnToTop}
-    >
-      <MdArrowUpward aria-hidden="true" />
-    </button>
-  );
-}
-
-function PrivacyPage() {
-  return (
-    <main className="legal-page">
-      <header className="legal-header">
-        <a className="brand-mark" href={sitePath('/')} aria-label="Brisbane kerbside map home">BNE</a>
-        <a href={sitePath('/')}>Back to the collection map</a>
-      </header>
-      <article>
-        <p className="eyebrow">Project information</p>
-        <h1>Privacy and advertising</h1>
-        <p className="legal-updated">Last updated 4 August 2026</p>
-
-        <h2>What this site collects</h2>
-        <p>
-          Brisbane Kerbside Collection Map does not require an account and does not collect names, addresses or contact details. The site may use Google Analytics 4 to understand aggregate page visits, suburb searches and collection-date selections. Analytics is not loaded when your browser sends a Do Not Track signal.
-        </p>
-
-        <h2>Advertising</h2>
-        <p>
-          This site may display one small advertisement supplied by Google AdSense. Google and its partners may use cookies or similar technologies to show, measure and personalise advertising based on your visits to this and other websites. You can manage personalised advertising in <a href="https://myadcenter.google.com/" target="_blank" rel="noreferrer">Google My Ad Center</a>.
-        </p>
-
-        <h2>Consent and third parties</h2>
-        <p>
-          Where required, a consent message is shown before Google uses cookies for analytics or advertising. Google processes information under its own <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">privacy policy</a>. Map tiles are supplied by OpenStreetMap and CARTO and may receive standard request information such as your IP address and browser details when the map loads.
-        </p>
-
-        <h2>Questions</h2>
-        <p>
-          This is an independent open-source project. Privacy questions and requests can be raised through the <a href={`${REPOSITORY_URL}/issues`} target="_blank" rel="noreferrer">project issue tracker</a>.
-        </p>
-      </article>
-      <BackToTop />
-    </main>
-  );
 }
 
 function suburbOptions(schedule: Schedule) {
@@ -246,7 +123,7 @@ function SuburbSearch({ className, options, query, onQueryChange, onResultSelect
   );
 }
 
-function routeCopy(schedule: Schedule, route: Route, collections: Collection[]) {
+function routeCopy(route: Route, collections: Collection[]) {
   if (route.type === 'suburb') {
     const suburb = collections[0]?.suburbs.find((item) => item.id === route.id)?.name ?? route.id;
     return {
@@ -275,6 +152,65 @@ function routeCopy(schedule: Schedule, route: Route, collections: Collection[]) 
   };
 }
 
+function RouteFacts({ route, collection }: { route: Route; collection: Collection }) {
+  if (route.type !== 'suburb' && route.type !== 'collection') return null;
+
+  const collectionDate = formatCollectionDate(collection.collectionDate);
+  const itemsOutDate = formatCollectionDate(collection.itemsOutDate);
+
+  if (route.type === 'suburb') {
+    const suburb = collection.suburbs.find((item) => item.id === route.id);
+    if (!suburb) return null;
+    const sameWeek = collection.suburbs.filter((item) => item.id !== route.id);
+
+    return (
+      <section className="route-facts" aria-labelledby="route-facts-title">
+        <p className="eyebrow">At a glance</p>
+        <h2 id="route-facts-title">Next published collection for {suburb.name}</h2>
+        <p>
+          Brisbane City Council’s current open schedule places {suburb.name} in the week starting {collectionDate.label}.
+          Put eligible large items out from {itemsOutDate.label}, ready for collection by 6am Monday.
+        </p>
+        <dl>
+          <div><dt>Collection week</dt><dd>{collectionDate.label}</dd></div>
+          <div><dt>Items out from</dt><dd>{itemsOutDate.label}</dd></div>
+          <div><dt>Published with</dt><dd>{sameWeek.length} other {sameWeek.length === 1 ? 'suburb' : 'suburbs'}</dd></div>
+          <div><dt>Household limit</dt><dd>Up to 2 cubic metres</dd></div>
+        </dl>
+        {sameWeek.length > 0 && (
+          <p className="route-facts-related">
+            The same collection week also covers {sameWeek.slice(0, 5).map((item) => item.name).join(', ')}{sameWeek.length > 5 ? ` and ${sameWeek.length - 5} more` : ''}.
+          </p>
+        )}
+        <div className="route-facts-links">
+          <a href={sitePath('/guide/')}>Read the preparation guide</a>
+          <a href={COUNCIL_CALENDAR_URL} target="_blank" rel="noreferrer">Confirm with Council ↗</a>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="route-facts" aria-labelledby="route-facts-title">
+      <p className="eyebrow">Week details</p>
+      <h2 id="route-facts-title">{collection.suburbs.length} suburbs are on this published run</h2>
+      <p>
+        Eligible large household items can be placed out from {itemsOutDate.label}. Have the pile ready by 6am on {collectionDate.label}; collection may happen at any point during the scheduled week.
+      </p>
+      <dl>
+        <div><dt>Week starts</dt><dd>{collectionDate.label}</dd></div>
+        <div><dt>Items out from</dt><dd>{itemsOutDate.label}</dd></div>
+        <div><dt>Suburbs listed</dt><dd>{collection.suburbs.length}</dd></div>
+        <div><dt>Household limit</dt><dd>Up to 2 cubic metres</dd></div>
+      </dl>
+      <div className="route-facts-links">
+        <a href={sitePath('/guide/')}>What can go out?</a>
+        <a href={COUNCIL_CALENDAR_URL} target="_blank" rel="noreferrer">Confirm with Council ↗</a>
+      </div>
+    </section>
+  );
+}
+
 export function App({ schedule, route }: AppProps) {
   const routeCollections = collectionsForRoute(schedule, route);
   const [selectedId, setSelectedId] = useState(routeCollections[0]?.id ?? schedule.collections[0]?.id ?? '');
@@ -285,9 +221,7 @@ export function App({ schedule, route }: AppProps) {
     () => routeCollections.find((item) => item.id === selectedId) ?? routeCollections[0] ?? schedule.collections[0],
     [routeCollections, schedule.collections, selectedId],
   );
-  const copy = routeCopy(schedule, route, routeCollections);
-
-  if (route.type === 'privacy') return <PrivacyPage />;
+  const copy = routeCopy(route, routeCollections);
 
   useEffect(() => {
     if (!menuOpen) return undefined;
@@ -305,6 +239,10 @@ export function App({ schedule, route }: AppProps) {
       window.removeEventListener('keydown', closeOnEscape);
     };
   }, [menuOpen]);
+
+  if (route.type === 'privacy') return <PrivacyPage />;
+  if (route.type === 'about') return <AboutPage schedule={schedule} />;
+  if (route.type === 'guide') return <GuidePage />;
 
   if (!selected) {
     return (
@@ -329,7 +267,8 @@ export function App({ schedule, route }: AppProps) {
           <a className="brand-mark" href={sitePath('/')} aria-label="Brisbane kerbside map home">BNE</a>
           <p>Kerbside collection map</p>
           <nav className="header-actions" aria-label="Project links">
-            <a href={REPOSITORY_URL} target="_blank" rel="noreferrer">Open source</a>
+            <a href={sitePath('/guide/')}>Guide</a>
+            <a href={sitePath('/about/')}>About</a>
             <a
               className="sponsor-link"
               href={SPONSOR_URL}
@@ -387,6 +326,8 @@ export function App({ schedule, route }: AppProps) {
           query={suburbQuery}
           onQueryChange={setSuburbQuery}
         />
+
+        <RouteFacts route={route} collection={selected} />
 
         <div className="list-heading">
           <h2>{route.type === 'home' ? 'Upcoming dates' : 'Published schedule'}</h2>
@@ -474,6 +415,8 @@ export function App({ schedule, route }: AppProps) {
 
         <footer>
           <p>Data refreshed {formatGeneratedAt(schedule.generatedAt)}</p>
+          <a href={sitePath('/guide/')}>Brisbane kerbside guide</a>
+          <a href={sitePath('/about/')}>About & methodology</a>
           <a href={schedule.sourceUrl} target="_blank" rel="noreferrer">Brisbane City Council open data ↗</a>
           <a
             href={SPONSOR_URL}
@@ -487,7 +430,7 @@ export function App({ schedule, route }: AppProps) {
 
       <section className="map-panel" aria-label="Collection area map">
         <CollectionMap selectedDate={selected.collectionDate} selectedLabel={selectedDate.label} selectedSuburb={selectedSuburb} />
-        <AdStrip />
+        {route.type === 'home' && <AdStrip />}
       </section>
 
       <button
@@ -510,6 +453,17 @@ export function App({ schedule, route }: AppProps) {
           <h2>All upcoming dates</h2>
           <span>{schedule.collections.length} weeks</span>
         </header>
+        <nav className="date-sheet-nav" aria-label="Site navigation">
+          <a href={sitePath('/guide/')}>Guide</a>
+          <a href={sitePath('/about/')}>About</a>
+          <a href={REPOSITORY_URL} target="_blank" rel="noreferrer">Open source</a>
+          <a
+            href={SPONSOR_URL}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => trackEvent('donation_click', { placement: 'mobile_sheet' })}
+          >Donate</a>
+        </nav>
         <SuburbSearch
           className="suburb-search--sheet"
           options={suburbs}

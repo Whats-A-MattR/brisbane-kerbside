@@ -4,6 +4,8 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 function routeFromPath(path: string) {
+  if (/^\/guide\/?(?:[?#]|$)/.test(path)) return { type: 'guide' };
+  if (/^\/about\/?(?:[?#]|$)/.test(path)) return { type: 'about' };
   if (/^\/privacy\/?(?:[?#]|$)/.test(path)) return { type: 'privacy' };
 
   const collection = path.match(/^\/collections\/([^/]+)/);
