@@ -1,21 +1,36 @@
-# Brisbane Kerbside Collection Map
+# Kerbside Site Factory
 
-[brisbanekerbside.app](https://brisbanekerbside.app) makes Brisbane City
-Council's large-item kerbside collection schedule easier to scan. Choose a
-collection week to highlight every scheduled suburb on the map, or open a
-dedicated page for a suburb.
+This repository builds fast, council-specific kerbside collection sites from public data. The first site is [Brisbane Kerbside Collection Map](https://brisbanekerbside.app).
 
-## How it works
+Each council keeps its own domain, content, branding, public assets, data adapter, analytics and Cloudflare Pages project. The React app, static renderer, schema validation and GitHub Actions machinery are shared.
 
-The site has no application server or database. A weekly GitHub Actions job
-fetches Brisbane City Council's open dataset and commits two generated files:
+## Architecture
 
-- `schedule.json` contains the upcoming collection weeks and suburb names.
-- `areas.geojson` contains the map geometry used by Leaflet.
+```text
+Council API or download
+        ↓
+sites/<council>/etl.mjs
+        ↓
+shared schedule schema + GeoJSON
+        ↓
+shared Vite/React app + council content/assets/config
+        ↓
+dist/<council> (fully pre-rendered)
+        ↓
+that council's Cloudflare Pages project and domain
+```
 
-Vite then builds a React app and pre-renders the home page plus a dedicated
-page for every upcoming collection week and suburb. GitHub Actions builds and
-deploys the result to Cloudflare Pages at the custom domain.
+There is no application server or database. The weekly data workflow refreshes every registered council and commits only the generated data. The deployment workflow reads the same registry and builds/deploys each site independently.
+
+## Repository layout
+
+- `src/` — shared React interface, map and schema types.
+- `scripts/` — shared data runner, validation, static rendering and SEO checks.
+- `sites/registry.json` — deployable councils and their Cloudflare targets.
+- `sites/brisbane/` — Brisbane config, editorial content, source adapter and public assets.
+- `dist/<site-id>/` — generated static output; never committed.
+
+The shared schedule contract is versioned with `schemaVersion: 1` and documented in [`schema/schedule.schema.json`](schema/schedule.schema.json). A collection has `startsOn`, `putOutFrom` and a list of generic `areas`; a council adapter is responsible for translating its source fields into that contract. GeoJSON features use the matching `collectionId`, `areaId`, `areaName`, `startsOn` and `putOutFrom` properties. Builds fail if schedule and geometry records disagree.
 
 ## Local development
 
@@ -27,70 +42,42 @@ pnpm data:update
 pnpm dev
 ```
 
-Run `pnpm build` to generate the complete static site.
+Brisbane is the default. To select a site explicitly:
 
-Copy `.env.example` to `.env.local` if you want to test analytics or the ad
-placement locally. These IDs are public identifiers and must not be used for
-API credentials or other secrets.
+```sh
+KERBSIDE_SITE=brisbane pnpm dev
+KERBSIDE_SITE=brisbane pnpm build
+```
 
-## Deployment
+`pnpm build` writes `dist/brisbane` and checks all pre-rendered routes, canonicals, sitemap entries and social cards. `pnpm data:update:all` and `pnpm build:all` process every registered council.
 
-Every push to `main` is type-checked, built on GitHub Actions and deployed to
-the `brisbane-kerbside` Cloudflare Pages project. The workflow requires these
-GitHub Actions repository secrets:
+Copy `.env.example` to `.env.local` only to test public analytics or advertising identifiers. API tokens and credentials must never use a `VITE_` variable or enter the repository.
 
-- `CLOUDFLARE_API_TOKEN` — a token with Account / Cloudflare Pages / Edit.
-- `CLOUDFLARE_ACCOUNT_ID` — the Cloudflare account containing the Pages project.
+## Adding a council
 
-The build also reads these GitHub Actions repository variables (Settings →
-Secrets and variables → Actions → Variables):
+See [docs/adding-a-council.md](docs/adding-a-council.md). A new council is a self-contained site package plus one registry entry; shared code should not acquire council API fields or branding.
 
-- `GA_MEASUREMENT_ID` — optional override for the production GA4 web stream ID.
-- `ADSENSE_CLIENT` — the AdSense publisher ID beginning with `ca-pub-`.
-- `ADSENSE_SLOT` — the numeric ID of one responsive display ad unit.
+## GitHub and Cloudflare
 
-Production analytics uses `G-L9GY09ZCRL` by default; local development remains
-untracked unless an ID is supplied in `.env.local`. The ad unit is omitted when
-its variables are blank. The site respects the browser's Do Not Track setting. `pnpm build` validates the
-generated sitemap, canonical URLs and social-card metadata for every static
-page before deployment.
+Every push to `main` builds the registered sites on GitHub and deploys each `dist/<site-id>` directory to the Cloudflare Pages project in `sites/registry.json`.
 
-## Analytics, ads and search setup
+The workflow uses these GitHub Actions secrets:
 
-1. GA4 is configured for the `G-L9GY09ZCRL` web stream. Use the optional
-   `GA_MEASUREMENT_ID` repository variable only if that production stream changes.
-2. Apply for AdSense with the same production domain. Once approved, create a
-   responsive display ad unit and add its publisher and slot IDs to the two
-   AdSense repository variables. The build then publishes the required account
-   metadata and `ads.txt`. Keep Auto ads disabled if you only want the single
-   restrained strip supplied by this project.
-3. In AdSense, configure Privacy & messaging before serving ads internationally.
-   Google requires a certified consent-management platform for relevant users
-   in the EEA, UK and Switzerland.
-4. Add the domain property to Google Search Console using the DNS verification
-   record, then submit `https://brisbanekerbside.app/sitemap.xml` in the
-   Sitemaps report.
+- `CLOUDFLARE_API_TOKEN` — Account / Cloudflare Pages / Edit.
+- `CLOUDFLARE_ACCOUNT_ID` — the account containing the Pages projects.
 
-The restrained ad placement appears below the map on the main schedule and once
-inside the detailed kerbside guide. Generated suburb, collection and privacy
-pages do not request an ad unit. Local development shows a labelled preview;
-production renders nothing until valid AdSense variables are configured.
+Each registry entry names a GitHub environment. Put council-specific public build variables in that environment:
 
-No Cloudflare credentials belong in the repository or in local `.env` files.
+- `GA_MEASUREMENT_ID` — optional GA4 override; the site config can provide a default.
+- `ADSENSE_CLIENT` — AdSense publisher ID beginning with `ca-pub-`.
+- `ADSENSE_SLOT` — numeric responsive display-ad unit ID.
 
-## Contributing
+Repository-level values still work as a shared fallback. Keep Auto ads disabled if the intended experience is the single restrained placement supplied by this project.
 
-Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md)
-for the project conventions. You can also support ongoing hosting and
-maintenance through [GitHub Sponsors](https://github.com/sponsors/Whats-A-MattR).
+No Cloudflare credentials belong in source files, council folders or local `.env` files.
 
-## Data and licence
+## Contributing and licence
 
-Source code is available under the [MIT License](LICENSE).
+Issues and pull requests are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md). Code is MIT licensed. Council data retains the licence declared by its publisher and is attributed in each site package.
 
-Schedule and boundary data is sourced from
-[Brisbane City Council Open Data](https://data.brisbane.qld.gov.au/explore/dataset/kerbside-large-item-collection-schedule/)
-and remains licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
-This is an independent project and is not an official Brisbane City Council
-service. Collection dates can change; confirm important details against the
-[official Council calendar](https://www.brisbane.qld.gov.au/bins-waste-and-recycling/kerbside-collection/kerbside-collection-calendar).
+The sites are independent community projects, not official council services. Always confirm important collection details with the relevant council.

@@ -1,33 +1,35 @@
-const brisbaneDate = new Intl.DateTimeFormat('en-AU', {
+import { siteConfig } from './site';
+
+const collectionDate = new Intl.DateTimeFormat(siteConfig.locale, {
   day: 'numeric',
   month: 'short',
   year: 'numeric',
-  timeZone: 'Australia/Brisbane',
+  timeZone: siteConfig.timeZone,
 });
 
-const brisbaneWeekday = new Intl.DateTimeFormat('en-AU', {
+const collectionWeekday = new Intl.DateTimeFormat(siteConfig.locale, {
   weekday: 'short',
-  timeZone: 'Australia/Brisbane',
+  timeZone: siteConfig.timeZone,
 });
 
-const brisbaneDay = new Intl.DateTimeFormat('en-AU', {
+const collectionDay = new Intl.DateTimeFormat(siteConfig.locale, {
   day: '2-digit',
-  timeZone: 'Australia/Brisbane',
+  timeZone: siteConfig.timeZone,
 });
 
 function parseDate(value: string) {
-  return new Date(`${value}T00:00:00+10:00`);
+  return new Date(`${value}T12:00:00Z`);
 }
 
 export function formatCollectionDate(value: string) {
   const date = parseDate(value);
   return {
-    weekday: brisbaneWeekday.format(date),
-    day: brisbaneDay.format(date),
-    label: brisbaneDate.format(date),
+    weekday: collectionWeekday.format(date),
+    day: collectionDay.format(date),
+    label: collectionDate.format(date),
   };
 }
 
 export function formatGeneratedAt(value: string) {
-  return brisbaneDate.format(new Date(value));
+  return collectionDate.format(new Date(value));
 }

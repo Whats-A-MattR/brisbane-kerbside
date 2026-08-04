@@ -1,20 +1,19 @@
 import { useEffect, useRef } from 'react';
 import type { GeoJSON as LeafletGeoJSON, Map as LeafletMap, Path } from 'leaflet';
+import { siteConfig } from './site';
 
 type MapProps = {
   selectedDate: string;
   selectedLabel: string;
-  selectedSuburb?: string;
+  selectedArea?: string;
 };
 
-const DEFAULT_CENTER: [number, number] = [-27.4698, 153.0251];
-
-function isSelected(properties: GeoJSON.GeoJsonProperties | undefined, date: string, suburb?: string) {
-  if (!properties || properties.collectionDate !== date) return false;
-  return suburb ? properties.id === suburb : true;
+function isSelected(properties: GeoJSON.GeoJsonProperties | undefined, date: string, area?: string) {
+  if (!properties || properties.startsOn !== date) return false;
+  return area ? properties.areaId === area : true;
 }
 
-export function CollectionMap({ selectedDate, selectedLabel, selectedSuburb }: MapProps) {
+export function CollectionMap({ selectedDate, selectedLabel, selectedArea }: MapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<LeafletMap | null>(null);
   const areasRef = useRef<LeafletGeoJSON | null>(null);
@@ -29,8 +28,8 @@ export function CollectionMap({ selectedDate, selectedLabel, selectedSuburb }: M
       if (cancelled || !containerRef.current) return;
 
       const map = L.map(containerRef.current, {
-        center: DEFAULT_CENTER,
-        zoom: 10,
+        center: siteConfig.map.center,
+        zoom: siteConfig.map.zoom,
         zoomControl: false,
         preferCanvas: true,
       });
@@ -53,7 +52,7 @@ export function CollectionMap({ selectedDate, selectedLabel, selectedSuburb }: M
 
         const areas = L.geoJSON(geoJson, {
           style: (feature) => {
-            const active = isSelected(feature?.properties, selectedDate, selectedSuburb);
+            const active = isSelected(feature?.properties, selectedDate, selectedArea);
             return {
               color: active ? '#182d27' : '#60736b',
               weight: active ? 2 : 0.7,
@@ -63,7 +62,7 @@ export function CollectionMap({ selectedDate, selectedLabel, selectedSuburb }: M
             };
           },
           onEachFeature: (feature, layer) => {
-            layer.bindTooltip(feature.properties.suburb, {
+            layer.bindTooltip(feature.properties.areaName, {
               sticky: true,
               direction: 'top',
             });
@@ -74,13 +73,13 @@ export function CollectionMap({ selectedDate, selectedLabel, selectedSuburb }: M
         const selectedLayers: Path[] = [];
         areas.eachLayer((layer) => {
           const path = layer as Path & { feature?: GeoJSON.Feature };
-          if (isSelected(path.feature?.properties, selectedDate, selectedSuburb)) {
+          if (isSelected(path.feature?.properties, selectedDate, selectedArea)) {
             selectedLayers.push(path);
           }
         });
         if (selectedLayers.length) {
           map.fitBounds(L.featureGroup(selectedLayers).getBounds().pad(0.3), {
-            maxZoom: 12,
+            maxZoom: siteConfig.map.maxSelectionZoom,
             animate: false,
           });
         }
@@ -109,7 +108,7 @@ export function CollectionMap({ selectedDate, selectedLabel, selectedSuburb }: M
       const selectedLayers: Path[] = [];
       areas.eachLayer((layer) => {
         const path = layer as Path & { feature?: GeoJSON.Feature };
-        const active = isSelected(path.feature?.properties, selectedDate, selectedSuburb);
+        const active = isSelected(path.feature?.properties, selectedDate, selectedArea);
         path.setStyle({
           color: active ? '#182d27' : '#60736b',
           weight: active ? 2 : 0.7,
@@ -125,13 +124,13 @@ export function CollectionMap({ selectedDate, selectedLabel, selectedSuburb }: M
 
       if (selectedLayers.length) {
         map.fitBounds(L.featureGroup(selectedLayers).getBounds().pad(0.3), {
-          maxZoom: 12,
+          maxZoom: siteConfig.map.maxSelectionZoom,
         });
       }
     }
 
     void updateSelection();
-  }, [selectedDate, selectedSuburb]);
+  }, [selectedDate, selectedArea]);
 
   return (
     <div className="map-shell">
@@ -143,7 +142,7 @@ export function CollectionMap({ selectedDate, selectedLabel, selectedSuburb }: M
         ref={containerRef}
         className="map"
         role="img"
-        aria-label={`Map of suburbs with collection starting ${selectedLabel}`}
+        aria-label={`Map of ${siteConfig.area.plural} with collection starting ${selectedLabel}`}
       />
       <noscript>The interactive map needs JavaScript, but all upcoming dates are listed on this page.</noscript>
     </div>

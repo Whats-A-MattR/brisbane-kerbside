@@ -1,0 +1,8 @@
+[
+  {
+    "id": "brisbane",
+    "label": "Brisbane City Council",
+    "cloudflareProject": "brisbane-kerbside",
+    "githubEnvironment": "brisbane"
+  }
+]

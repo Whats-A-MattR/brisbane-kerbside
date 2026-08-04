@@ -1,10 +1,10 @@
-name: Deploy to Cloudflare Pages
+name: Deploy council sites to Cloudflare Pages
 
 on:
   push:
     branches: [main]
   workflow_run:
-    workflows: [Update kerbside data]
+    workflows: [Update council data]
     types: [completed]
   workflow_dispatch:
 
@@ -12,36 +12,50 @@ permissions:
   contents: read
   deployments: write
 
-concurrency:
-  group: cloudflare-pages-production
-  cancel-in-progress: true
-
 jobs:
-  deploy:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+  prepare:
     runs-on: ubuntu-latest
+    outputs:
+      sites: ${{ steps.registry.outputs.sites }}
     steps:
       - uses: actions/checkout@v4
+      - id: registry
+        name: Read the council registry
+        run: |
+          echo "sites=$(jq -c '{include: map({id, cloudflareProject, environment: .githubEnvironment})}' sites/registry.json)" >> "$GITHUB_OUTPUT"
 
+  deploy:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare.outputs.sites) }}
+    name: Deploy ${{ matrix.id }}
+    runs-on: ubuntu-latest
+    environment: ${{ matrix.environment }}
+    concurrency:
+      group: cloudflare-pages-${{ matrix.id }}-production
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
-
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
-      - run: pnpm build
+      - name: Build ${{ matrix.id }}
+        run: pnpm build
         env:
+          KERBSIDE_SITE: ${{ matrix.id }}
           VITE_GA_MEASUREMENT_ID: ${{ vars.GA_MEASUREMENT_ID }}
           VITE_ADSENSE_CLIENT: ${{ vars.ADSENSE_CLIENT }}
           VITE_ADSENSE_SLOT: ${{ vars.ADSENSE_SLOT }}
-
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=brisbane-kerbside
+          command: pages deploy dist/${{ matrix.id }} --project-name=${{ matrix.cloudflareProject }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}

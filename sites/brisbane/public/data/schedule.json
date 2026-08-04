@@ -1,12 +1,18 @@
 {
-  "generatedAt": "2026-08-04T00:15:25.097Z",
-  "sourceUrl": "https://data.brisbane.qld.gov.au/explore/dataset/kerbside-large-item-collection-schedule/",
+  "schemaVersion": 1,
+  "siteId": "brisbane",
+  "generatedAt": "2026-08-04T09:14:35.660Z",
+  "source": {
+    "publisher": "Brisbane City Council",
+    "url": "https://data.brisbane.qld.gov.au/explore/dataset/kerbside-large-item-collection-schedule/",
+    "licence": "https://creativecommons.org/licenses/by/4.0/"
+  },
   "collections": [
     {
       "id": "2026-08-03",
-      "collectionDate": "2026-08-03",
-      "itemsOutDate": "2026-08-01",
-      "suburbs": [
+      "startsOn": "2026-08-03",
+      "putOutFrom": "2026-08-01",
+      "areas": [
         {
           "id": "brookfield",
           "name": "Brookfield"
@@ -31,9 +37,9 @@
     },
     {
       "id": "2026-08-10",
-      "collectionDate": "2026-08-10",
-      "itemsOutDate": "2026-08-08",
-      "suburbs": [
+      "startsOn": "2026-08-10",
+      "putOutFrom": "2026-08-08",
+      "areas": [
         {
           "id": "jamboree-heights",
           "name": "Jamboree Heights"
@@ -66,9 +72,9 @@
     },
     {
       "id": "2026-08-17",
-      "collectionDate": "2026-08-17",
-      "itemsOutDate": "2026-08-15",
-      "suburbs": [
+      "startsOn": "2026-08-17",
+      "putOutFrom": "2026-08-15",
+      "areas": [
         {
           "id": "chapel-hill",
           "name": "Chapel Hill"
@@ -89,9 +95,9 @@
     },
     {
       "id": "2026-08-24",
-      "collectionDate": "2026-08-24",
-      "itemsOutDate": "2026-08-22",
-      "suburbs": [
+      "startsOn": "2026-08-24",
+      "putOutFrom": "2026-08-22",
+      "areas": [
         {
           "id": "chelmer",
           "name": "Chelmer"
@@ -124,9 +130,9 @@
     },
     {
       "id": "2026-08-31",
-      "collectionDate": "2026-08-31",
-      "itemsOutDate": "2026-08-29",
-      "suburbs": [
+      "startsOn": "2026-08-31",
+      "putOutFrom": "2026-08-29",
+      "areas": [
         {
           "id": "acacia-ridge",
           "name": "Acacia Ridge"
@@ -167,9 +173,9 @@
     },
     {
       "id": "2026-09-07",
-      "collectionDate": "2026-09-07",
-      "itemsOutDate": "2026-09-05",
-      "suburbs": [
+      "startsOn": "2026-09-07",
+      "putOutFrom": "2026-09-05",
+      "areas": [
         {
           "id": "darra",
           "name": "Darra"
@@ -194,9 +200,9 @@
     },
     {
       "id": "2026-09-14",
-      "collectionDate": "2026-09-14",
-      "itemsOutDate": "2026-09-12",
-      "suburbs": [
+      "startsOn": "2026-09-14",
+      "putOutFrom": "2026-09-12",
+      "areas": [
         {
           "id": "doolandella",
           "name": "Doolandella"
@@ -213,9 +219,9 @@
     },
     {
       "id": "2026-10-06",
-      "collectionDate": "2026-10-06",
-      "itemsOutDate": "2026-10-03",
-      "suburbs": [
+      "startsOn": "2026-10-06",
+      "putOutFrom": "2026-10-03",
+      "areas": [
         {
           "id": "bald-hills",
           "name": "Bald Hills"
@@ -232,9 +238,9 @@
     },
     {
       "id": "2026-10-12",
-      "collectionDate": "2026-10-12",
-      "itemsOutDate": "2026-10-10",
-      "suburbs": [
+      "startsOn": "2026-10-12",
+      "putOutFrom": "2026-10-10",
+      "areas": [
         {
           "id": "brighton",
           "name": "Brighton"
@@ -259,9 +265,9 @@
     },
     {
       "id": "2026-10-19",
-      "collectionDate": "2026-10-19",
-      "itemsOutDate": "2026-10-17",
-      "suburbs": [
+      "startsOn": "2026-10-19",
+      "putOutFrom": "2026-10-17",
+      "areas": [
         {
           "id": "boondall",
           "name": "Boondall"
@@ -290,9 +296,9 @@
     },
     {
       "id": "2026-10-26",
-      "collectionDate": "2026-10-26",
-      "itemsOutDate": "2026-10-24",
-      "suburbs": [
+      "startsOn": "2026-10-26",
+      "putOutFrom": "2026-10-24",
+      "areas": [
         {
           "id": "albion",
           "name": "Albion"
@@ -321,9 +327,9 @@
     },
     {
       "id": "2026-11-02",
-      "collectionDate": "2026-11-02",
-      "itemsOutDate": "2026-10-31",
-      "suburbs": [
+      "startsOn": "2026-11-02",
+      "putOutFrom": "2026-10-31",
+      "areas": [
         {
           "id": "ascot",
           "name": "Ascot"
@@ -344,9 +350,9 @@
     },
     {
       "id": "2026-11-09",
-      "collectionDate": "2026-11-09",
-      "itemsOutDate": "2026-11-07",
-      "suburbs": [
+      "startsOn": "2026-11-09",
+      "putOutFrom": "2026-11-07",
+      "areas": [
         {
           "id": "gordon-park",
           "name": "Gordon Park"
@@ -367,9 +373,9 @@
     },
     {
       "id": "2026-11-16",
-      "collectionDate": "2026-11-16",
-      "itemsOutDate": "2026-11-14",
-      "suburbs": [
+      "startsOn": "2026-11-16",
+      "putOutFrom": "2026-11-14",
+      "areas": [
         {
           "id": "kedron",
           "name": "Kedron"
@@ -386,9 +392,9 @@
     },
     {
       "id": "2026-11-23",
-      "collectionDate": "2026-11-23",
-      "itemsOutDate": "2026-11-21",
-      "suburbs": [
+      "startsOn": "2026-11-23",
+      "putOutFrom": "2026-11-21",
+      "areas": [
         {
           "id": "carseldine",
           "name": "Carseldine"
@@ -405,9 +411,9 @@
     },
     {
       "id": "2026-11-30",
-      "collectionDate": "2026-11-30",
-      "itemsOutDate": "2026-11-28",
-      "suburbs": [
+      "startsOn": "2026-11-30",
+      "putOutFrom": "2026-11-28",
+      "areas": [
         {
           "id": "aspley",
           "name": "Aspley"
@@ -424,9 +430,9 @@
     },
     {
       "id": "2026-12-07",
-      "collectionDate": "2026-12-07",
-      "itemsOutDate": "2026-12-05",
-      "suburbs": [
+      "startsOn": "2026-12-07",
+      "putOutFrom": "2026-12-05",
+      "areas": [
         {
           "id": "ferny-grove",
           "name": "Ferny Grove"
@@ -451,9 +457,9 @@
     },
     {
       "id": "2027-01-11",
-      "collectionDate": "2027-01-11",
-      "itemsOutDate": "2027-01-09",
-      "suburbs": [
+      "startsOn": "2027-01-11",
+      "putOutFrom": "2027-01-09",
+      "areas": [
         {
           "id": "brisbane-city",
           "name": "Brisbane City"
@@ -482,9 +488,9 @@
     },
     {
       "id": "2027-01-18",
-      "collectionDate": "2027-01-18",
-      "itemsOutDate": "2027-01-16",
-      "suburbs": [
+      "startsOn": "2027-01-18",
+      "putOutFrom": "2027-01-16",
+      "areas": [
         {
           "id": "alderley",
           "name": "Alderley"
@@ -505,9 +511,9 @@
     },
     {
       "id": "2027-01-25",
-      "collectionDate": "2027-01-25",
-      "itemsOutDate": "2027-01-23",
-      "suburbs": [
+      "startsOn": "2027-01-25",
+      "putOutFrom": "2027-01-23",
+      "areas": [
         {
           "id": "enoggera",
           "name": "Enoggera"
@@ -528,9 +534,9 @@
     },
     {
       "id": "2027-02-01",
-      "collectionDate": "2027-02-01",
-      "itemsOutDate": "2027-01-30",
-      "suburbs": [
+      "startsOn": "2027-02-01",
+      "putOutFrom": "2027-01-30",
+      "areas": [
         {
           "id": "bowen-hills",
           "name": "Bowen Hills"
@@ -555,9 +561,9 @@
     },
     {
       "id": "2027-02-08",
-      "collectionDate": "2027-02-08",
-      "itemsOutDate": "2027-02-06",
-      "suburbs": [
+      "startsOn": "2027-02-08",
+      "putOutFrom": "2027-02-06",
+      "areas": [
         {
           "id": "bardon",
           "name": "Bardon"
@@ -578,9 +584,9 @@
     },
     {
       "id": "2027-02-15",
-      "collectionDate": "2027-02-15",
-      "itemsOutDate": "2027-02-13",
-      "suburbs": [
+      "startsOn": "2027-02-15",
+      "putOutFrom": "2027-02-13",
+      "areas": [
         {
           "id": "balmoral",
           "name": "Balmoral"
@@ -605,9 +611,9 @@
     },
     {
       "id": "2027-02-22",
-      "collectionDate": "2027-02-22",
-      "itemsOutDate": "2027-02-20",
-      "suburbs": [
+      "startsOn": "2027-02-22",
+      "putOutFrom": "2027-02-20",
+      "areas": [
         {
           "id": "hawthorne",
           "name": "Hawthorne"
@@ -632,9 +638,9 @@
     },
     {
       "id": "2027-03-01",
-      "collectionDate": "2027-03-01",
-      "itemsOutDate": "2027-02-27",
-      "suburbs": [
+      "startsOn": "2027-03-01",
+      "putOutFrom": "2027-02-27",
+      "areas": [
         {
           "id": "belmont",
           "name": "Belmont"
@@ -663,9 +669,9 @@
     },
     {
       "id": "2027-03-08",
-      "collectionDate": "2027-03-08",
-      "itemsOutDate": "2027-03-06",
-      "suburbs": [
+      "startsOn": "2027-03-08",
+      "putOutFrom": "2027-03-06",
+      "areas": [
         {
           "id": "manly-west",
           "name": "Manly West"
@@ -682,9 +688,9 @@
     },
     {
       "id": "2027-03-15",
-      "collectionDate": "2027-03-15",
-      "itemsOutDate": "2027-03-13",
-      "suburbs": [
+      "startsOn": "2027-03-15",
+      "putOutFrom": "2027-03-13",
+      "areas": [
         {
           "id": "carina",
           "name": "Carina"
@@ -701,9 +707,9 @@
     },
     {
       "id": "2027-03-22",
-      "collectionDate": "2027-03-22",
-      "itemsOutDate": "2027-03-20",
-      "suburbs": [
+      "startsOn": "2027-03-22",
+      "putOutFrom": "2027-03-20",
+      "areas": [
         {
           "id": "camp-hill",
           "name": "Camp Hill"
@@ -716,9 +722,9 @@
     },
     {
       "id": "2027-04-19",
-      "collectionDate": "2027-04-19",
-      "itemsOutDate": "2027-04-17",
-      "suburbs": [
+      "startsOn": "2027-04-19",
+      "putOutFrom": "2027-04-17",
+      "areas": [
         {
           "id": "highgate-hill",
           "name": "Highgate Hill"
@@ -739,9 +745,9 @@
     },
     {
       "id": "2027-04-26",
-      "collectionDate": "2027-04-26",
-      "itemsOutDate": "2027-04-24",
-      "suburbs": [
+      "startsOn": "2027-04-26",
+      "putOutFrom": "2027-04-24",
+      "areas": [
         {
           "id": "annerley",
           "name": "Annerley"
@@ -770,9 +776,9 @@
     },
     {
       "id": "2027-05-03",
-      "collectionDate": "2027-05-03",
-      "itemsOutDate": "2027-05-01",
-      "suburbs": [
+      "startsOn": "2027-05-03",
+      "putOutFrom": "2027-05-01",
+      "areas": [
         {
           "id": "east-brisbane",
           "name": "East Brisbane"
@@ -793,9 +799,9 @@
     },
     {
       "id": "2027-05-10",
-      "collectionDate": "2027-05-10",
-      "itemsOutDate": "2027-05-08",
-      "suburbs": [
+      "startsOn": "2027-05-10",
+      "putOutFrom": "2027-05-08",
+      "areas": [
         {
           "id": "coorparoo",
           "name": "Coorparoo"
@@ -812,9 +818,9 @@
     },
     {
       "id": "2027-05-17",
-      "collectionDate": "2027-05-17",
-      "itemsOutDate": "2027-05-15",
-      "suburbs": [
+      "startsOn": "2027-05-17",
+      "putOutFrom": "2027-05-15",
+      "areas": [
         {
           "id": "greenslopes",
           "name": "Greenslopes"
@@ -835,9 +841,9 @@
     },
     {
       "id": "2027-05-24",
-      "collectionDate": "2027-05-24",
-      "itemsOutDate": "2027-05-22",
-      "suburbs": [
+      "startsOn": "2027-05-24",
+      "putOutFrom": "2027-05-22",
+      "areas": [
         {
           "id": "nathan",
           "name": "Nathan"
@@ -854,9 +860,9 @@
     },
     {
       "id": "2027-05-31",
-      "collectionDate": "2027-05-31",
-      "itemsOutDate": "2027-05-29",
-      "suburbs": [
+      "startsOn": "2027-05-31",
+      "putOutFrom": "2027-05-29",
+      "areas": [
         {
           "id": "mount-gravatt",
           "name": "Mount Gravatt"
@@ -873,9 +879,9 @@
     },
     {
       "id": "2027-06-07",
-      "collectionDate": "2027-06-07",
-      "itemsOutDate": "2027-06-05",
-      "suburbs": [
+      "startsOn": "2027-06-07",
+      "putOutFrom": "2027-06-05",
+      "areas": [
         {
           "id": "burbank",
           "name": "Burbank"
@@ -900,9 +906,9 @@
     },
     {
       "id": "2027-06-14",
-      "collectionDate": "2027-06-14",
-      "itemsOutDate": "2027-06-12",
-      "suburbs": [
+      "startsOn": "2027-06-14",
+      "putOutFrom": "2027-06-12",
+      "areas": [
         {
           "id": "drewvale",
           "name": "Drewvale"
@@ -923,9 +929,9 @@
     },
     {
       "id": "2027-06-21",
-      "collectionDate": "2027-06-21",
-      "itemsOutDate": "2027-06-19",
-      "suburbs": [
+      "startsOn": "2027-06-21",
+      "putOutFrom": "2027-06-19",
+      "areas": [
         {
           "id": "karawatha",
           "name": "Karawatha"

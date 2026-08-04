@@ -8,7 +8,7 @@ declare global {
 }
 
 const configuredMeasurementId = import.meta.env.VITE_GA_MEASUREMENT_ID?.trim();
-const measurementId = configuredMeasurementId || (import.meta.env.PROD ? 'G-L9GY09ZCRL' : undefined);
+const measurementId = configuredMeasurementId || (import.meta.env.PROD ? siteConfig.analytics.measurementId : undefined);
 
 function analyticsAllowed() {
   return Boolean(measurementId) && navigator.doNotTrack !== '1';
@@ -37,3 +37,4 @@ export function trackEvent(name: string, parameters: Record<string, AnalyticsVal
   if (!analyticsAllowed()) return;
   window.gtag?.('event', name, parameters);
 }
+import { siteConfig } from './site';

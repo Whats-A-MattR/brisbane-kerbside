@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brisbanekerbside.app/schema/schedule.schema.json",
+  "title": "Kerbside schedule schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "siteId", "generatedAt", "source", "collections"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "siteId": { "type": "string", "minLength": 1 },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["publisher", "url"],
+      "properties": {
+        "publisher": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "format": "uri" },
+        "licence": { "type": "string", "format": "uri" }
+      }
+    },
+    "collections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "startsOn", "putOutFrom", "areas"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "startsOn": { "type": "string", "format": "date" },
+          "putOutFrom": { "type": "string", "format": "date" },
+          "areas": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "name"],
+              "properties": {
+                "id": { "type": "string", "minLength": 1 },
+                "name": { "type": "string", "minLength": 1 }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
