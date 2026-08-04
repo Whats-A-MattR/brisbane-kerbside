@@ -1,0 +1,410 @@
+{
+  "schemaVersion": 1,
+  "siteId": "logan",
+  "generatedAt": "2026-08-04T09:53:04.450Z",
+  "source": {
+    "publisher": "Logan City Council",
+    "url": "https://www.arcgis.com/home/item.html?id=17ae783777574d33bbf992c08fc24be0",
+    "licence": "https://creativecommons.org/licenses/by/3.0/au/"
+  },
+  "collections": [
+    {
+      "id": "2026-08-03",
+      "startsOn": "2026-08-03",
+      "endsOn": "2026-08-14",
+      "putOutFrom": "2026-08-01",
+      "areas": [
+        {
+          "id": "bahrs-scrub",
+          "name": "Bahrs Scrub"
+        },
+        {
+          "id": "bannockburn",
+          "name": "Bannockburn"
+        },
+        {
+          "id": "belivah",
+          "name": "Belivah"
+        },
+        {
+          "id": "mount-warren-park",
+          "name": "Mount Warren Park"
+        },
+        {
+          "id": "windaroo",
+          "name": "Windaroo"
+        },
+        {
+          "id": "wolffdene",
+          "name": "Wolffdene"
+        }
+      ]
+    },
+    {
+      "id": "2026-08-24",
+      "startsOn": "2026-08-24",
+      "endsOn": "2026-09-04",
+      "putOutFrom": "2026-08-22",
+      "areas": [
+        {
+          "id": "logan-central",
+          "name": "Logan Central"
+        },
+        {
+          "id": "woodridge",
+          "name": "Woodridge"
+        }
+      ]
+    },
+    {
+      "id": "2026-09-07",
+      "startsOn": "2026-09-07",
+      "endsOn": "2026-09-18",
+      "putOutFrom": "2026-09-05",
+      "areas": [
+        {
+          "id": "kingston",
+          "name": "Kingston"
+        },
+        {
+          "id": "loganlea",
+          "name": "Loganlea"
+        }
+      ]
+    },
+    {
+      "id": "2026-09-21",
+      "startsOn": "2026-09-21",
+      "endsOn": "2026-10-02",
+      "putOutFrom": "2026-09-19",
+      "areas": [
+        {
+          "id": "berrinba",
+          "name": "Berrinba"
+        },
+        {
+          "id": "marsden",
+          "name": "Marsden"
+        }
+      ]
+    },
+    {
+      "id": "2026-10-12",
+      "startsOn": "2026-10-12",
+      "endsOn": "2026-10-23",
+      "putOutFrom": "2026-10-10",
+      "areas": [
+        {
+          "id": "meadowbrook",
+          "name": "Meadowbrook"
+        },
+        {
+          "id": "slacks-creek",
+          "name": "Slacks Creek"
+        }
+      ]
+    },
+    {
+      "id": "2026-10-26",
+      "startsOn": "2026-10-26",
+      "endsOn": "2026-11-06",
+      "putOutFrom": "2026-10-24",
+      "areas": [
+        {
+          "id": "crestmead",
+          "name": "Crestmead"
+        },
+        {
+          "id": "heritage-park",
+          "name": "Heritage Park"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09",
+      "startsOn": "2026-11-09",
+      "endsOn": "2026-11-20",
+      "putOutFrom": "2026-11-07",
+      "areas": [
+        {
+          "id": "browns-plains",
+          "name": "Browns Plains"
+        },
+        {
+          "id": "regents-park",
+          "name": "Regents Park"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-23",
+      "startsOn": "2026-11-23",
+      "endsOn": "2026-12-04",
+      "putOutFrom": "2026-11-21",
+      "areas": [
+        {
+          "id": "boronia-heights",
+          "name": "Boronia Heights"
+        },
+        {
+          "id": "forestdale",
+          "name": "Forestdale"
+        },
+        {
+          "id": "hillcrest",
+          "name": "Hillcrest"
+        }
+      ]
+    },
+    {
+      "id": "2026-12-07",
+      "startsOn": "2026-12-07",
+      "endsOn": "2026-12-18",
+      "putOutFrom": "2026-12-05",
+      "areas": [
+        {
+          "id": "greenbank",
+          "name": "Greenbank"
+        },
+        {
+          "id": "new-beith",
+          "name": "New Beith"
+        }
+      ]
+    },
+    {
+      "id": "2027-01-11",
+      "startsOn": "2027-01-11",
+      "endsOn": "2027-01-22",
+      "putOutFrom": "2027-01-09",
+      "areas": [
+        {
+          "id": "cedar-grove",
+          "name": "Cedar Grove"
+        },
+        {
+          "id": "cedar-vale",
+          "name": "Cedar Vale"
+        },
+        {
+          "id": "mundoolun",
+          "name": "Mundoolun"
+        },
+        {
+          "id": "north-maclean",
+          "name": "North Maclean"
+        },
+        {
+          "id": "south-maclean",
+          "name": "South Maclean"
+        },
+        {
+          "id": "veresdale",
+          "name": "Veresdale"
+        },
+        {
+          "id": "veresdale-scrub",
+          "name": "Veresdale Scrub"
+        },
+        {
+          "id": "woodhill",
+          "name": "Woodhill"
+        }
+      ]
+    },
+    {
+      "id": "2027-01-25",
+      "startsOn": "2027-01-25",
+      "endsOn": "2027-02-05",
+      "putOutFrom": "2027-01-23",
+      "areas": [
+        {
+          "id": "flagstone",
+          "name": "Flagstone"
+        },
+        {
+          "id": "glenlogan",
+          "name": "Glenlogan"
+        },
+        {
+          "id": "jimboomba",
+          "name": "Jimboomba"
+        },
+        {
+          "id": "riverbend",
+          "name": "Riverbend"
+        }
+      ]
+    },
+    {
+      "id": "2027-02-08",
+      "startsOn": "2027-02-08",
+      "endsOn": "2027-02-19",
+      "putOutFrom": "2027-02-06",
+      "areas": [
+        {
+          "id": "munruben",
+          "name": "Munruben"
+        },
+        {
+          "id": "park-ridge",
+          "name": "Park Ridge"
+        },
+        {
+          "id": "park-ridge-south",
+          "name": "Park Ridge South"
+        }
+      ]
+    },
+    {
+      "id": "2027-02-22",
+      "startsOn": "2027-02-22",
+      "endsOn": "2027-03-05",
+      "putOutFrom": "2027-02-20",
+      "areas": [
+        {
+          "id": "buccan",
+          "name": "Buccan"
+        },
+        {
+          "id": "chambers-flat",
+          "name": "Chambers Flat"
+        },
+        {
+          "id": "logan-village",
+          "name": "Logan Village"
+        },
+        {
+          "id": "stockleigh",
+          "name": "Stockleigh"
+        },
+        {
+          "id": "waterford",
+          "name": "Waterford"
+        }
+      ]
+    },
+    {
+      "id": "2027-03-08",
+      "startsOn": "2027-03-08",
+      "endsOn": "2027-03-19",
+      "putOutFrom": "2027-03-06",
+      "areas": [
+        {
+          "id": "cedar-creek",
+          "name": "Cedar Creek"
+        },
+        {
+          "id": "tamborine",
+          "name": "Tamborine"
+        },
+        {
+          "id": "yarrabilba",
+          "name": "Yarrabilba"
+        }
+      ]
+    },
+    {
+      "id": "2027-03-29",
+      "startsOn": "2027-03-29",
+      "endsOn": "2027-04-09",
+      "putOutFrom": "2027-03-27",
+      "areas": [
+        {
+          "id": "priestdale",
+          "name": "Priestdale"
+        },
+        {
+          "id": "rochedale-south-north-of-underwood-road",
+          "name": "Rochedale South — north of Underwood Road",
+          "note": "Only properties north of Underwood Road, including the northern side. The map uses the full official locality boundary; confirm the road split with Council."
+        }
+      ]
+    },
+    {
+      "id": "2027-04-12",
+      "startsOn": "2027-04-12",
+      "endsOn": "2027-04-23",
+      "putOutFrom": "2027-04-10",
+      "areas": [
+        {
+          "id": "rochedale-south-south-of-underwood-road",
+          "name": "Rochedale South — south of Underwood Road",
+          "note": "Only properties south of Underwood Road, including the southern side. The map uses the full official locality boundary; confirm the road split with Council."
+        }
+      ]
+    },
+    {
+      "id": "2027-04-26",
+      "startsOn": "2027-04-26",
+      "endsOn": "2027-05-07",
+      "putOutFrom": "2027-04-24",
+      "areas": [
+        {
+          "id": "logan-reserve",
+          "name": "Logan Reserve"
+        },
+        {
+          "id": "waterford-west",
+          "name": "Waterford West"
+        }
+      ]
+    },
+    {
+      "id": "2027-05-17",
+      "startsOn": "2027-05-17",
+      "endsOn": "2027-05-28",
+      "putOutFrom": "2027-05-15",
+      "areas": [
+        {
+          "id": "springwood",
+          "name": "Springwood"
+        },
+        {
+          "id": "underwood",
+          "name": "Underwood"
+        }
+      ]
+    },
+    {
+      "id": "2027-05-31",
+      "startsOn": "2027-05-31",
+      "endsOn": "2027-06-11",
+      "putOutFrom": "2027-05-29",
+      "areas": [
+        {
+          "id": "daisy-hill",
+          "name": "Daisy Hill"
+        },
+        {
+          "id": "shailer-park",
+          "name": "Shailer Park"
+        }
+      ]
+    },
+    {
+      "id": "2027-06-14",
+      "startsOn": "2027-06-14",
+      "endsOn": "2027-06-25",
+      "putOutFrom": "2027-06-12",
+      "areas": [
+        {
+          "id": "carbrook",
+          "name": "Carbrook"
+        },
+        {
+          "id": "cornubia",
+          "name": "Cornubia"
+        },
+        {
+          "id": "loganholme",
+          "name": "Loganholme"
+        },
+        {
+          "id": "tanah-merah",
+          "name": "Tanah Merah"
+        }
+      ]
+    }
+  ]
+}

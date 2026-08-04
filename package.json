@@ -1,8 +1,8 @@
 {
-  "name": "brisbane-kerbside-map",
+  "name": "kerbside-site-factory",
   "version": "1.0.0",
   "private": true,
-  "description": "Static Brisbane kerbside collection schedule and suburb map",
+  "description": "Council-specific static kerbside collection sites built from a shared schema",
   "homepage": "https://brisbanekerbside.app",
   "repository": {
     "type": "git",
@@ -14,12 +14,19 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "data:update": "node scripts/generate-data.mjs",
-    "build": "node scripts/build.mjs && node scripts/verify-seo.mjs",
+    "dev:brisbane": "KERBSIDE_SITE=brisbane vite",
+    "dev:logan": "KERBSIDE_SITE=logan vite",
+    "dev:master": "vite --config vite.master.config.ts",
+    "data:update": "node scripts/update-data.mjs",
+    "data:update:all": "node scripts/update-all-data.mjs",
+    "build": "node scripts/build-site.mjs",
+    "build:all": "node scripts/build-all.mjs",
     "seo:verify": "node scripts/verify-seo.mjs",
-    "preview": "vite preview",
+    "preview": "vite preview --outDir dist/${KERBSIDE_SITE:-brisbane}",
     "typecheck": "tsc --noEmit",
-    "deploy": "wrangler pages deploy dist --project-name=brisbane-kerbside"
+    "deploy:brisbane": "wrangler pages deploy dist/brisbane --project-name=brisbane-kerbside",
+    "deploy:logan": "wrangler pages deploy dist/logan --project-name=logan-kerbside",
+    "deploy:master": "wrangler pages deploy dist/master --project-name=whens-kerbside"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

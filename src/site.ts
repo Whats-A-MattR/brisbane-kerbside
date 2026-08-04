@@ -1,7 +1,16 @@
-export const REPOSITORY_URL = 'https://github.com/Whats-A-MattR/brisbane-kerbside';
-export const SPONSOR_URL = 'https://github.com/sponsors/Whats-A-MattR';
-export const COUNCIL_CALENDAR_URL = 'https://www.brisbane.qld.gov.au/bins-waste-and-recycling/kerbside-collection/kerbside-collection-calendar';
-export const ACCEPTED_ITEMS_URL = 'https://www.brisbane.qld.gov.au/bins-waste-and-recycling/kerbside-collection/acceptable-kerbside-collection-items';
+import siteConfig from '@site/config';
+
+export { siteConfig };
+
+export const REPOSITORY_URL = siteConfig.links.repository;
+export const SPONSOR_URL = siteConfig.links.sponsor;
+export const COUNCIL_CALENDAR_URL = siteConfig.links.officialCalendar;
+export const ACCEPTED_ITEMS_URL = siteConfig.links.acceptedItems;
+export const DIRECTORY_URL = siteConfig.links.directory;
+
+export function areaPath(id: string) {
+  return sitePath(`/${siteConfig.area.routeSegment}/${id}/`);
+}
 
 export function sitePath(path: string) {
   return `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;

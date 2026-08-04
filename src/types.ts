@@ -1,18 +1,26 @@
-export type Suburb = {
+export type CollectionArea = {
   id: string;
   name: string;
+  note?: string;
 };
 
 export type Collection = {
   id: string;
-  collectionDate: string;
-  itemsOutDate: string;
-  suburbs: Suburb[];
+  startsOn: string;
+  endsOn?: string;
+  putOutFrom: string;
+  areas: CollectionArea[];
 };
 
 export type Schedule = {
+  schemaVersion: 1;
+  siteId: string;
   generatedAt: string;
-  sourceUrl: string;
+  source: {
+    publisher: string;
+    url: string;
+    licence?: string;
+  };
   collections: Collection[];
 };
 
@@ -22,4 +30,4 @@ export type Route =
   | { type: 'guide' }
   | { type: 'privacy' }
   | { type: 'collection'; id: string }
-  | { type: 'suburb'; id: string };
+  | { type: 'area'; id: string };

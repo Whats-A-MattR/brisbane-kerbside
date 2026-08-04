@@ -1,4 +1,4 @@
-name: Update kerbside data
+name: Update council data
 
 on:
   schedule:
@@ -19,18 +19,18 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Fetch latest Brisbane City Council data
-        run: pnpm data:update
-      - name: Validate the refreshed site
-        run: pnpm typecheck && pnpm build
+      - name: Fetch and validate every registered council
+        run: pnpm data:update:all
+      - name: Validate every generated site
+        run: pnpm typecheck && pnpm build:all
       - name: Commit updated static data
         run: |
-          if git diff --quiet -- public/data; then
+          if git diff --quiet -- 'sites/*/public/data'; then
             echo "Council data is unchanged."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/data
-          git commit -m "chore(data): refresh kerbside schedule"
+          git add 'sites/*/public/data'
+          git commit -m "chore(data): refresh council schedules"
           git push

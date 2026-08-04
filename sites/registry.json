@@ -1,0 +1,29 @@
+[
+  {
+    "id": "brisbane",
+    "kind": "council",
+    "label": "Brisbane City Council",
+    "cloudflareProject": "brisbane-kerbside",
+    "githubEnvironment": "brisbane",
+    "analyticsEnabled": true,
+    "adsEnabled": true
+  },
+  {
+    "id": "logan",
+    "kind": "council",
+    "label": "Logan City Council",
+    "cloudflareProject": "logan-kerbside",
+    "githubEnvironment": "logan",
+    "analyticsEnabled": false,
+    "adsEnabled": false
+  },
+  {
+    "id": "master",
+    "kind": "directory",
+    "label": "When's Kerbside",
+    "cloudflareProject": "whens-kerbside",
+    "githubEnvironment": "master",
+    "analyticsEnabled": false,
+    "adsEnabled": false
+  }
+]

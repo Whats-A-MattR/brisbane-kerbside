@@ -1,11 +1,7 @@
-import { mkdir, writeFile } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
+const SITE_ID = 'brisbane';
 const DATASET = 'kerbside-large-item-collection-schedule';
 const SOURCE_URL = `https://data.brisbane.qld.gov.au/explore/dataset/${DATASET}/`;
 const API_URL = `https://data.brisbane.qld.gov.au/api/explore/v2.1/catalog/datasets/${DATASET}/records`;
-const OUTPUT_DIR = resolve(dirname(fileURLToPath(import.meta.url)), '../public/data');
 
 function brisbaneToday() {
   return new Intl.DateTimeFormat('en-CA', {
@@ -25,11 +21,11 @@ function startOfCurrentWeek(dateString) {
   }).format(date);
 }
 
-function suburbId(name) {
+function areaId(name) {
   return name.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 }
 
-function suburbName(name) {
+function areaName(name) {
   return name
     .toLowerCase()
     .replace(/\b\w/g, (letter) => letter.toUpperCase())
@@ -37,7 +33,7 @@ function suburbName(name) {
     .replace(/\bMacgregor\b/g, 'MacGregor');
 }
 
-async function fetchAllRecords() {
+export async function extract() {
   const records = [];
   const limit = 100;
   let total = Infinity;
@@ -47,22 +43,16 @@ async function fetchAllRecords() {
     url.searchParams.set('limit', String(limit));
     url.searchParams.set('offset', String(offset));
     url.searchParams.set('order_by', 'date_of_collection');
-
-    const response = await fetch(url, {
-      headers: { 'user-agent': 'brisbane-kerbside-map-data-job/1.0' },
-    });
-    if (!response.ok) {
-      throw new Error(`Council data request failed: ${response.status} ${response.statusText}`);
-    }
+    const response = await fetch(url, { headers: { 'user-agent': 'kerbside-site-factory-data-job/1.0' } });
+    if (!response.ok) throw new Error(`Brisbane council data request failed: ${response.status} ${response.statusText}`);
     const page = await response.json();
     total = page.total_count;
     records.push(...page.results);
   }
-
   return records;
 }
 
-function buildOutputs(records) {
+export function transform(records) {
   const weekStart = startOfCurrentWeek(brisbaneToday());
   const usable = records.filter((record) => (
     typeof record.suburb === 'string' &&
@@ -74,56 +64,50 @@ function buildOutputs(records) {
 
   const grouped = new Map();
   const features = [];
-
   for (const record of usable) {
-    const id = suburbId(record.suburb);
-    const name = suburbName(record.suburb);
-    const collectionDate = record.date_of_collection;
-    const existing = grouped.get(collectionDate) ?? {
-      id: collectionDate,
-      collectionDate,
-      itemsOutDate: record.items_out_on_footpath,
-      suburbs: [],
+    const id = areaId(record.suburb);
+    const name = areaName(record.suburb);
+    const startsOn = record.date_of_collection;
+    const collection = grouped.get(startsOn) ?? {
+      id: startsOn,
+      startsOn,
+      putOutFrom: record.items_out_on_footpath,
+      areas: [],
     };
-    existing.suburbs.push({ id, name });
-    grouped.set(collectionDate, existing);
-
+    collection.areas.push({ id, name });
+    grouped.set(startsOn, collection);
     features.push({
       type: 'Feature',
-      id: `${collectionDate}-${id}`,
+      id: `${startsOn}-${id}`,
       properties: {
-        id,
-        suburb: name,
-        collectionDate,
-        itemsOutDate: record.items_out_on_footpath,
+        collectionId: startsOn,
+        areaId: id,
+        areaName: name,
+        startsOn,
+        putOutFrom: record.items_out_on_footpath,
+        areaNote: undefined,
       },
       geometry: record.geo_shape.geometry,
     });
   }
 
   const collections = [...grouped.values()]
-    .map((collection) => ({
-      ...collection,
-      suburbs: collection.suburbs.sort((a, b) => a.name.localeCompare(b.name)),
-    }))
-    .sort((a, b) => a.collectionDate.localeCompare(b.collectionDate));
-
-  if (!collections.length || !features.length) {
-    throw new Error('Council data contained no current or upcoming collections.');
-  }
+    .map((collection) => ({ ...collection, areas: collection.areas.sort((a, b) => a.name.localeCompare(b.name)) }))
+    .sort((a, b) => a.startsOn.localeCompare(b.startsOn));
+  if (!collections.length || !features.length) throw new Error('Brisbane data contained no current or upcoming collections.');
 
   return {
-    schedule: { generatedAt: new Date().toISOString(), sourceUrl: SOURCE_URL, collections },
+    schedule: {
+      schemaVersion: 1,
+      siteId: SITE_ID,
+      generatedAt: new Date().toISOString(),
+      source: {
+        publisher: 'Brisbane City Council',
+        url: SOURCE_URL,
+        licence: 'https://creativecommons.org/licenses/by/4.0/',
+      },
+      collections,
+    },
     areas: { type: 'FeatureCollection', features },
   };
 }
-
-const records = await fetchAllRecords();
-const { schedule, areas } = buildOutputs(records);
-await mkdir(OUTPUT_DIR, { recursive: true });
-await Promise.all([
-  writeFile(resolve(OUTPUT_DIR, 'schedule.json'), `${JSON.stringify(schedule, null, 2)}\n`),
-  writeFile(resolve(OUTPUT_DIR, 'areas.geojson'), `${JSON.stringify(areas)}\n`),
-]);
-
-console.log(`Wrote ${schedule.collections.length} collection weeks and ${areas.features.length} suburb areas.`);

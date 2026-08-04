@@ -1,15 +1,16 @@
 import type { ReactNode } from 'react';
-import { AdStrip } from './AdStrip';
-import { BackToTop } from './BackToTop';
-import { formatGeneratedAt } from './date';
+import { AdStrip } from '../../src/AdStrip';
+import { BackToTop } from '../../src/BackToTop';
+import { formatGeneratedAt } from '../../src/date';
 import {
   ACCEPTED_ITEMS_URL,
   COUNCIL_CALENDAR_URL,
+  DIRECTORY_URL,
   REPOSITORY_URL,
   SPONSOR_URL,
   sitePath,
-} from './site';
-import type { Schedule } from './types';
+} from '../../src/site';
+import type { Schedule } from '../../src/types';
 
 type EditorialLayoutProps = {
   active: 'about' | 'guide' | 'privacy';
@@ -36,6 +37,7 @@ function EditorialLayout({ active, children }: EditorialLayoutProps) {
         <a href={sitePath('/guide/')}>Brisbane guide</a>
         <a href={sitePath('/about/')}>About the project</a>
         <a href={sitePath('/privacy/')} aria-current={active === 'privacy' ? 'page' : undefined}>Privacy & advertising</a>
+        <a href={DIRECTORY_URL}>Find another council ↗</a>
       </footer>
       <BackToTop />
     </main>
@@ -129,7 +131,7 @@ export function AboutPage({ schedule }: { schedule: Schedule }) {
             <p className="eyebrow">Source and licence</p>
             <h2>Traceable back to Council</h2>
             <p>
-              Schedule and boundary records come from Brisbane City Council’s <a href={schedule.sourceUrl} target="_blank" rel="noreferrer">Kerbside large item collection schedule</a>. Council publishes that dataset under a Creative Commons Attribution 4.0 licence. The application code is available separately under the MIT licence.
+              Schedule and boundary records come from Brisbane City Council’s <a href={schedule.source.url} target="_blank" rel="noreferrer">Kerbside large item collection schedule</a>. Council publishes that dataset under a Creative Commons Attribution 4.0 licence. The application code is available separately under the MIT licence.
             </p>
           </div>
           <div>

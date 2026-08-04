@@ -1,0 +1,89 @@
+{
+  "id": "brisbane",
+  "siteUrl": "https://brisbanekerbside.app",
+  "locale": "en-AU",
+  "timeZone": "Australia/Brisbane",
+  "name": "Brisbane Kerbside Collection Map",
+  "shortName": "BNE Kerbside",
+  "brandMark": "BNE",
+  "headerLabel": "Kerbside collection map",
+  "placeName": "Brisbane",
+  "councilName": "Brisbane City Council",
+  "serviceName": "large-item kerbside collection",
+  "rules": {
+    "readyBy": "6am on the first collection day",
+    "householdLimit": "Up to 2 cubic metres"
+  },
+  "schedule": {
+    "singular": "week",
+    "plural": "weeks",
+    "startLabel": "Week starting",
+    "eyebrow": "Collection week",
+    "mapCaption": "Showing collection week"
+  },
+  "area": {
+    "singular": "suburb",
+    "plural": "suburbs",
+    "routeSegment": "suburbs"
+  },
+  "map": {
+    "center": [-27.4698, 153.0251],
+    "zoom": 10,
+    "maxSelectionZoom": 12
+  },
+  "links": {
+    "repository": "https://github.com/Whats-A-MattR/brisbane-kerbside",
+    "sponsor": "https://github.com/sponsors/Whats-A-MattR",
+    "officialCalendar": "https://www.brisbane.qld.gov.au/bins-waste-and-recycling/kerbside-collection/kerbside-collection-calendar",
+    "acceptedItems": "https://www.brisbane.qld.gov.au/bins-waste-and-recycling/kerbside-collection/acceptable-kerbside-collection-items",
+    "directory": "https://whenskerbside.com"
+  },
+  "analytics": {
+    "measurementId": "G-L9GY09ZCRL"
+  },
+  "seo": {
+    "homeTitle": "Brisbane kerbside collection dates and suburb map",
+    "homeDescription": "Find upcoming Brisbane kerbside large-item collection dates. Select a week to highlight every scheduled suburb on an interactive map.",
+    "socialImageAlt": "Brisbane kerbside collection dates and suburb map"
+  },
+  "homeFaq": [
+    {
+      "question": "How often is kerbside collection?",
+      "answer": "Brisbane City Council schedules one large-item collection week per financial year for each Brisbane suburb."
+    },
+    {
+      "question": "When should items go on the footpath?",
+      "answer": "Items can go out on the weekend before the collection week and must be ready by 6am on the first day."
+    },
+    {
+      "question": "How much can I put out?",
+      "answer": "Council limits each pile to 2 cubic metres, roughly one small box-trailer load."
+    }
+  ],
+  "guideFaq": [
+    {
+      "question": "Is Brisbane kerbside collection available to every property?",
+      "answer": "Residential households in the Brisbane local government area are eligible, including houses and multi-unit dwellings. Commercial properties, caravan parks, schools and vacant land are excluded."
+    },
+    {
+      "question": "Can I put a mattress out for Brisbane kerbside collection?",
+      "answer": "Yes. Brisbane City Council currently lists mattresses as accepted kerbside items."
+    },
+    {
+      "question": "Can televisions and computers go out for collection?",
+      "answer": "Yes. Electronic waste such as televisions and computer monitors is currently accepted."
+    },
+    {
+      "question": "Can I put out paint, glass or tyres?",
+      "answer": "No. Council directs paint, glass, mirrors and tyres to other disposal or recycling options."
+    },
+    {
+      "question": "Why is my suburb missing from the kerbside search?",
+      "answer": "The map lists current and future dates in the published open dataset. A suburb may be absent after its collection has passed or before its next date is published."
+    },
+    {
+      "question": "Is this the official Brisbane City Council calendar?",
+      "answer": "No. This is an independent presentation of Council open data. Use the official calendar for final confirmation."
+    }
+  ]
+}
