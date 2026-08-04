@@ -30,6 +30,11 @@ function pageDetails(route) {
   };
   if (route.type === 'council') {
     const council = data.councils.find((item) => item.id === route.id);
+    if (council.serviceModel !== 'scheduled') return {
+      path: `/councils/${route.id}/`,
+      title: `${council.placeName} kerbside collection booking | ${site.name}`,
+      description: `How to book ${council.placeName} kerbside collection, including eligibility, frequency, item limits, searchable suburbs and official ${council.councilName} links.`,
+    };
     return {
       path: `/councils/${route.id}/`,
       title: `${council.placeName} kerbside collection dates | ${site.name}`,
@@ -39,6 +44,11 @@ function pageDetails(route) {
   if (route.type === 'area') {
     const council = data.councils.find((item) => item.id === route.councilId);
     const area = council.areaDetails.find((item) => item.id === route.id);
+    if (council.serviceModel !== 'scheduled') return {
+      path: `/councils/${council.id}/suburbs/${area.id}/`,
+      title: `${area.name} kerbside collection booking | ${council.placeName}`,
+      description: `How to book a kerbside collection in ${area.name}: check ${council.councilName} eligibility, service frequency, item limits and the official booking link.`,
+    };
     const collection = council.collections.find((item) => area.collectionIds.includes(item.id));
     return {
       path: `/councils/${council.id}/suburbs/${area.id}/`,
@@ -80,6 +90,27 @@ function longDate(value) {
   }).format(new Date(`${value}T12:00:00Z`));
 }
 
+function bookingFaq(council, areaName) {
+  const place = areaName ?? council.placeName;
+  const details = council.serviceDetails;
+  return [
+    {
+      question: `Does ${place} have kerbside collection?`,
+      answer: areaName
+        ? `Yes. ${areaName} is listed within the ${council.councilName} area, where Council offers ${council.serviceName} to eligible properties. It is booked on demand, so there is no single public date for the whole suburb. Confirm the property address before relying on the service.`
+        : `Yes. ${council.councilName} offers ${council.serviceName} to eligible properties. It is booked on demand, so there is no single public date for the whole council area. Confirm the property address before relying on the service.`,
+    },
+    {
+      question: `How do I book a kerbside collection in ${place}?`,
+      answer: `Use the official ${council.councilName} booking or eligibility link. Council's system confirms the property, remaining entitlement and available collection timing.`,
+    },
+    { question: 'How often can I book?', answer: details.frequency },
+    { question: 'How much can I put out?', answer: details.allowance },
+    { question: 'When should I put items on the kerb?', answer: details.timing },
+    { question: 'What items does Council accept?', answer: details.items },
+  ];
+}
+
 function structuredData(route, details) {
   const graph = [
     {
@@ -113,6 +144,20 @@ function structuredData(route, details) {
         url: `${site.siteUrl}/councils/${council.id}/suburbs/${area.id}/`,
       })),
     });
+  }
+  if (route.type === 'council' || route.type === 'area') {
+    const councilId = route.type === 'council' ? route.id : route.councilId;
+    const council = data.councils.find((item) => item.id === councilId);
+    if (council.serviceModel !== 'scheduled') {
+      const area = route.type === 'area' ? council.areaDetails.find((item) => item.id === route.id) : null;
+      graph.push({
+        '@type': 'FAQPage',
+        mainEntity: bookingFaq(council, area?.name).map((item) => ({
+          '@type': 'Question', name: item.question,
+          acceptedAnswer: { '@type': 'Answer', text: item.answer },
+        })),
+      });
+    }
   }
   if (route.type === 'collection') {
     const council = data.councils.find((item) => item.id === route.councilId);

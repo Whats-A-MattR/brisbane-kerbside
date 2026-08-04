@@ -62,6 +62,12 @@ Leave analytics and ads disabled for the first deployment. Enable them only afte
 
 The deployment workflow reads the registry automatically; there is no second deploy matrix to edit. The master directory also discovers every `kind: council` entry at build time, adds it to suburb/council search, and creates `/councils/<site-id>/` automatically.
 
+## On-demand councils without a dedicated site
+
+If a council offers a booked service but does not publish reusable collection dates, add a verified entry to `sites/master/data/booking-councils.json` instead of inventing a schedule or a deploy target. Each entry records the official service, booking, item-guidance and suburb-coverage URLs together with concise local service details.
+
+The master build creates a council overview and one answer-focused page per verified suburb. Those pages must describe the service as on demand, make property eligibility conditional on the official address check and link directly to Council. The verifier rejects an on-demand entry if it contains generated collection dates.
+
 ## 4. Launch deliberately
 
 Before enabling the registry entry, verify:

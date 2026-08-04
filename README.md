@@ -1,6 +1,6 @@
 # Kerbside Site Factory
 
-This repository builds fast, council-specific kerbside collection sites from public data and a dynamic directory at [When's Kerbside?](https://whenskerbside.com). It currently packages [Brisbane Kerbside Collection Map](https://brisbanekerbside.app) and [Logan Kerbside Clean-up Map](https://logankerbside.app).
+This repository builds fast, council-specific kerbside collection sites from public data and a dynamic directory at [When's Kerbside?](https://whenskerbside.com). It currently packages [Brisbane Kerbside Collection Map](https://brisbanekerbside.app) and [Logan Kerbside Clean-up Map](https://logankerbside.app), plus source-backed directory pages for councils that use on-demand bookings instead of public suburb dates.
 
 Each council keeps its own domain, content, branding, public assets, data adapter, analytics and Cloudflare Pages project. The React app, static renderer, schema validation and GitHub Actions machinery are shared.
 
@@ -35,7 +35,7 @@ There is no application server or database. The weekly data workflow refreshes e
 - `sites/registry.json` — deployable council and directory sites and their Cloudflare targets.
 - `sites/brisbane/` — Brisbane config, editorial content, source adapter and public assets.
 - `sites/logan/` — Logan’s separate two-week schedule adapter, local content and assets.
-- `sites/master/` — the master directory UI and assets; its council data is derived from the registry at build time.
+- `sites/master/` — the master directory UI and assets. Scheduled council data is derived from the registry; verified on-demand service and suburb data lives in `sites/master/data/booking-councils.json`.
 - `dist/<site-id>/` — generated static output; never committed.
 
 The shared schedule contract is versioned with `schemaVersion: 1` and documented in [`schema/schedule.schema.json`](schema/schedule.schema.json). A collection has `startsOn`, optional `endsOn`, `putOutFrom` and a list of generic `areas`; areas can carry an honest coverage note when operational boundaries differ from official locality polygons. A council adapter is responsible for translating its source fields into that contract. GeoJSON features repeat the matching timing and area properties. Builds fail if schedule and geometry records disagree.
@@ -61,7 +61,7 @@ pnpm dev:master
 KERBSIDE_SITE=master pnpm build
 ```
 
-`pnpm build` writes `dist/<selected-site>` and checks all pre-rendered routes, canonicals, sitemap entries and social cards. `pnpm data:update:all` refreshes council sources only; `pnpm build:all` builds every council plus the master directory.
+`pnpm build` writes `dist/<selected-site>` and checks all pre-rendered routes, canonicals, sitemap entries and social cards. `pnpm data:update:all` refreshes scheduled council sources only; `pnpm build:all` builds every council plus the master directory. The master verifier also ensures on-demand entries never generate or imply a scheduled collection date.
 
 Copy `.env.example` to `.env.local` only to test public analytics or advertising identifiers. API tokens and credentials must never use a `VITE_` variable or enter the repository.
 
