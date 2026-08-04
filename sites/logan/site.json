@@ -1,6 +1,6 @@
 {
   "id": "logan",
-  "siteUrl": "https://logan-kerbside.pages.dev",
+  "siteUrl": "https://logankerbside.app",
   "locale": "en-AU",
   "timeZone": "Australia/Brisbane",
   "name": "Logan Kerbside Clean-up Map",
@@ -35,7 +35,8 @@
     "repository": "https://github.com/Whats-A-MattR/brisbane-kerbside",
     "sponsor": "https://github.com/sponsors/Whats-A-MattR",
     "officialCalendar": "https://www.logan.qld.gov.au/residents/waste-and-recycling/kerbside-clean-up/schedule",
-    "acceptedItems": "https://www.logan.qld.gov.au/residents/waste-and-recycling/kerbside-clean-up/items-we-do-and-dont-accept"
+    "acceptedItems": "https://www.logan.qld.gov.au/residents/waste-and-recycling/kerbside-clean-up/items-we-do-and-dont-accept",
+    "directory": "https://whenskerbside.com"
   },
   "analytics": {},
   "seo": {

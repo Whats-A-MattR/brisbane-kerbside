@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f5f1e7"/>
+  <circle cx="96" cy="88" r="42" fill="#17352d"/>
+  <text x="96" y="96" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" font-weight="800" fill="#dfff59">WK?</text>
+  <text x="158" y="97" font-family="Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="3" fill="#17352d">COUNCIL COLLECTION DIRECTORY</text>
+  <text x="70" y="325" font-family="Georgia, serif" font-size="132" font-weight="700" letter-spacing="-7" fill="#17352d">When's kerbside?</text>
+  <text x="76" y="402" font-family="Arial, sans-serif" font-size="31" fill="#45645b">Find local dates, maps and official council resources.</text>
+  <rect x="70" y="492" width="1060" height="72" rx="36" fill="#17352d"/>
+  <text x="110" y="538" font-family="Arial, sans-serif" font-size="25" font-weight="700" fill="#ffffff">Search by suburb or council</text>
+  <circle cx="1088" cy="528" r="24" fill="#dfff59"/>
+  <path d="M1078 528h20m-8-8 8 8-8 8" fill="none" stroke="#17352d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

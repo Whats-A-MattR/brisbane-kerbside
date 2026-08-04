@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import { appDir, siteIds } from './lib/site-registry.mjs';
+import { appDir, councilSiteIds } from './lib/site-registry.mjs';
 
 function update(siteId) {
   return new Promise((resolve, reject) => {
@@ -13,4 +13,4 @@ function update(siteId) {
   });
 }
 
-for (const siteId of await siteIds()) await update(siteId);
+for (const siteId of await councilSiteIds()) await update(siteId);

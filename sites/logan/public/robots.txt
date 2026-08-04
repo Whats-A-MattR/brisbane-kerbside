@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://logan-kerbside.pages.dev/sitemap.xml
+Sitemap: https://logankerbside.app/sitemap.xml

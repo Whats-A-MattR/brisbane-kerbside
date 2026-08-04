@@ -9,6 +9,7 @@ import { CollectionMap } from './Map';
 import {
   ACCEPTED_ITEMS_URL,
   COUNCIL_CALENDAR_URL,
+  DIRECTORY_URL,
   REPOSITORY_URL,
   SPONSOR_URL,
   areaPath,
@@ -431,6 +432,7 @@ export function App({ schedule, route }: AppProps) {
             onClick={() => trackEvent('donation_click', { placement: 'footer' })}
           >Support this project on GitHub ↗</a>
           <a href={sitePath('/privacy/')}>Privacy & advertising</a>
+          <a href={DIRECTORY_URL}>Find another council ↗</a>
         </footer>
       </section>
 
@@ -463,6 +465,7 @@ export function App({ schedule, route }: AppProps) {
           <a href={sitePath('/guide/')}>Guide</a>
           <a href={sitePath('/about/')}>About</a>
           <a href={REPOSITORY_URL} target="_blank" rel="noreferrer">Open source</a>
+          <a href={DIRECTORY_URL}>All councils</a>
           <a
             href={SPONSOR_URL}
             target="_blank"

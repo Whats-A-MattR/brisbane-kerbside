@@ -1,4 +1,4 @@
-name: Deploy council sites to Cloudflare Pages
+name: Deploy kerbside sites to Cloudflare Pages
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: registry
-        name: Read the council registry
+        name: Read the site registry
         run: |
           echo "sites=$(jq -c '{include: map({id, cloudflareProject, environment: .githubEnvironment, analyticsEnabled, adsEnabled})}' sites/registry.json)" >> "$GITHUB_OUTPUT"
 

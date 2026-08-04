@@ -1,0 +1,119 @@
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { spawn } from 'node:child_process';
+import { appDir } from './lib/site-registry.mjs';
+import { masterData } from './lib/master-data.mjs';
+
+const site = JSON.parse(await readFile(resolve(appDir, 'sites/master/site.json'), 'utf8'));
+const outputDir = resolve(appDir, 'dist/master');
+const serverDir = resolve(outputDir, 'server');
+const data = await masterData();
+
+function run(args) {
+  return new Promise((resolvePromise, reject) => {
+    const child = spawn('vite', args, { cwd: appDir, env: process.env, stdio: 'inherit' });
+    child.on('error', reject);
+    child.on('exit', (code) => code === 0 ? resolvePromise() : reject(new Error(`vite exited with code ${code}`)));
+  });
+}
+
+function escapeAttribute(value) {
+  return value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+}
+
+function pageDetails(route) {
+  if (route.type === 'councils') return {
+    path: '/councils/',
+    title: `Australian kerbside collection council directory | ${site.name}`,
+    description: 'Browse supported council kerbside collection sites with upcoming dates, local maps and links to official council resources.',
+  };
+  if (route.type === 'council') {
+    const council = data.councils.find((item) => item.id === route.id);
+    return {
+      path: `/councils/${route.id}/`,
+      title: `${council.placeName} kerbside collection dates | ${site.name}`,
+      description: `Find ${council.placeName} ${council.serviceName} dates, searchable ${council.areaLabel}, local guidance and official ${council.councilName} resources.`,
+    };
+  }
+  if (route.type === 'about') return {
+    path: '/about/',
+    title: `About, sources and methodology | ${site.name}`,
+    description: `How ${site.name} turns public council schedules into fast, local, independently maintained collection finders.`,
+  };
+  if (route.type === 'privacy') return {
+    path: '/privacy/',
+    title: `Privacy and browser location | ${site.name}`,
+    description: `How ${site.name} handles an optional browser location suggestion and a locally saved council choice.`,
+  };
+  return {
+    path: '/',
+    title: `When's Kerbside? Find council collection dates`,
+    description: site.description,
+  };
+}
+
+function structuredData(route, details) {
+  const graph = [
+    {
+      '@type': 'WebSite', '@id': `${site.siteUrl}/#website`, url: `${site.siteUrl}/`,
+      name: site.name, description: site.description, inLanguage: site.locale,
+      potentialAction: { '@type': 'SearchAction', target: `${site.siteUrl}/?q={search_term_string}`, 'query-input': 'required name=search_term_string' },
+    },
+    {
+      '@type': 'WebPage', '@id': `${site.siteUrl}${details.path}#page`, url: `${site.siteUrl}${details.path}`,
+      name: details.title, description: details.description, isPartOf: { '@id': `${site.siteUrl}/#website` },
+      dateModified: data.generatedAt, inLanguage: site.locale,
+    },
+  ];
+  if (route.type === 'home' || route.type === 'councils') {
+    graph.push({
+      '@type': 'ItemList', name: 'Supported kerbside collection councils',
+      numberOfItems: data.councils.length,
+      itemListElement: data.councils.map((council, index) => ({
+        '@type': 'ListItem', position: index + 1, name: council.councilName,
+        url: `${site.siteUrl}/councils/${council.id}/`,
+      })),
+    });
+  }
+  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replaceAll('<', '\\u003c');
+}
+
+await rm(outputDir, { recursive: true, force: true });
+await run(['build', '--config', 'vite.master.config.ts', '--outDir', outputDir, '--emptyOutDir']);
+await run(['build', '--config', 'vite.master.config.ts', '--ssr', 'src/entry-server.tsx', '--outDir', serverDir, '--emptyOutDir', 'false']);
+
+const serverEntry = await import(`${pathToFileURL(resolve(serverDir, 'entry-server.js')).href}?${Date.now()}`);
+const template = await readFile(resolve(outputDir, 'index.html'), 'utf8');
+const dataJson = JSON.stringify(data).replaceAll('<', '\\u003c');
+const routes = [
+  { type: 'home' },
+  { type: 'councils' },
+  ...data.councils.map((council) => ({ type: 'council', id: council.id })),
+  { type: 'about' },
+  { type: 'privacy' },
+];
+
+for (const route of routes) {
+  const details = pageDetails(route);
+  const url = `${site.siteUrl}${details.path}`;
+  const html = template
+    .replace('<!--app-html-->', serverEntry.render(data, route))
+    .replace('<!--data-json-->', dataJson)
+    .replace('<!--route-json-->', JSON.stringify(route))
+    .replace('<!--structured-data-->', `<script type="application/ld+json">${structuredData(route, details)}</script>`)
+    .replaceAll('__PAGE_TITLE__', escapeAttribute(details.title))
+    .replaceAll('__PAGE_DESCRIPTION__', escapeAttribute(details.description))
+    .replaceAll('__PAGE_URL__', url);
+  const output = details.path === '/' ? resolve(outputDir, 'index.html') : resolve(outputDir, `.${details.path}index.html`);
+  await mkdir(dirname(output), { recursive: true });
+  await writeFile(output, html);
+}
+
+await mkdir(resolve(outputDir, 'data'), { recursive: true });
+await writeFile(resolve(outputDir, 'data/councils.json'), `${JSON.stringify(data, null, 2)}\n`);
+const lastModified = data.generatedAt.slice(0, 10);
+await writeFile(resolve(outputDir, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${routes.map((route) => `  <url><loc>${site.siteUrl}${pageDetails(route).path}</loc><lastmod>${lastModified}</lastmod></url>`).join('\n')}\n</urlset>\n`);
+await writeFile(resolve(outputDir, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${site.siteUrl}/sitemap.xml\n`);
+await rm(serverDir, { recursive: true, force: true });
+console.log(`[master] Pre-rendered ${routes.length} directory pages for ${data.councils.length} councils.`);

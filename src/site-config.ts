@@ -36,6 +36,7 @@ export type SiteConfig = {
     sponsor: string;
     officialCalendar: string;
     acceptedItems: string;
+    directory: string;
   };
   analytics: {
     measurementId?: string;

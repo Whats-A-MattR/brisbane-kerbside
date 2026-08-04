@@ -1,0 +1,11 @@
+{
+  "id": "master",
+  "siteUrl": "https://whenskerbside.com",
+  "locale": "en-AU",
+  "timeZone": "Australia/Brisbane",
+  "name": "When's Kerbside?",
+  "shortName": "When's Kerbside",
+  "description": "Find kerbside collection dates and official council resources across supported Australian council areas.",
+  "repository": "https://github.com/Whats-A-MattR/brisbane-kerbside",
+  "sponsor": "https://github.com/sponsors/Whats-A-MattR"
+}

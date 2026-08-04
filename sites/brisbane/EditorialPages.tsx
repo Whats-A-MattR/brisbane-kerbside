@@ -5,6 +5,7 @@ import { formatGeneratedAt } from '../../src/date';
 import {
   ACCEPTED_ITEMS_URL,
   COUNCIL_CALENDAR_URL,
+  DIRECTORY_URL,
   REPOSITORY_URL,
   SPONSOR_URL,
   sitePath,
@@ -36,6 +37,7 @@ function EditorialLayout({ active, children }: EditorialLayoutProps) {
         <a href={sitePath('/guide/')}>Brisbane guide</a>
         <a href={sitePath('/about/')}>About the project</a>
         <a href={sitePath('/privacy/')} aria-current={active === 'privacy' ? 'page' : undefined}>Privacy & advertising</a>
+        <a href={DIRECTORY_URL}>Find another council ↗</a>
       </footer>
       <BackToTop />
     </main>

@@ -8,8 +8,11 @@ export async function registeredSites() {
   if (!Array.isArray(sites) || !sites.length) throw new Error('sites/registry.json must contain at least one site.');
   const ids = new Set();
   for (const site of sites) {
-    for (const key of ['id', 'label', 'cloudflareProject', 'githubEnvironment']) {
+    for (const key of ['id', 'kind', 'label', 'cloudflareProject', 'githubEnvironment']) {
       if (!site[key]) throw new Error(`Registry entry is missing ${key}.`);
+    }
+    if (!['council', 'directory'].includes(site.kind)) {
+      throw new Error(`Registry entry ${site.id} has unsupported kind “${site.kind}”.`);
     }
     if (typeof site.analyticsEnabled !== 'boolean' || typeof site.adsEnabled !== 'boolean') {
       throw new Error(`Registry entry ${site.id} must explicitly enable or disable analytics and ads.`);
@@ -22,6 +25,14 @@ export async function registeredSites() {
 
 export async function siteIds() {
   return (await registeredSites()).map((site) => site.id);
+}
+
+export async function councilSites() {
+  return (await registeredSites()).filter((site) => site.kind === 'council');
+}
+
+export async function councilSiteIds() {
+  return (await councilSites()).map((site) => site.id);
 }
 
 export function selectedSiteId() {

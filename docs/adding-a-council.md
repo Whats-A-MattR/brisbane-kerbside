@@ -47,6 +47,7 @@ Add an entry to `sites/registry.json`:
 ```json
 {
   "id": "example",
+  "kind": "council",
   "label": "Example City Council",
   "cloudflareProject": "example-kerbside",
   "githubEnvironment": "example",
@@ -59,7 +60,7 @@ Create the matching Cloudflare Pages project and GitHub environment. Add the cus
 
 Leave analytics and ads disabled for the first deployment. Enable them only after the new domain has its own GA4 stream, privacy/consent setup and AdSense approval; these flags prevent repository-level Brisbane identifiers from being reused accidentally.
 
-The deployment workflow reads the registry automatically; there is no second deploy matrix to edit.
+The deployment workflow reads the registry automatically; there is no second deploy matrix to edit. The master directory also discovers every `kind: council` entry at build time, adds it to suburb/council search, and creates `/councils/<site-id>/` automatically.
 
 ## 4. Launch deliberately
 

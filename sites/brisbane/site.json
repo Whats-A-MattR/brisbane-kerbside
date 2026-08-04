@@ -35,7 +35,8 @@
     "repository": "https://github.com/Whats-A-MattR/brisbane-kerbside",
     "sponsor": "https://github.com/sponsors/Whats-A-MattR",
     "officialCalendar": "https://www.brisbane.qld.gov.au/bins-waste-and-recycling/kerbside-collection/kerbside-collection-calendar",
-    "acceptedItems": "https://www.brisbane.qld.gov.au/bins-waste-and-recycling/kerbside-collection/acceptable-kerbside-collection-items"
+    "acceptedItems": "https://www.brisbane.qld.gov.au/bins-waste-and-recycling/kerbside-collection/acceptable-kerbside-collection-items",
+    "directory": "https://whenskerbside.com"
   },
   "analytics": {
     "measurementId": "G-L9GY09ZCRL"
