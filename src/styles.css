@@ -297,7 +297,12 @@ footer a { color: inherit; text-underline-offset: 3px; }
 @media (max-width: 900px) {
   .app-shell { display: flex; flex-direction: column; }
   .map-panel { position: relative; order: -1; height: auto; min-height: 0; max-height: none; }
-  .map-shell { height: 34vh; min-height: 286px; max-height: 340px; }
+  .map-shell {
+    height: 44vh;
+    height: 44svh;
+    min-height: 340px;
+    max-height: 430px;
+  }
   .schedule-panel { height: auto; overflow: visible; padding: 22px 20px 32px; border-right: 0; }
   .site-header {
     position: absolute;
