@@ -1,5 +1,5 @@
 import { useEffect, useId, useMemo, useState } from 'react';
-import { MdClose, MdMenu, MdSearch } from 'react-icons/md';
+import { MdArrowUpward, MdClose, MdMenu, MdSearch } from 'react-icons/md';
 import { AdStrip } from './AdStrip';
 import { trackEvent } from './analytics';
 import { formatCollectionDate, formatGeneratedAt } from './date';
@@ -34,6 +34,64 @@ function collectionsForRoute(schedule: Schedule, route: Route) {
   return schedule.collections;
 }
 
+function BackToTop() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const mobileLayout = window.matchMedia('(max-width: 900px)');
+    const schedulePanel = document.querySelector<HTMLElement>('.schedule-panel');
+    let scrollTarget: EventTarget = window;
+
+    const updateVisibility = () => {
+      const scrollTop = mobileLayout.matches || !schedulePanel ? window.scrollY : schedulePanel.scrollTop;
+      setVisible(scrollTop > 520);
+    };
+
+    const bindScrollTarget = () => {
+      scrollTarget.removeEventListener('scroll', updateVisibility);
+      scrollTarget = mobileLayout.matches || !schedulePanel ? window : schedulePanel;
+      scrollTarget.addEventListener('scroll', updateVisibility, { passive: true });
+      updateVisibility();
+    };
+
+    bindScrollTarget();
+    mobileLayout.addEventListener('change', bindScrollTarget);
+
+    return () => {
+      scrollTarget.removeEventListener('scroll', updateVisibility);
+      mobileLayout.removeEventListener('change', bindScrollTarget);
+    };
+  }, []);
+
+  const returnToTop = () => {
+    const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    const mobileLayout = window.matchMedia('(max-width: 900px)').matches;
+    const schedulePanel = document.querySelector<HTMLElement>('.schedule-panel');
+
+    if (mobileLayout || !schedulePanel) {
+      window.scrollTo({ top: 0, behavior });
+    } else {
+      schedulePanel.scrollTo({ top: 0, behavior });
+    }
+
+    trackEvent('back_to_top', { layout: mobileLayout ? 'mobile' : 'desktop' });
+  };
+
+  return (
+    <button
+      className="back-to-top"
+      data-visible={visible}
+      type="button"
+      aria-label="Back to top"
+      aria-hidden={!visible}
+      tabIndex={visible ? 0 : -1}
+      onClick={returnToTop}
+    >
+      <MdArrowUpward aria-hidden="true" />
+    </button>
+  );
+}
+
 function PrivacyPage() {
   return (
     <main className="legal-page">
@@ -66,6 +124,7 @@ function PrivacyPage() {
           This is an independent open-source project. Privacy questions and requests can be raised through the <a href={`${REPOSITORY_URL}/issues`} target="_blank" rel="noreferrer">project issue tracker</a>.
         </p>
       </article>
+      <BackToTop />
     </main>
   );
 }
@@ -447,6 +506,7 @@ export function App({ schedule, route }: AppProps) {
           })}
         </ol>
       </aside>
+      <BackToTop />
     </main>
   );
 }

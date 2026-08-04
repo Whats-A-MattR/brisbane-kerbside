@@ -269,6 +269,31 @@ footer a { color: inherit; text-underline-offset: 3px; }
 .date-sheet,
 .date-sheet-backdrop { display: none; }
 
+.back-to-top {
+  position: fixed;
+  right: calc(58% + 20px);
+  bottom: 22px;
+  z-index: 1000;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  color: #e4ff68;
+  background: #182d27;
+  box-shadow: 0 8px 22px rgba(24, 45, 39, .24);
+  opacity: 0;
+  scale: .82;
+  pointer-events: none;
+  cursor: pointer;
+  transition: opacity 180ms ease, scale 220ms cubic-bezier(.2, .8, .2, 1), translate 180ms ease;
+}
+.back-to-top[data-visible="true"] { opacity: 1; scale: 1; pointer-events: auto; }
+.back-to-top:hover { translate: 0 -2px; }
+.back-to-top svg { width: 22px; height: 22px; }
+.legal-page .back-to-top { right: 24px; }
+
 @media (max-width: 900px) {
   .app-shell { display: flex; flex-direction: column; }
   .map-panel { position: relative; order: -1; height: auto; min-height: 0; max-height: none; }
@@ -334,6 +359,7 @@ footer a { color: inherit; text-underline-offset: 3px; }
   .map-ad .adsbygoogle,
   .map-ad-placeholder { width: 100%; min-height: 48px; max-height: 50px; }
   .map-ad-label { top: 3px; font-size: .48rem; }
+  .back-to-top { right: 18px; bottom: 18px; width: 46px; height: 46px; }
 
   .date-sheet-backdrop {
     position: fixed;
