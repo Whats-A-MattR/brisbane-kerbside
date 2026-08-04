@@ -38,7 +38,9 @@
     "acceptedItems": "https://www.logan.qld.gov.au/residents/waste-and-recycling/kerbside-clean-up/items-we-do-and-dont-accept",
     "directory": "https://whenskerbside.com"
   },
-  "analytics": {},
+  "analytics": {
+    "measurementId": "G-LJVTR07296"
+  },
   "seo": {
     "homeTitle": "Logan kerbside clean-up dates and suburb map",
     "homeDescription": "Find upcoming Logan kerbside clean-up dates. Search your suburb and see the scheduled two-week collection area on a map.",

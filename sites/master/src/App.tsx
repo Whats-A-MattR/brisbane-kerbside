@@ -352,7 +352,7 @@ function PrivacyPage() {
       <h2>Location suggestion</h2>
       <p>If you choose to use browser location, your browser asks for permission. The page compares the temporary coordinates with the centres of supported council areas and displays a rough suggestion. This directory does not write those coordinates to local storage. You can decline permission and search manually with no loss of core functionality.</p>
       <h2>External sites</h2>
-      <p>Council finders, official council resources, GitHub and future service providers have their own privacy practices. Following those links leaves this domain. Any future analytics or advertising added to the master site will be disclosed here and will be configured independently from individual council sites.</p>
+      <p>This site uses Google Analytics 4 to understand aggregate usage, with IP anonymisation enabled and analytics disabled when your browser sends a Do Not Track preference. It is configured independently from each council site. Council finders, official council resources and GitHub have their own privacy practices; following those links leaves this domain.</p>
     </main>
   );
 }
