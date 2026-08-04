@@ -206,28 +206,41 @@ function SuburbSearch({ className, options, query, onQueryChange, onResultSelect
         />
       </div>
       {normalizedQuery && (
-        <div className="suburb-search-results" id={listId} role="listbox">
-          <p>{matches.length ? `${matches.length} suburbs found` : 'No matching suburbs'}</p>
-          {matches.map((option) => (
-            <a
-              key={option.id}
-              href={sitePath(`/suburbs/${option.id}/`)}
-              role="option"
-              aria-selected="false"
-              onClick={() => {
-                trackEvent('suburb_search_select', {
-                  suburb: option.name,
-                  collection_date: option.collection.collectionDate,
-                });
-                onResultSelect?.();
-              }}
-            >
-              <strong>{option.name}</strong>
-              <span>Week starting {formatCollectionDate(option.collection.collectionDate).label}</span>
-              <small>View</small>
+        matches.length ? (
+          <div className="suburb-search-results" id={listId} role="listbox">
+            <p>{matches.length} suburbs found</p>
+            {matches.map((option) => (
+              <a
+                key={option.id}
+                href={sitePath(`/suburbs/${option.id}/`)}
+                role="option"
+                aria-selected="false"
+                onClick={() => {
+                  trackEvent('suburb_search_select', {
+                    suburb: option.name,
+                    collection_date: option.collection.collectionDate,
+                  });
+                  onResultSelect?.();
+                }}
+              >
+                <strong>{option.name}</strong>
+                <span>Week starting {formatCollectionDate(option.collection.collectionDate).label}</span>
+                <small>View</small>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <div className="suburb-search-results suburb-search-empty" id={listId} role="status">
+            <strong>No upcoming date found</strong>
+            <p>
+              We couldn’t find “{query.trim()}” in the currently published Council schedule.
+              Its next collection date may not be available yet.
+            </p>
+            <a href={COUNCIL_CALENDAR_URL} target="_blank" rel="noreferrer">
+              Check the official calendar <span aria-hidden="true">↗</span>
             </a>
-          ))}
-        </div>
+          </div>
+        )
       )}
     </div>
   );
