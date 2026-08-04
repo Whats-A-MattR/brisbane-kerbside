@@ -14,7 +14,7 @@
     "label": "Logan City Council",
     "cloudflareProject": "logan-kerbside",
     "githubEnvironment": "logan",
-    "analyticsEnabled": false,
+    "analyticsEnabled": true,
     "adsEnabled": false
   },
   {
@@ -23,7 +23,7 @@
     "label": "When's Kerbside",
     "cloudflareProject": "whens-kerbside",
     "githubEnvironment": "master",
-    "analyticsEnabled": false,
+    "analyticsEnabled": true,
     "adsEnabled": false
   }
 ]

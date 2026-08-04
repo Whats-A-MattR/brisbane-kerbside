@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
+import { initAnalytics } from './analytics';
 import { App } from './App';
 import type { MasterData, MasterRoute } from './types';
 import './styles.css';
@@ -23,3 +24,5 @@ const app = (
 
 if (root.childElementCount > 0) hydrateRoot(root, app);
 else createRoot(root).render(app);
+
+initAnalytics();
