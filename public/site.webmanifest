@@ -1,0 +1,21 @@
+{
+  "name": "Brisbane Kerbside Collection Map",
+  "short_name": "BNE Kerbside",
+  "description": "Upcoming Brisbane kerbside collection dates and suburb map.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f1e8",
+  "theme_color": "#182d27",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

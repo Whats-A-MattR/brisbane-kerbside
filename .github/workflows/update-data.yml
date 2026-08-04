@@ -1,0 +1,36 @@
+name: Update kerbside data
+
+on:
+  schedule:
+    - cron: '17 2 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Fetch latest Brisbane City Council data
+        run: pnpm data:update
+      - name: Validate the refreshed site
+        run: pnpm typecheck && pnpm build
+      - name: Commit updated static data
+        run: |
+          if git diff --quiet -- public/data; then
+            echo "Council data is unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data
+          git commit -m "chore(data): refresh kerbside schedule"
+          git push
