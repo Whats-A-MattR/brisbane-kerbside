@@ -15,7 +15,7 @@
     "cloudflareProject": "logan-kerbside",
     "githubEnvironment": "logan",
     "analyticsEnabled": true,
-    "adsEnabled": false
+    "adsEnabled": true
   },
   {
     "id": "master",
