@@ -24,6 +24,6 @@
     "cloudflareProject": "whens-kerbside",
     "githubEnvironment": "master",
     "analyticsEnabled": true,
-    "adsEnabled": false
+    "adsEnabled": true
   }
 ]

@@ -9,6 +9,11 @@ const site = JSON.parse(await readFile(resolve(appDir, 'sites/master/site.json')
 const outputDir = resolve(appDir, 'dist/master');
 const serverDir = resolve(outputDir, 'server');
 const data = await masterData();
+const adsenseClient = process.env.VITE_ADSENSE_CLIENT?.trim();
+
+if (adsenseClient && !/^ca-pub-\d+$/.test(adsenseClient)) {
+  throw new Error('VITE_ADSENSE_CLIENT must use the ca-pub-123 format.');
+}
 
 function run(args) {
   return new Promise((resolvePromise, reject) => {
@@ -204,6 +209,9 @@ await run(['build', '--config', 'vite.master.config.ts', '--ssr', 'src/entry-ser
 const serverEntry = await import(`${pathToFileURL(resolve(serverDir, 'entry-server.js')).href}?${Date.now()}`);
 const template = await readFile(resolve(outputDir, 'index.html'), 'utf8');
 const dataJson = JSON.stringify(data).replaceAll('<', '\\u003c');
+const adsenseHead = adsenseClient
+  ? `<meta name="google-adsense-account" content="${escapeAttribute(adsenseClient)}"><script async data-adsense-client="${escapeAttribute(adsenseClient)}" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(adsenseClient)}" crossorigin="anonymous"></script>`
+  : '';
 const routes = [
   { type: 'home' },
   { type: 'councils' },
@@ -222,6 +230,7 @@ for (const route of routes) {
     .replace('<!--data-json-->', dataJson)
     .replace('<!--route-json-->', JSON.stringify(route))
     .replace('<!--structured-data-->', `<script type="application/ld+json">${structuredData(route, details)}</script>`)
+    .replace('<!--adsense-head-->', adsenseHead)
     .replaceAll('__PAGE_TITLE__', escapeAttribute(details.title))
     .replaceAll('__PAGE_DESCRIPTION__', escapeAttribute(details.description))
     .replaceAll('__PAGE_URL__', url);
@@ -235,5 +244,9 @@ await writeFile(resolve(outputDir, 'data/councils.json'), `${JSON.stringify(data
 const lastModified = data.generatedAt.slice(0, 10);
 await writeFile(resolve(outputDir, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${routes.map((route) => `  <url><loc>${site.siteUrl}${pageDetails(route).path}</loc><lastmod>${lastModified}</lastmod></url>`).join('\n')}\n</urlset>\n`);
 await writeFile(resolve(outputDir, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${site.siteUrl}/sitemap.xml\n`);
+if (adsenseClient) {
+  const publisherId = adsenseClient.replace(/^ca-/, '');
+  await writeFile(resolve(outputDir, 'ads.txt'), `google.com, ${publisherId}, DIRECT, f08c47fec0942fa0\n`);
+}
 await rm(serverDir, { recursive: true, force: true });
 console.log(`[master] Pre-rendered ${routes.length} directory pages for ${data.councils.length} councils.`);

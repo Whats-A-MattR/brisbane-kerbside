@@ -639,8 +639,10 @@ function PrivacyPage() {
       <p>When you choose a council, the site may store that council's short identifier in local storage on your device. This lets us show a useful “welcome back” shortcut. It does not contain your address or coordinates, and you can remove it by clearing site data in your browser.</p>
       <h2>Location suggestion</h2>
       <p>If you choose to use browser location, your browser asks for permission. The page compares the temporary coordinates with the centres of supported council areas and displays a rough suggestion. This directory does not write those coordinates to local storage. You can decline permission and search manually with no loss of core functionality.</p>
+      <h2>Analytics and advertising</h2>
+      <p>This site uses Google Analytics 4 to understand aggregate usage, with IP anonymisation enabled and analytics disabled when your browser sends a Do Not Track preference. It may also use Google AdSense to display advertising and measure ad performance. Google may use cookies or similar technologies subject to your consent choices and its own policies.</p>
       <h2>External sites</h2>
-      <p>This site uses Google Analytics 4 to understand aggregate usage, with IP anonymisation enabled and analytics disabled when your browser sends a Do Not Track preference. It is configured independently from each council site. Council finders, official council resources and GitHub have their own privacy practices; following those links leaves this domain.</p>
+      <p>Analytics and advertising are configured independently from each council site. Council finders, official council resources and GitHub have their own privacy practices; following those links leaves this domain.</p>
     </main>
   );
 }
