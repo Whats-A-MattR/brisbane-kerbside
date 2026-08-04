@@ -8,6 +8,20 @@ export async function masterData() {
     const config = JSON.parse(await readFile(resolve(siteDir, 'site.json'), 'utf8'));
     const schedule = JSON.parse(await readFile(resolve(siteDir, 'public/data/schedule.json'), 'utf8'));
     const areaNames = [...new Set(schedule.collections.flatMap((collection) => collection.areas.map((area) => area.name)))].sort();
+    const areaDetails = [...new Map(schedule.collections.flatMap((collection) => collection.areas.map((area) => [area.id, area]))).values()]
+      .map((area) => ({
+        id: area.id,
+        name: area.name,
+        collectionIds: schedule.collections.filter((collection) => collection.areas.some((item) => item.id === area.id)).map((collection) => collection.id),
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name, config.locale));
+    const collections = schedule.collections.map((collection) => ({
+      id: collection.id,
+      startsOn: collection.startsOn,
+      ...(collection.endsOn ? { endsOn: collection.endsOn } : {}),
+      ...(collection.putOutFrom ? { putOutFrom: collection.putOutFrom } : {}),
+      areas: collection.areas,
+    }));
     const firstCollection = schedule.collections[0];
 
     return {
@@ -20,7 +34,10 @@ export async function masterData() {
       center: config.map.center,
       scheduleLabel: config.schedule.plural,
       areaLabel: config.area.plural,
+      areaRouteSegment: config.area.routeSegment,
       areas: areaNames,
+      areaDetails,
+      collections,
       collectionCount: schedule.collections.length,
       generatedAt: schedule.generatedAt,
       nextCollection: firstCollection ? {

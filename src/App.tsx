@@ -10,6 +10,7 @@ import {
   ACCEPTED_ITEMS_URL,
   COUNCIL_CALENDAR_URL,
   DIRECTORY_URL,
+  KO_FI_URL,
   REPOSITORY_URL,
   SPONSOR_URL,
   areaPath,
@@ -284,10 +285,10 @@ export function App({ schedule, route }: AppProps) {
             <a href={sitePath('/about/')}>About</a>
             <a
               className="sponsor-link"
-              href={SPONSOR_URL}
+              href={KO_FI_URL}
               target="_blank"
               rel="noreferrer"
-              onClick={() => trackEvent('donation_click', { placement: 'header' })}
+              onClick={() => trackEvent('donation_click', { placement: 'header', provider: 'ko_fi' })}
             >Donate</a>
           </nav>
           <button
@@ -429,8 +430,14 @@ export function App({ schedule, route }: AppProps) {
             href={SPONSOR_URL}
             target="_blank"
             rel="noreferrer"
-            onClick={() => trackEvent('donation_click', { placement: 'footer' })}
+            onClick={() => trackEvent('donation_click', { placement: 'footer', provider: 'github_sponsors' })}
           >Support this project on GitHub ↗</a>
+          <a
+            href={KO_FI_URL}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => trackEvent('donation_click', { placement: 'footer', provider: 'ko_fi' })}
+          >Support this project on Ko-fi ↗</a>
           <a href={sitePath('/privacy/')}>Privacy & advertising</a>
           <a href={DIRECTORY_URL}>Find another council ↗</a>
         </footer>
@@ -467,11 +474,17 @@ export function App({ schedule, route }: AppProps) {
           <a href={REPOSITORY_URL} target="_blank" rel="noreferrer">Open source</a>
           <a href={DIRECTORY_URL}>All councils</a>
           <a
+            href={KO_FI_URL}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => trackEvent('donation_click', { placement: 'mobile_sheet', provider: 'ko_fi' })}
+          >Donate</a>
+          <a
             href={SPONSOR_URL}
             target="_blank"
             rel="noreferrer"
-            onClick={() => trackEvent('donation_click', { placement: 'mobile_sheet' })}
-          >Donate</a>
+            onClick={() => trackEvent('donation_click', { placement: 'mobile_sheet', provider: 'github_sponsors' })}
+          >GitHub Sponsors</a>
         </nav>
         <SuburbSearch
           className="suburb-search--sheet"

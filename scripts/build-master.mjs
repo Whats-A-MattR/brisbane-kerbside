@@ -36,6 +36,27 @@ function pageDetails(route) {
       description: `Find ${council.placeName} ${council.serviceName} dates, searchable ${council.areaLabel}, local guidance and official ${council.councilName} resources.`,
     };
   }
+  if (route.type === 'area') {
+    const council = data.councils.find((item) => item.id === route.councilId);
+    const area = council.areaDetails.find((item) => item.id === route.id);
+    const collection = council.collections.find((item) => area.collectionIds.includes(item.id));
+    return {
+      path: `/councils/${council.id}/suburbs/${area.id}/`,
+      title: `${area.name} kerbside collection dates | ${council.placeName}`,
+      description: `Find the next ${area.name} ${council.serviceName} date${collection ? ` from ${longDate(collection.startsOn)}` : ''}, then open the local map and official ${council.councilName} resources.`,
+    };
+  }
+  if (route.type === 'collection') {
+    const council = data.councils.find((item) => item.id === route.councilId);
+    const collection = council.collections.find((item) => item.id === route.id);
+    const names = collection.areas.map((item) => item.name);
+    const areas = names.length > 6 ? `${names.slice(0, 6).join(', ')} and ${names.length - 6} more` : names.join(', ');
+    return {
+      path: `/councils/${council.id}/collections/${collection.id}/`,
+      title: `${council.placeName} collection starting ${longDate(collection.startsOn)} | ${site.name}`,
+      description: `${council.placeName} ${council.serviceName} starting ${longDate(collection.startsOn)}: ${areas}. Browse included suburbs and open the local map.`,
+    };
+  }
   if (route.type === 'about') return {
     path: '/about/',
     title: `About, sources and methodology | ${site.name}`,
@@ -51,6 +72,12 @@ function pageDetails(route) {
     title: `When's Kerbside? Find council collection dates`,
     description: site.description,
   };
+}
+
+function longDate(value) {
+  return new Intl.DateTimeFormat(site.locale, {
+    day: 'numeric', month: 'long', year: 'numeric', timeZone: site.timeZone,
+  }).format(new Date(`${value}T12:00:00Z`));
 }
 
 function structuredData(route, details) {
@@ -76,6 +103,47 @@ function structuredData(route, details) {
       })),
     });
   }
+  if (route.type === 'council') {
+    const council = data.councils.find((item) => item.id === route.id);
+    graph.push({
+      '@type': 'ItemList', name: `${council.placeName} kerbside collection suburbs`,
+      numberOfItems: council.areaDetails.length,
+      itemListElement: council.areaDetails.map((area, index) => ({
+        '@type': 'ListItem', position: index + 1, name: area.name,
+        url: `${site.siteUrl}/councils/${council.id}/suburbs/${area.id}/`,
+      })),
+    });
+  }
+  if (route.type === 'collection') {
+    const council = data.councils.find((item) => item.id === route.councilId);
+    const collection = council.collections.find((item) => item.id === route.id);
+    graph.push({
+      '@type': 'ItemList', name: `${council.placeName} collection areas for ${longDate(collection.startsOn)}`,
+      numberOfItems: collection.areas.length,
+      itemListElement: collection.areas.map((area, index) => ({
+        '@type': 'ListItem', position: index + 1, name: area.name,
+        url: `${site.siteUrl}/councils/${council.id}/suburbs/${area.id}/`,
+      })),
+    });
+  }
+  if (route.type === 'council' || route.type === 'area' || route.type === 'collection') {
+    const councilId = route.type === 'council' ? route.id : route.councilId;
+    const council = data.councils.find((item) => item.id === councilId);
+    const items = [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.siteUrl}/` },
+      { '@type': 'ListItem', position: 2, name: 'Councils', item: `${site.siteUrl}/councils/` },
+      { '@type': 'ListItem', position: 3, name: council.placeName, item: `${site.siteUrl}/councils/${council.id}/` },
+    ];
+    if (route.type === 'area') {
+      const area = council.areaDetails.find((item) => item.id === route.id);
+      items.push({ '@type': 'ListItem', position: 4, name: area.name, item: `${site.siteUrl}/councils/${council.id}/suburbs/${area.id}/` });
+    }
+    if (route.type === 'collection') {
+      const collection = council.collections.find((item) => item.id === route.id);
+      items.push({ '@type': 'ListItem', position: 4, name: longDate(collection.startsOn), item: `${site.siteUrl}/councils/${council.id}/collections/${collection.id}/` });
+    }
+    graph.push({ '@type': 'BreadcrumbList', itemListElement: items });
+  }
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replaceAll('<', '\\u003c');
 }
 
@@ -90,6 +158,8 @@ const routes = [
   { type: 'home' },
   { type: 'councils' },
   ...data.councils.map((council) => ({ type: 'council', id: council.id })),
+  ...data.councils.flatMap((council) => council.areaDetails.map((area) => ({ type: 'area', councilId: council.id, id: area.id }))),
+  ...data.councils.flatMap((council) => council.collections.map((collection) => ({ type: 'collection', councilId: council.id, id: collection.id }))),
   { type: 'about' },
   { type: 'privacy' },
 ];

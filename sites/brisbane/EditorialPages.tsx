@@ -6,6 +6,7 @@ import {
   ACCEPTED_ITEMS_URL,
   COUNCIL_CALENDAR_URL,
   DIRECTORY_URL,
+  KO_FI_URL,
   REPOSITORY_URL,
   SPONSOR_URL,
   sitePath,
@@ -28,7 +29,7 @@ function EditorialLayout({ active, children }: EditorialLayoutProps) {
           <a href={sitePath('/guide/')} aria-current={active === 'guide' ? 'page' : undefined}>Guide</a>
           <a href={sitePath('/about/')} aria-current={active === 'about' ? 'page' : undefined}>About</a>
           <a href={REPOSITORY_URL} target="_blank" rel="noreferrer">Open source</a>
-          <a className="sponsor-link" href={SPONSOR_URL} target="_blank" rel="noreferrer">Donate</a>
+          <a className="sponsor-link" href={KO_FI_URL} target="_blank" rel="noreferrer">Donate</a>
         </nav>
       </header>
       {children}
@@ -154,7 +155,8 @@ export function AboutPage({ schedule }: { schedule: Schedule }) {
           <div className="editorial-actions">
             <a href={`${REPOSITORY_URL}/issues`} target="_blank" rel="noreferrer">Report an issue ↗</a>
             <a href={REPOSITORY_URL} target="_blank" rel="noreferrer">View the source ↗</a>
-            <a className="sponsor-link" href={SPONSOR_URL} target="_blank" rel="noreferrer">Support the project</a>
+            <a className="sponsor-link" href={KO_FI_URL} target="_blank" rel="noreferrer">Support on Ko-fi</a>
+            <a href={SPONSOR_URL} target="_blank" rel="noreferrer">GitHub Sponsors ↗</a>
           </div>
         </section>
       </article>

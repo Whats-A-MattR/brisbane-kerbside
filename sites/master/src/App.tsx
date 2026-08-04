@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
+import masterSite from '../site.json';
 import type { MasterCouncil, MasterData, MasterRoute } from './types';
 
 const STORAGE_KEY = 'whenskerbside:selected-council';
+const KO_FI_URL = masterSite.kofi;
+const GITHUB_SPONSORS_URL = masterSite.sponsor;
 
 function pathFor(path: string) {
   return path;
@@ -9,6 +12,14 @@ function pathFor(path: string) {
 
 function councilPath(id: string) {
   return `/councils/${id}/`;
+}
+
+function areaPath(councilId: string, areaId: string) {
+  return `/councils/${councilId}/suburbs/${areaId}/`;
+}
+
+function collectionPath(councilId: string, collectionId: string) {
+  return `/councils/${councilId}/collections/${collectionId}/`;
 }
 
 function formatDate(value: string) {
@@ -51,7 +62,7 @@ function Header() {
       <nav aria-label="Main navigation">
         <a href={pathFor('/councils/')}>Councils</a>
         <a href={pathFor('/about/')}>About</a>
-        <a className="support-link" href="https://github.com/sponsors/Whats-A-MattR">Donate</a>
+        <a className="support-link" href={KO_FI_URL} target="_blank" rel="noreferrer">Donate</a>
       </nav>
     </header>
   );
@@ -69,6 +80,8 @@ function Footer({ generatedAt }: { generatedAt: string }) {
         <a href={pathFor('/about/')}>About & methodology</a>
         <a href={pathFor('/privacy/')}>Privacy</a>
         <a href="https://github.com/Whats-A-MattR/brisbane-kerbside">Source code ↗</a>
+        <a href={KO_FI_URL} target="_blank" rel="noreferrer">Ko-fi ↗</a>
+        <a href={GITHUB_SPONSORS_URL} target="_blank" rel="noreferrer">GitHub Sponsors ↗</a>
       </nav>
       <p className="freshness">Directory data refreshed {formatGeneratedAt(generatedAt)}</p>
     </footer>
@@ -302,6 +315,24 @@ function CouncilPage({ council }: { council: MasterCouncil }) {
           <p>{council.nextCollection.areas.join(' · ')}</p>
         </section>
       )}
+      <section className="route-directory" aria-labelledby="suburb-directory-title">
+        <p className="eyebrow">Published areas</p>
+        <h2 id="suburb-directory-title">Browse {council.placeName} {council.areaLabel}</h2>
+        <div className="link-grid">
+          {council.areaDetails.map((area) => <a key={area.id} href={areaPath(council.id, area.id)}>{area.name}</a>)}
+        </div>
+      </section>
+      <section className="route-directory" aria-labelledby="collection-directory-title">
+        <p className="eyebrow">Published schedule</p>
+        <h2 id="collection-directory-title">Upcoming {council.scheduleLabel}</h2>
+        <div className="link-grid link-grid--dates">
+          {council.collections.map((collection) => (
+            <a key={collection.id} href={collectionPath(council.id, collection.id)}>
+              {formatDate(collection.startsOn)}{collection.endsOn ? ` – ${formatDate(collection.endsOn)}` : ''}
+            </a>
+          ))}
+        </div>
+      </section>
       <section className="prose-grid">
         <article>
           <h2>What the local site covers</h2>
@@ -317,6 +348,86 @@ function CouncilPage({ council }: { council: MasterCouncil }) {
             <li><a href={council.source.url}>Published data source ↗</a></li>
           </ul>
         </article>
+      </section>
+    </main>
+  );
+}
+
+function AreaPage({ council, areaId }: { council: MasterCouncil; areaId: string }) {
+  const area = council.areaDetails.find((item) => item.id === areaId);
+  if (!area) return <CouncilPage council={council} />;
+  const collections = area.collectionIds
+    .map((id) => council.collections.find((collection) => collection.id === id))
+    .filter((collection): collection is MasterCouncil['collections'][number] => Boolean(collection));
+  const next = collections[0];
+  const localUrl = `${council.siteUrl}/${council.areaRouteSegment}/${area.id}/`;
+
+  return (
+    <main className="inner-page council-page">
+      <nav className="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><a href="/councils/">Councils</a><span>›</span><a href={councilPath(council.id)}>{council.placeName}</a><span>›</span><span>{area.name}</span></nav>
+      <p className="eyebrow">{council.councilName} {council.serviceName}</p>
+      <h1>{area.name} kerbside collection dates</h1>
+      <p className="lead">Find the published {council.serviceName} schedule for {area.name}, identify the relevant collection period and continue to the dedicated {council.placeName} map.</p>
+      <div className="council-hero-actions">
+        <a className="primary-action large" href={localUrl} onClick={() => rememberCouncil(council)}>Open the {area.name} map ↗</a>
+        <a href={council.links.officialCalendar}>Confirm with {council.councilName} ↗</a>
+      </div>
+      {next && (
+        <section className="date-feature">
+          <p className="eyebrow">Next published collection</p>
+          <h2>{formatDate(next.startsOn)}{next.endsOn ? ` – ${formatDate(next.endsOn)}` : ''}</h2>
+          {next.putOutFrom && <p>Items may be placed out from {formatDate(next.putOutFrom)}. Confirm local timing and eligibility with Council before using this date.</p>}
+        </section>
+      )}
+      <section className="route-directory" aria-labelledby="area-dates-title">
+        <p className="eyebrow">Current schedule</p>
+        <h2 id="area-dates-title">Published dates for {area.name}</h2>
+        <div className="link-grid link-grid--dates">
+          {collections.map((collection) => (
+            <a key={collection.id} href={collectionPath(council.id, collection.id)}>
+              {formatDate(collection.startsOn)}{collection.endsOn ? ` – ${formatDate(collection.endsOn)}` : ''}
+            </a>
+          ))}
+        </div>
+      </section>
+      <section className="prose-grid">
+        <article><h2>What this page means</h2><p>This directory page connects {area.name} with the current public schedule maintained for {council.councilName}. The dedicated council site contains the interactive map and more detailed local guidance.</p></article>
+        <article><h2>Check the official rules</h2><p>When's Kerbside is independent. Collection dates, eligible properties, item limits and accepted materials can change, so confirm the details with Council before placing anything on the kerb.</p><p><a href={council.links.acceptedItems}>Accepted and excluded items ↗</a></p></article>
+      </section>
+    </main>
+  );
+}
+
+function CollectionPage({ council, collectionId }: { council: MasterCouncil; collectionId: string }) {
+  const collection = council.collections.find((item) => item.id === collectionId);
+  if (!collection) return <CouncilPage council={council} />;
+  const localUrl = `${council.siteUrl}/collections/${collection.id}/`;
+
+  return (
+    <main className="inner-page council-page">
+      <nav className="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><a href="/councils/">Councils</a><span>›</span><a href={councilPath(council.id)}>{council.placeName}</a><span>›</span><span>{formatDate(collection.startsOn)}</span></nav>
+      <p className="eyebrow">{council.councilName} {council.serviceName}</p>
+      <h1>{council.placeName} collection starting {formatDate(collection.startsOn)}</h1>
+      <p className="lead">This published collection covers {collection.areas.length} {collection.areas.length === 1 ? 'area' : 'areas'} in the {council.councilName} schedule. Browse the included suburbs or open the dedicated map.</p>
+      <div className="council-hero-actions">
+        <a className="primary-action large" href={localUrl} onClick={() => rememberCouncil(council)}>Open this collection map ↗</a>
+        <a href={council.links.officialCalendar}>Official Council calendar ↗</a>
+      </div>
+      <section className="date-feature">
+        <p className="eyebrow">Published collection period</p>
+        <h2>{formatDate(collection.startsOn)}{collection.endsOn ? ` – ${formatDate(collection.endsOn)}` : ''}</h2>
+        {collection.putOutFrom && <p>Items may be placed out from {formatDate(collection.putOutFrom)}. Always confirm the current instructions with Council.</p>}
+      </section>
+      <section className="route-directory" aria-labelledby="collection-areas-title">
+        <p className="eyebrow">Included areas</p>
+        <h2 id="collection-areas-title">Suburbs in this collection</h2>
+        <div className="link-grid">
+          {collection.areas.map((area) => <a key={area.id} href={areaPath(council.id, area.id)}>{area.name}</a>)}
+        </div>
+      </section>
+      <section className="prose-grid">
+        <article><h2>Use the local map</h2><p>The dedicated {council.placeName} site highlights the published collection areas for this period. Use the links above to check an individual suburb, then confirm your property is eligible for the service.</p></article>
+        <article><h2>Council remains the source of truth</h2><p>Weather, access and operational changes can affect a scheduled collection. When's Kerbside presents the published data but is not affiliated with {council.councilName}.</p><p><a href={council.links.acceptedItems}>Check accepted and excluded items ↗</a></p></article>
       </section>
     </main>
   );
@@ -358,7 +469,8 @@ function PrivacyPage() {
 }
 
 export function App({ data, route }: { data: MasterData; route: MasterRoute }) {
-  const council = route.type === 'council' ? data.councils.find((item) => item.id === route.id) : undefined;
+  const councilId = route.type === 'council' ? route.id : route.type === 'area' || route.type === 'collection' ? route.councilId : undefined;
+  const council = data.councils.find((item) => item.id === councilId);
   return (
     <div className="site-shell">
       <Header />
@@ -366,6 +478,9 @@ export function App({ data, route }: { data: MasterData; route: MasterRoute }) {
       {route.type === 'councils' && <CouncilsPage data={data} />}
       {route.type === 'council' && council && <CouncilPage council={council} />}
       {route.type === 'council' && !council && <CouncilsPage data={data} />}
+      {route.type === 'area' && council && <AreaPage council={council} areaId={route.id} />}
+      {route.type === 'collection' && council && <CollectionPage council={council} collectionId={route.id} />}
+      {(route.type === 'area' || route.type === 'collection') && !council && <CouncilsPage data={data} />}
       {route.type === 'about' && <AboutPage />}
       {route.type === 'privacy' && <PrivacyPage />}
       <Footer generatedAt={data.generatedAt} />

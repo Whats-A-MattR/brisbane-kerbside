@@ -16,7 +16,8 @@ function assert(condition, message) {
 
 const councils = await councilSites();
 assert(data.councils.length === councils.length, 'directory data does not match the registered council count');
-assert(urls.length === councils.length + 4, 'sitemap does not contain every master route');
+const expectedRouteCount = 4 + data.councils.reduce((total, council) => total + 1 + council.areaDetails.length + council.collections.length, 0);
+assert(urls.length === expectedRouteCount, `sitemap does not contain every master route: expected ${expectedRouteCount}, found ${urls.length}`);
 assert(new Set(urls).size === urls.length, 'sitemap contains duplicate URLs');
 assert(robots.includes(`Sitemap: ${site.siteUrl}/sitemap.xml`), 'robots.txt does not advertise the canonical sitemap');
 assert(image.toString('ascii', 1, 4) === 'PNG', 'social card is not a PNG');
@@ -24,6 +25,13 @@ assert(image.readUInt32BE(16) === 1200 && image.readUInt32BE(20) === 630, 'socia
 
 for (const entry of councils) {
   assert(urls.includes(`${site.siteUrl}/councils/${entry.id}/`), `missing static council page for ${entry.id}`);
+  const council = data.councils.find((item) => item.id === entry.id);
+  for (const area of council.areaDetails) {
+    assert(urls.includes(`${site.siteUrl}/councils/${entry.id}/suburbs/${area.id}/`), `missing static area page for ${entry.id}/${area.id}`);
+  }
+  for (const collection of council.collections) {
+    assert(urls.includes(`${site.siteUrl}/councils/${entry.id}/collections/${collection.id}/`), `missing static collection page for ${entry.id}/${collection.id}`);
+  }
 }
 
 for (const url of urls) {
