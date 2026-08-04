@@ -1,0 +1,115 @@
+[
+  {
+    "id": "ipswich",
+    "label": "Ipswich",
+    "councilName": "Ipswich City Council",
+    "placeName": "Ipswich",
+    "serviceName": "on-demand large item kerbside collection",
+    "center": [-27.6167, 152.7608],
+    "verifiedAt": "2026-08-04T00:00:00.000Z",
+    "service": {
+      "model": "on_demand",
+      "shortLabel": "Annual on-demand service",
+      "summary": "Eligible Ipswich households can order a FLEXiSKiP bag and arrange collection when it suits them instead of waiting for a suburb-wide date.",
+      "frequency": "One free service is available to each eligible household per year.",
+      "allowance": "The service uses a 2 cubic metre FLEXiSKiP bag with a total weight limit of 165 kilograms.",
+      "eligibility": "Most residents with a wheelie-bin collection and at least 4 metres of unobstructed kerb access are eligible. Some unit complexes, rural properties and inaccessible sites are excluded.",
+      "timing": "Council says bag delivery takes up to 10 business days. The bag must be filled and collection booked within 21 days, with collection generally taking 1 to 10 business days.",
+      "items": "The official list includes furniture, mattresses, appliances, carpet, some timber, garden organics and selected masonry. Hazardous waste, food waste, batteries, tyres and broken glass are excluded.",
+      "notice": "From September 2026, Council says eligible residents will choose either the large-item kerbside service or an annual waste voucher. Check the official page for the current arrangement."
+    },
+    "links": {
+      "officialService": "https://www.ipswich.qld.gov.au/Live/Waste-and-Recycling/Large-Item-Kerbside-Collection",
+      "booking": "https://service.handel.group/ipswich",
+      "acceptedItems": "https://www.ipswich.qld.gov.au/Live/Waste-and-Recycling/Large-Item-Kerbside-Collection",
+      "areaSource": "https://www.ipswich.qld.gov.au/About-Council/Mayor-Councillors/Ipswich-City-Divisional-Boundaries"
+    },
+    "areas": [
+      "Amberley", "Ashwell", "Augustine Heights", "Barellan Point", "Basin Pocket", "Bellbird Park", "Blacksoil", "Blackstone", "Booval", "Brassall", "Brookwater", "Bundamba", "Calvert", "Camira", "Carole Park", "Churchill", "Chuwar", "Coalfalls", "Collingwood Park", "Deebing Heights", "Dinmore", "East Ipswich", "Eastern Heights", "Ebbw Vale", "Ebenezer", "Flinders View", "Gailes", "Goodna", "Goolman", "Grandchester", "Haigslea", "Ipswich", "Ironbark", "Jeebropilly", "Karalee", "Karrabin", "Lanefield", "Leichhardt", "Lower Mount Walker", "Marburg", "Moores Pocket", "Mount Forbes", "Mount Marrow", "Mount Mort", "Mount Walker West", "Muirlea", "Mutdapilly", "New Chum", "Newtown", "North Booval", "North Ipswich", "North Tivoli", "One Mile", "Peak Crossing", "Pine Mountain", "Purga", "Raceview", "Redbank", "Redbank Plains", "Ripley", "Riverview", "Rosewood", "Sadliers Crossing", "Silkstone", "South Ripley", "Spring Mountain", "Springfield", "Springfield Central", "Springfield Lakes", "Swanbank", "Tallegalla", "Thagoona", "The Bluff", "Tivoli", "Walloon", "West Ipswich", "White Rock", "Willowbank", "Woodend", "Woolshed", "Wulkuraka", "Yamanto"
+    ]
+  },
+  {
+    "id": "central-coast",
+    "label": "Central Coast",
+    "councilName": "Central Coast Council",
+    "placeName": "Central Coast",
+    "serviceName": "booked bulk waste kerbside collection",
+    "center": [-33.3111, 151.4246],
+    "verifiedAt": "2026-08-04T00:00:00.000Z",
+    "service": {
+      "model": "on_demand",
+      "shortLabel": "Up to six bookings a year",
+      "summary": "Most Central Coast households can book general or green bulk waste collections rather than waiting for a fixed suburb-wide date.",
+      "frequency": "Residents of most households can book up to six general or green waste bulk kerbside collections each year.",
+      "allowance": "Each allocation is up to 2 cubic metres, roughly one box-trailer load.",
+      "eligibility": "The service is available to most households, but the property address and remaining allocations must be confirmed in the official booking system.",
+      "timing": "Book before putting anything out, then place accepted items at the kerb on the night before the confirmed collection day.",
+      "items": "General bulk waste and bulk vegetation are accepted under separate guidelines and must be presented as separate piles. Check the official guidelines for item and size restrictions."
+    },
+    "links": {
+      "officialService": "https://www.centralcoast.nsw.gov.au/residents/bulk-waste-kerbside-collection",
+      "booking": "https://www.centralcoast.nsw.gov.au/residents/bulk-waste-kerbside-collection",
+      "acceptedItems": "https://www.centralcoast.nsw.gov.au/residents/bulk-waste-kerbside-collection",
+      "areaSource": "https://www.centralcoast.nsw.gov.au/about-council/mayor-and-councillors"
+    },
+    "areas": [
+      "Alison", "Avoca Beach", "Bar Point", "Bateau Bay", "Bensville", "Berkeley Vale", "Blackwall", "Blue Bay", "Blue Haven", "Booker Bay", "Bouddi", "Box Head", "Budgewoi", "Budgewoi Peninsula", "Buff Point", "Bushells Ridge", "Calga", "Canton Beach", "Cedar Brush Creek", "Central Mangrove", "Chain Valley Bay", "Charmhaven", "Cheero Point", "Chittaway Bay", "Chittaway Point", "Cogra Bay", "Colongra", "Copacabana", "Crangan Bay", "Daleys Point", "Davistown", "Dooralong", "Doyalson", "Doyalson North", "Durren Durren", "East Gosford", "Empire Bay", "Erina", "Erina Heights", "Ettalong Beach", "Forresters Beach", "Fountaindale", "Frazer Park", "Freemans", "Glenning Valley", "Glenworth Valley", "Gorokan", "Gosford", "Green Point", "Greengrove", "Gunderman", "Gwandalan", "Halekulani", "Halloran", "Hamlyn Terrace", "Hardys Bay", "Holgate", "Horsfield Bay", "Jilliby", "Kangy Angy", "Kanwal", "Kariong", "Kiar", "Killcare", "Killcare Heights", "Killarney Vale", "Kincumber", "Kincumber South", "Kingfisher Shores", "Koolewong", "Kulnura", "Lake Haven", "Lake Munmorah", "Lemon Tree", "Lisarow", "Little Jilliby", "Little Wobby", "Long Jetty", "Lower Macdonald", "Lower Mangrove", "Macmasters Beach", "Magenta", "Mangrove Creek", "Mangrove Mountain", "Mannering Park", "Mardi", "Marlow", "Matcham", "Moonee", "Mooney Mooney", "Mooney Mooney Creek", "Mount Elliot", "Mount White", "Narara", "Niagara Park", "Norah Head", "Noraville", "North Avoca", "North Gosford", "Ourimbah", "Palm Grove", "Palmdale", "Patonga", "Pearl Beach", "Peats Ridge", "Phegans Bay", "Picketts Valley", "Point Clare", "Point Frederick", "Point Wolstoncroft", "Pretty Beach", "Ravensdale", "Rocky Point", "San Remo", "Saratoga", "Shelly Beach", "Somersby", "Spencer", "Springfield", "St Huberts Island", "Summerland Point", "Tacoma", "Tacoma South", "Tascott", "Ten Mile Hollow", "Terrigal", "The Entrance", "The Entrance North", "Toowoon Bay", "Toukley", "Tuggerah", "Tuggerawong", "Tumbi Umbi", "Umina Beach", "Upper Mangrove", "Wadalba", "Wagstaffe", "Wallarah", "Wamberal", "Warnervale", "Watanobbi", "Wendoree Park", "West Gosford", "Wisemans Ferry", "Wondabyne", "Woongarrah", "Woy Woy", "Woy Woy Bay", "Wybung", "Wyee", "Wyee Point", "Wyoming", "Wyong", "Wyong Creek", "Wyongah", "Yarramalong", "Yattalunga"
+    ]
+  },
+  {
+    "id": "blacktown",
+    "label": "Blacktown",
+    "councilName": "Blacktown City Council",
+    "placeName": "Blacktown",
+    "serviceName": "booked household clean-up service",
+    "center": [-33.7683, 150.9076],
+    "verifiedAt": "2026-08-04T00:00:00.000Z",
+    "service": {
+      "model": "on_demand",
+      "shortLabel": "Up to twelve bookings a year",
+      "summary": "Blacktown City residents can request a household clean-up date online instead of waiting for a scheduled suburb-wide collection.",
+      "frequency": "Eligible residents can book up to 12 household clean-up collections a year with no extra fee.",
+      "allowance": "Each collection is limited to one box-trailer load, stated by Council as 2 metres by 1 metre by 1 metre.",
+      "eligibility": "The property must pay for a Council waste service and the person booking must live at the property. Strata and real-estate managers cannot book on a resident's behalf.",
+      "timing": "Council advises planning ahead because the next available date may be up to four weeks away. Items must not be placed out before the night preceding the confirmed date.",
+      "items": "Furniture, mattresses, whitegoods, carpet and bundled garden material are among the accepted items. Building waste, hazardous materials, vehicle parts, glass and overly heavy items are excluded."
+    },
+    "links": {
+      "officialService": "https://www.blacktown.nsw.gov.au/Services/Waste-services-and-collection/Household-clean-up-service",
+      "booking": "https://www.blacktown.nsw.gov.au/Services/Waste-services-and-collection/Household-clean-up-service",
+      "acceptedItems": "https://www.blacktown.nsw.gov.au/Services/Waste-services-and-collection/Household-clean-up-service",
+      "areaSource": "https://www.blacktown.nsw.gov.au/About-Council/Our-city/Our-suburbs"
+    },
+    "areas": [
+      "Acacia Gardens", "Angus", "Arndell Park", "Bidwill", "Blackett", "Blacktown", "Bungarribee", "Colebee", "Dean Park", "Dharruk", "Doonside", "Eastern Creek", "Emerton", "Glendenning", "Glenwood", "Grantham Farm", "Hassall Grove", "Hebersham", "Huntingwood", "Kellyville Ridge", "Kings Langley", "Kings Park", "Lalor Park", "Lethbridge Park", "Marayong", "Marsden Park", "Melonba", "Minchinbury", "Mount Druitt", "Nirimba Fields", "Oakhurst", "Parklea", "Plumpton", "Prospect", "Quakers Hill", "Richards", "Riverstone", "Rooty Hill", "Ropes Crossing", "Rouse Hill", "Schofields", "Seven Hills", "Shalvey", "Shanes Park", "Stanhope Gardens", "St Marys", "Tallawong", "The Ponds", "Toongabbie", "Tregear", "Vineyard", "Whalan", "Willmot", "Woodcroft"
+    ]
+  },
+  {
+    "id": "newcastle",
+    "label": "Newcastle",
+    "councilName": "City of Newcastle",
+    "placeName": "Newcastle",
+    "serviceName": "on-demand bulk waste service",
+    "center": [-32.9283, 151.7817],
+    "verifiedAt": "2026-08-04T00:00:00.000Z",
+    "service": {
+      "model": "on_demand",
+      "shortLabel": "Kerbside pickup or self-haul voucher",
+      "summary": "Newcastle residents can request a kerbside bulk-waste pickup or use a self-haul voucher instead of waiting for a neighbourhood collection.",
+      "frequency": "Residents can request two services—two pickups, two vouchers or one of each—within a rolling 12-month period.",
+      "allowance": "Each service covers up to 2 cubic metres of bulk waste, roughly a 6-by-4-foot box trailer loaded one metre high.",
+      "eligibility": "Only people who live at the property can request the service. The official request flow confirms the address, entitlement and current waiting time.",
+      "timing": "Kerbside pickup waiting times vary with demand in each suburb. Council describes the digital self-haul voucher as the quickest option.",
+      "items": "Both options accept many bulky household items; self-haul vouchers accept a wider range. The official guide distinguishes kerbside items from material that must go to Summerhill."
+    },
+    "links": {
+      "officialService": "https://newcastle.nsw.gov.au/living/waste-and-recycling/bulk-waste-service",
+      "booking": "https://newcastle.nsw.gov.au/living/waste-and-recycling/waste-enquiries-and-requests/request-a-bulk-waste-service",
+      "acceptedItems": "https://newcastle.nsw.gov.au/living/waste-and-recycling/bulk-waste-service",
+      "areaSource": "https://newcastle.nsw.gov.au/council/ward-maps"
+    },
+    "areas": [
+      "Adamstown", "Adamstown Heights", "Bar Beach", "Beresfield", "Birmingham Gardens", "Black Hill", "Broadmeadow", "Callaghan", "Carrington", "Cooks Hill", "Elermore Vale", "Fletcher", "Georgetown", "Hamilton", "Hamilton East", "Hamilton North", "Hamilton South", "Hexham", "Islington", "Jesmond", "Kotara", "Lambton", "Lenaghan", "Maryland", "Maryville", "Mayfield", "Mayfield East", "Mayfield West", "Merewether", "Merewether Heights", "Minmi", "New Lambton", "New Lambton Heights", "Newcastle", "Newcastle East", "Newcastle West", "North Lambton", "Rankin Park", "Sandgate", "Shortland", "Stockton", "Tarro", "The Hill", "The Junction", "Tighes Hill", "Wallsend", "Warabrook", "Waratah", "Waratah West", "Wickham"
+    ]
+  }
+]

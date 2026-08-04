@@ -52,6 +52,14 @@ function rememberCouncil(council: MasterCouncil) {
   }
 }
 
+function isScheduled(council: MasterCouncil) {
+  return council.serviceModel === 'scheduled';
+}
+
+function primaryDestination(council: MasterCouncil) {
+  return isScheduled(council) ? council.siteUrl : council.actionUrl;
+}
+
 function Header() {
   return (
     <header className="site-header">
@@ -97,7 +105,9 @@ function CouncilCard({ council, onChoose }: { council: MasterCouncil; onChoose?:
         <span>{council.areas.length} {council.areaLabel}</span>
       </div>
       <h3><a href={councilPath(council.id)}>{council.councilName}</a></h3>
-      <p>{council.collectionCount} upcoming {council.scheduleLabel} currently published.</p>
+      <p>{isScheduled(council)
+        ? `${council.collectionCount} upcoming ${council.scheduleLabel} currently published.`
+        : council.serviceDetails?.shortLabel}</p>
       {next && (
         <div className="next-date">
           <span>Next published date</span>
@@ -107,12 +117,12 @@ function CouncilCard({ council, onChoose }: { council: MasterCouncil; onChoose?:
       <div className="card-actions">
         <a
           className="primary-action"
-          href={council.siteUrl}
+          href={primaryDestination(council)}
           onClick={() => {
             rememberCouncil(council);
             onChoose?.();
           }}
-        >Open {council.placeName} dates <span aria-hidden="true">↗</span></a>
+        >{isScheduled(council) ? `Open ${council.placeName} dates` : 'Book or check eligibility'} <span aria-hidden="true">↗</span></a>
         <a href={councilPath(council.id)} onClick={() => rememberCouncil(council)}>Council overview</a>
       </div>
     </article>
@@ -208,7 +218,7 @@ function CouncilFinder({ councils }: { councils: MasterCouncil[] }) {
             <span>Welcome back</span>
             <strong>{saved.placeName} is your saved council area.</strong>
           </div>
-          <a href={saved.siteUrl}>Open dates ↗</a>
+          <a href={isScheduled(saved) ? saved.siteUrl : councilPath(saved.id)}>{isScheduled(saved) ? 'Open dates' : 'Open service guide'} ↗</a>
         </aside>
       )}
 
@@ -217,9 +227,9 @@ function CouncilFinder({ councils }: { councils: MasterCouncil[] }) {
           <div>
             <span>Nearest supported council</span>
             <strong>{suggested.councilName}</strong>
-            <small>This is a rough location-based suggestion. Confirm the council before relying on its dates.</small>
+            <small>This is a rough location-based suggestion. Confirm the council before relying on dates or booking eligibility.</small>
           </div>
-          <a href={suggested.siteUrl} onClick={() => rememberCouncil(suggested)}>Yes, show {suggested.placeName} dates ↗</a>
+          <a href={isScheduled(suggested) ? suggested.siteUrl : councilPath(suggested.id)} onClick={() => rememberCouncil(suggested)}>Yes, show {suggested.placeName} {isScheduled(suggested) ? 'dates' : 'service'} ↗</a>
         </aside>
       )}
 
@@ -252,7 +262,7 @@ function Home({ data }: { data: MasterData }) {
         <section className="hero">
           <p className="eyebrow">Kerbside collection, council by council</p>
           <h1>When's kerbside?</h1>
-          <p className="hero-copy">One useful place to find your local collection site, upcoming dates and the official council rules behind them.</p>
+          <p className="hero-copy">One useful place to find scheduled dates or book an on-demand collection, with the official council rules behind every answer.</p>
           <div className="hero-facts">
             <span><strong>{data.councils.length}</strong> supported councils</span>
             <span><strong>{data.councils.reduce((total, council) => total + council.areas.length, 0)}</strong> searchable areas</span>
@@ -265,7 +275,7 @@ function Home({ data }: { data: MasterData }) {
           <h2 id="how-title">Local sites, shared standards.</h2>
           <div className="explanation-grid">
             <article><span>01</span><h3>Find the right council</h3><p>Search by suburb, choose manually, or ask your browser to suggest the nearest supported council. Location is never requested on page load.</p></article>
-            <article><span>02</span><h3>See the local schedule</h3><p>Each council gets a dedicated static site built around its own terminology, dates, areas and collection rules—not a generic scraped result.</p></article>
+            <article><span>02</span><h3>See dates or book</h3><p>Scheduled councils get local date finders. On-demand councils get suburb guides that explain the entitlement and take you to the official booking flow.</p></article>
             <article><span>03</span><h3>Confirm with the source</h3><p>Every site links back to the official council calendar and accepted-item guidance. Council information remains the source of truth.</p></article>
           </div>
         </section>
@@ -276,7 +286,7 @@ function Home({ data }: { data: MasterData }) {
           </div>
           <div>
             <p>Kerbside programs differ across Australia. Some councils publish a suburb calendar, some provide an address lookup, and others do not run a scheduled service at all. When's Kerbside only lists council areas where we can maintain a clear public data path.</p>
-            <p>The directory and every council site are statically generated, open source and designed to remain fast on a phone. New councils can be added through a shared data contract without merging their schedules or local guidance into one vague national answer.</p>
+            <p>The directory and every council site are statically generated, open source and designed to remain fast on a phone. New councils can be added through a shared data contract without pretending that scheduled, booked and hybrid programs all work the same way.</p>
           </div>
         </section>
       </main>
@@ -289,7 +299,7 @@ function CouncilsPage({ data }: { data: MasterData }) {
     <main className="inner-page">
       <p className="eyebrow">Council directory</p>
       <h1>Supported kerbside collection areas</h1>
-      <p className="lead">These are the council-specific collection sites currently generated from this open-source project. Each one has its own schedule, local guidance and links to official council information.</p>
+      <p className="lead">Browse scheduled and on-demand kerbside services. Every council page uses local program details, searchable suburbs and direct links to official council information.</p>
       <div className="council-grid directory-grid">
         {data.councils.map((council) => <CouncilCard key={council.id} council={council} />)}
       </div>
@@ -297,7 +307,94 @@ function CouncilsPage({ data }: { data: MasterData }) {
   );
 }
 
+function BookingQuestions({ council, areaName }: { council: MasterCouncil; areaName?: string }) {
+  const details = council.serviceDetails;
+  if (!details) return null;
+  const place = areaName ?? council.placeName;
+  return (
+    <section className="answer-section" aria-labelledby="common-questions-title">
+      <p className="eyebrow">Straight answers</p>
+      <h2 id="common-questions-title">Common {place} kerbside questions</h2>
+      <div className="answer-grid">
+        <article>
+          <h3>Does {place} have kerbside collection?</h3>
+          <p>{areaName ? `Yes—${areaName} is listed within the ${council.councilName} area, where Council offers` : `Yes. ${council.councilName} offers`} {council.serviceName} to eligible properties. It is booked on demand, so there is no single public collection date for the whole suburb. Confirm your address before relying on the service.</p>
+        </article>
+        <article>
+          <h3>How do I book a kerbside collection in {place}?</h3>
+          <p>Use the official {council.councilName} booking or eligibility link on this page. Council's system confirms the property, remaining entitlement and available collection timing.</p>
+        </article>
+        <article>
+          <h3>How often can I book?</h3>
+          <p>{details.frequency}</p>
+        </article>
+        <article>
+          <h3>How much can I put out?</h3>
+          <p>{details.allowance}</p>
+        </article>
+        <article>
+          <h3>When should I put items on the kerb?</h3>
+          <p>{details.timing}</p>
+        </article>
+        <article>
+          <h3>What items does Council accept?</h3>
+          <p>{details.items}</p>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function BookingCouncilPage({ council }: { council: MasterCouncil }) {
+  const details = council.serviceDetails;
+  if (!details) return null;
+  return (
+    <main className="inner-page council-page">
+      <nav className="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><a href="/councils/">Councils</a><span>›</span><span>{council.placeName}</span></nav>
+      <p className="eyebrow">{details.shortLabel} · {council.councilName}</p>
+      <h1>{council.placeName} kerbside collection booking</h1>
+      <p className="lead">{details.summary} Search {council.areas.length} council-area suburbs, understand the local allowance and continue to the official booking service.</p>
+      <div className="council-hero-actions">
+        <a className="primary-action large" href={council.actionUrl} onClick={() => rememberCouncil(council)}>Book or check your address ↗</a>
+        <a href={council.links.officialCalendar}>Official Council service guide ↗</a>
+      </div>
+      <section className="date-feature service-feature">
+        <p className="eyebrow">How this service works</p>
+        <h2>Book when you need it.</h2>
+        <p>{details.frequency} {details.allowance}</p>
+        {details.notice && <p><strong>Current service note:</strong> {details.notice}</p>}
+      </section>
+      <section className="route-directory" aria-labelledby="suburb-directory-title">
+        <p className="eyebrow">Council-area suburbs</p>
+        <h2 id="suburb-directory-title">Browse {council.placeName} suburbs</h2>
+        <p className="directory-note">A suburb listing shows council-area coverage, not automatic property eligibility. The official booking system makes the final address check.</p>
+        <div className="link-grid">
+          {council.areaDetails.map((area) => <a key={area.id} href={areaPath(council.id, area.id)}>{area.name}</a>)}
+        </div>
+      </section>
+      <BookingQuestions council={council} />
+      <section className="prose-grid">
+        <article>
+          <h2>Eligibility is address-specific</h2>
+          <p>{details.eligibility}</p>
+          <p>Do not place items out until Council or its contractor has confirmed the booking and presentation instructions.</p>
+        </article>
+        <article>
+          <h2>Official sources</h2>
+          <p>When's Kerbside is independent and is not operated by {council.councilName}. Council remains the source of truth for eligibility, entitlements, accepted items and changes to the service.</p>
+          <ul>
+            <li><a href={council.links.booking ?? council.links.officialCalendar}>Official booking or eligibility check ↗</a></li>
+            <li><a href={council.links.acceptedItems}>Official accepted-item guidance ↗</a></li>
+            <li><a href={council.links.areaSource}>Official suburb coverage source ↗</a></li>
+          </ul>
+        </article>
+      </section>
+    </main>
+  );
+}
+
 function CouncilPage({ council }: { council: MasterCouncil }) {
+  if (!isScheduled(council)) return <BookingCouncilPage council={council} />;
   return (
     <main className="inner-page council-page">
       <nav className="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><a href="/councils/">Councils</a><span>›</span><span>{council.placeName}</span></nav>
@@ -356,6 +453,33 @@ function CouncilPage({ council }: { council: MasterCouncil }) {
 function AreaPage({ council, areaId }: { council: MasterCouncil; areaId: string }) {
   const area = council.areaDetails.find((item) => item.id === areaId);
   if (!area) return <CouncilPage council={council} />;
+  if (!isScheduled(council)) {
+    const details = council.serviceDetails;
+    if (!details) return <CouncilPage council={council} />;
+    return (
+      <main className="inner-page council-page">
+        <nav className="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><a href="/councils/">Councils</a><span>›</span><a href={councilPath(council.id)}>{council.placeName}</a><span>›</span><span>{area.name}</span></nav>
+        <p className="eyebrow">{details.shortLabel} · {council.councilName}</p>
+        <h1>{area.name} kerbside collection booking</h1>
+        <p className="lead">{area.name} is within the {council.councilName} area. This is an on-demand service rather than a suburb-wide calendar, so use Council's official system to confirm the property and receive a date.</p>
+        <div className="council-hero-actions">
+          <a className="primary-action large" href={council.actionUrl} onClick={() => rememberCouncil(council)}>Book or check your {area.name} address ↗</a>
+          <a href={council.links.officialCalendar}>Read the official service guide ↗</a>
+        </div>
+        <section className="date-feature service-feature">
+          <p className="eyebrow">No fixed suburb date</p>
+          <h2>Your booking creates the date.</h2>
+          <p>{details.summary}</p>
+          {details.notice && <p><strong>Current service note:</strong> {details.notice}</p>}
+        </section>
+        <BookingQuestions council={council} areaName={area.name} />
+        <section className="prose-grid">
+          <article><h2>Check this property first</h2><p>{details.eligibility}</p><p>A suburb can cross a boundary or contain properties with different waste arrangements. Treat this page as a route to the official address check, not proof that a particular property qualifies.</p></article>
+          <article><h2>Plan around the confirmed booking</h2><p>{details.timing}</p><p><a href={council.links.acceptedItems}>Check accepted and excluded items with Council ↗</a></p></article>
+        </section>
+      </main>
+    );
+  }
   const collections = area.collectionIds
     .map((id) => council.collections.find((collection) => collection.id === id))
     .filter((collection): collection is MasterCouncil['collections'][number] => Boolean(collection));
@@ -442,7 +566,7 @@ function AboutPage() {
       <h2>One data contract, genuinely local sites</h2>
       <p>Councils publish collection information in different formats and use different terms for similar services. The project converts each supported source into a shared schedule and map schema, then combines that data with council-specific content, assets and guidance. The result is a separate static site for each council rather than one interface pretending every program works the same way.</p>
       <h2>How a council becomes supported</h2>
-      <p>A council must run a kerbside collection service and expose a maintainable public way to access its dates or areas. We document the publisher, source and licence where available. Automated jobs refresh council data each week, validate it, rebuild every static page and publish the outputs. If the public source changes shape, the build should fail instead of quietly publishing malformed dates.</p>
+      <p>A council must run a kerbside collection service and expose a maintainable public way to access its dates, service areas or official booking flow. We document the publisher and source, and the licence where data is republished. Automated jobs refresh scheduled data each week, validate the directory, rebuild every static page and publish the outputs. If a public source changes shape, the build should fail instead of quietly publishing malformed dates.</p>
       <h2>What this directory stores</h2>
       <p>You can save a council choice in your own browser so the directory can recall it later. If you press “Use my location”, the browser supplies a temporary position so the page can suggest the nearest supported council. The coordinates are not saved by this site. The suggestion is approximate and never replaces confirming your actual council area.</p>
       <h2>Independent and open source</h2>

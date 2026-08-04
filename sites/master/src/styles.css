@@ -96,8 +96,11 @@ h1, h2 { margin: 0; font-family: 'Fraunces', Georgia, serif; letter-spacing: -.0
 .date-feature { margin: 0 0 72px; padding: 44px; border-radius: 18px; background: var(--lime); }
 .date-feature h2 { font-size: clamp(2.3rem, 4vw, 4rem); }
 .date-feature p:last-child { margin: 22px 0 0; line-height: 1.7; }
+.service-feature p { max-width: 920px; }
+.service-feature p + p { margin-top: 14px; }
 .route-directory { margin: 0 0 72px; padding-top: 28px; border-top: 1px solid var(--line); }
 .route-directory h2 { max-width: 850px; font-size: clamp(2.2rem, 4vw, 4.2rem); }
+.directory-note { max-width: 800px; margin: 22px 0 0; color: #506a63; line-height: 1.65; }
 .link-grid { margin-top: 34px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px 18px; }
 .link-grid a { min-height: 44px; display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); color: #395c53; font-size: .88rem; font-weight: 700; }
 .link-grid--dates { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -106,6 +109,13 @@ h1, h2 { margin: 0; font-family: 'Fraunces', Georgia, serif; letter-spacing: -.0
 .prose-grid h2, .prose-page h2 { font-size: 2rem; line-height: 1.08; }
 .prose-grid p, .prose-grid li, .prose-page p { color: #46635b; line-height: 1.75; }
 .prose-grid ul { padding-left: 20px; }
+.answer-section { margin: 0 0 78px; padding: 54px; border-radius: 20px; background: var(--ink); color: var(--white); }
+.answer-section > h2 { max-width: 850px; font-size: clamp(2.4rem, 4vw, 4.5rem); }
+.answer-section .eyebrow { color: #a9c2ba; }
+.answer-grid { margin-top: 46px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 46px; }
+.answer-grid article { padding: 25px 0; border-top: 1px solid rgba(255,255,255,.2); }
+.answer-grid h3 { margin: 0 0 12px; font-size: 1.05rem; line-height: 1.35; }
+.answer-grid p { margin: 0; color: #c9d8d3; line-height: 1.7; }
 .prose-page { max-width: 900px; margin-left: max(24px, calc((100vw - 1240px) / 2)); }
 .prose-page h2 { margin-top: 54px; }
 .text-link { color: var(--ink); font-weight: 800; }
@@ -154,6 +164,8 @@ h1, h2 { margin: 0; font-family: 'Fraunces', Georgia, serif; letter-spacing: -.0
   .council-hero-actions { margin-top: -10px; align-items: stretch; flex-direction: column; }
   .council-hero-actions .primary-action { width: 100%; }
   .date-feature { padding: 30px 22px; }
+  .answer-section { margin-inline: -16px; padding: 38px 22px; border-radius: 0; }
+  .answer-grid { margin-top: 34px; grid-template-columns: 1fr; }
   .link-grid, .link-grid--dates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .prose-grid { grid-template-columns: 1fr; gap: 48px; }
   .prose-page { margin-inline: auto; }

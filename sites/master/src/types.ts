@@ -3,8 +3,21 @@ export type MasterCouncil = {
   label: string;
   councilName: string;
   placeName: string;
+  serviceModel: 'scheduled' | 'on_demand' | 'hybrid';
   siteUrl: string;
+  actionUrl: string;
   serviceName: string;
+  serviceDetails: null | {
+    model: 'on_demand' | 'hybrid';
+    shortLabel: string;
+    summary: string;
+    frequency: string;
+    allowance: string;
+    eligibility: string;
+    timing: string;
+    items: string;
+    notice?: string;
+  };
   center: [number, number];
   scheduleLabel: string;
   areaLabel: string;
@@ -32,6 +45,8 @@ export type MasterCouncil = {
   links: {
     officialCalendar: string;
     acceptedItems: string;
+    booking: string | null;
+    areaSource: string;
   };
   source: {
     publisher: string;
