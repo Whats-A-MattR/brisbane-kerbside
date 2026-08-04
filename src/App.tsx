@@ -6,6 +6,7 @@ import { BackToTop } from './BackToTop';
 import { formatCollectionDate, formatGeneratedAt } from './date';
 import { AboutPage, GuidePage, PrivacyPage } from '@site/editorial-pages';
 import { CollectionMap } from './Map';
+import type { MapAreaSelection } from './Map';
 import {
   ACCEPTED_ITEMS_URL,
   COUNCIL_CALENDAR_URL,
@@ -283,6 +284,10 @@ export function App({ schedule, route }: AppProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [suburbQuery, setSuburbQuery] = useState('');
   const suburbs = useMemo(() => suburbOptions(schedule), [schedule]);
+  const selectableCollectionIds = useMemo(
+    () => route.type === 'home' ? schedule.collections.map((collection) => collection.id) : [],
+    [route.type, schedule.collections],
+  );
   const selected = routeCollections.find((item) => item.id === selectedId) ?? routeCollections[0] ?? historicalCollection ?? schedule.collections[0];
   const copy = routeCopy(route, routeCollections, schedule);
 
@@ -303,6 +308,17 @@ export function App({ schedule, route }: AppProps) {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    if (!menuOpen) return;
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById(`sheet-collection-${selectedId}`)?.scrollIntoView({
+        block: 'center',
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [menuOpen, selectedId]);
+
   if (route.type === 'privacy') return <PrivacyPage />;
   if (route.type === 'about') return <AboutPage schedule={schedule} />;
   if (route.type === 'guide') return <GuidePage />;
@@ -322,6 +338,30 @@ export function App({ schedule, route }: AppProps) {
     schedule.collections.flatMap((collection) => collection.areas.map((suburb) => suburb.id)),
   ).size;
   const historicalAreaRoute = route.type === 'area' && routeCollections.length === 0 && Boolean(routeArea?.lastCollection);
+
+  function selectCollectionFromMap(selection: MapAreaSelection) {
+    const collection = routeCollections.find((item) => item.id === selection.collectionId);
+    if (!collection) return;
+
+    setSelectedId(collection.id);
+    trackEvent('collection_map_select', {
+      collection_date: collection.startsOn,
+      suburb: selection.areaName,
+      placement: 'map_area',
+    });
+
+    if (window.matchMedia('(max-width: 900px)').matches) {
+      setMenuOpen(true);
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      document.getElementById(`collection-${collection.id}`)?.scrollIntoView({
+        block: 'center',
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      });
+    });
+  }
 
   return (
     <main className="app-shell">
@@ -412,7 +452,7 @@ export function App({ schedule, route }: AppProps) {
             const active = collection.id === selected.id;
 
             return (
-              <li key={collection.id}>
+              <li key={collection.id} id={`collection-${collection.id}`}>
                 <article className="collection-card" data-active={active}>
                   <button
                     className="collection-select"
@@ -508,6 +548,8 @@ export function App({ schedule, route }: AppProps) {
           selectedLabel={historicalAreaRoute ? `Last collected ${formatCollectionDate(selected.startsOn).label}` : collectionRangeLabel(selected)}
           selectedArea={selectedArea}
           caption={historicalAreaRoute ? 'Showing most recent collection' : undefined}
+          selectableCollectionIds={selectableCollectionIds}
+          onAreaSelect={route.type === 'home' ? selectCollectionFromMap : undefined}
         />
         {route.type === 'home' && <AdStrip />}
       </section>
@@ -568,6 +610,7 @@ export function App({ schedule, route }: AppProps) {
             return (
               <li key={collection.id}>
                 <a
+                  id={`sheet-collection-${collection.id}`}
                   href={sitePath(`/collections/${collection.id}/`)}
                   data-active={active}
                   onClick={(event) => {
