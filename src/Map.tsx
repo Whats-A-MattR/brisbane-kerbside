@@ -218,7 +218,7 @@ export function CollectionMap({
       <div className="map-caption" aria-live="polite">
         <span>{caption ?? siteConfig.schedule.mapCaption}</span>
         <strong>{selectedLabel}</strong>
-        {onAreaSelect && <small>Select a suburb to find its date</small>}
+        {onAreaSelect && <small>Select a suburb on the map to find its date</small>}
       </div>
       <div
         ref={containerRef}
