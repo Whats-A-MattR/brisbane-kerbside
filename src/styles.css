@@ -272,6 +272,7 @@ h1 { max-width: 650px; margin-bottom: 22px; font-family: Georgia, "Times New Rom
 .map-caption { position: absolute; top: 24px; left: 24px; z-index: 500; display: grid; gap: 3px; padding: 13px 16px; border: 1px solid rgba(24, 45, 39, 0.18); border-radius: 3px; background: rgba(244, 241, 232, 0.94); box-shadow: 0 8px 30px rgba(24, 45, 39, 0.1); }
 .map-caption span { color: #5c6c67; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; }
 .map-caption strong { font-family: Georgia, "Times New Roman", serif; font-size: 1.05rem; font-weight: 500; }
+.map-caption small { margin-top: 3px; color: #47665c; font-size: .64rem; font-weight: 750; }
 .leaflet-control-zoom a { color: #182d27 !important; background: #f4f1e8 !important; }
 .leaflet-control-attribution { background: rgba(244, 241, 232, 0.82) !important; font-size: 9px !important; }
 .leaflet-tooltip { border: 0; border-radius: 2px; color: #f5f3e8; background: #182d27; box-shadow: none; font: 700 0.7rem/1.2 Inter, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; }
