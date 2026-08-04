@@ -11,12 +11,16 @@ export function validateOutputs(siteId, schedule, areas) {
   assert(areas?.type === 'FeatureCollection' && Array.isArray(areas.features), 'areas must be a GeoJSON FeatureCollection');
 
   const collectionIds = new Set();
-  const scheduledPairs = new Set();
+  const scheduledPairs = new Map();
   let previousDate = '';
   for (const collection of schedule.collections) {
     assert(!collectionIds.has(collection.id), `duplicate collection id ${collection.id}`);
     assert(collection.startsOn >= previousDate, 'collections must be sorted by startsOn');
     assert(/^\d{4}-\d{2}-\d{2}$/.test(collection.startsOn), `invalid startsOn date for ${collection.id}`);
+    if (collection.endsOn) {
+      assert(/^\d{4}-\d{2}-\d{2}$/.test(collection.endsOn), `invalid endsOn date for ${collection.id}`);
+      assert(collection.endsOn >= collection.startsOn, `endsOn precedes startsOn for ${collection.id}`);
+    }
     assert(/^\d{4}-\d{2}-\d{2}$/.test(collection.putOutFrom), `invalid putOutFrom date for ${collection.id}`);
     assert(Array.isArray(collection.areas) && collection.areas.length > 0, `collection ${collection.id} has no areas`);
     collectionIds.add(collection.id);
@@ -25,19 +29,31 @@ export function validateOutputs(siteId, schedule, areas) {
       assert(area.id && area.name, `collection ${collection.id} has an invalid area`);
       const pair = `${collection.id}:${area.id}`;
       assert(!scheduledPairs.has(pair), `duplicate scheduled area ${pair}`);
-      scheduledPairs.add(pair);
+      scheduledPairs.set(pair, {
+        startsOn: collection.startsOn,
+        endsOn: collection.endsOn,
+        putOutFrom: collection.putOutFrom,
+        note: area.note,
+      });
     }
   }
 
-  const geometryPairs = new Set();
+  const geometryPairs = new Map();
   for (const feature of areas.features) {
     const properties = feature?.properties;
     assert(properties?.collectionId && properties?.areaId && properties?.areaName, 'each feature needs collectionId, areaId and areaName');
     assert(properties?.startsOn && properties?.putOutFrom, 'each feature needs startsOn and putOutFrom');
     assert(feature?.geometry?.coordinates, `feature ${properties.areaId} has no geometry`);
-    geometryPairs.add(`${properties.collectionId}:${properties.areaId}`);
+    geometryPairs.set(`${properties.collectionId}:${properties.areaId}`, properties);
   }
 
-  for (const pair of scheduledPairs) assert(geometryPairs.has(pair), `missing geometry for ${pair}`);
-  for (const pair of geometryPairs) assert(scheduledPairs.has(pair), `geometry has no schedule record for ${pair}`);
+  for (const [pair, scheduled] of scheduledPairs) {
+    assert(geometryPairs.has(pair), `missing geometry for ${pair}`);
+    const geometry = geometryPairs.get(pair);
+    assert(geometry.startsOn === scheduled.startsOn, `startsOn mismatch for ${pair}`);
+    assert(geometry.endsOn === scheduled.endsOn, `endsOn mismatch for ${pair}`);
+    assert(geometry.putOutFrom === scheduled.putOutFrom, `putOutFrom mismatch for ${pair}`);
+    assert(geometry.areaNote === scheduled.note, `area note mismatch for ${pair}`);
+  }
+  for (const pair of geometryPairs.keys()) assert(scheduledPairs.has(pair), `geometry has no schedule record for ${pair}`);
 }

@@ -6,12 +6,20 @@
   "name": "Brisbane Kerbside Collection Map",
   "shortName": "BNE Kerbside",
   "brandMark": "BNE",
+  "headerLabel": "Kerbside collection map",
   "placeName": "Brisbane",
   "councilName": "Brisbane City Council",
   "serviceName": "large-item kerbside collection",
   "rules": {
     "readyBy": "6am on the first collection day",
     "householdLimit": "Up to 2 cubic metres"
+  },
+  "schedule": {
+    "singular": "week",
+    "plural": "weeks",
+    "startLabel": "Week starting",
+    "eyebrow": "Collection week",
+    "mapCaption": "Showing collection week"
   },
   "area": {
     "singular": "suburb",

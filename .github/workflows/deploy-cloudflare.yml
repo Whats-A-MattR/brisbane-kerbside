@@ -22,7 +22,7 @@ jobs:
       - id: registry
         name: Read the council registry
         run: |
-          echo "sites=$(jq -c '{include: map({id, cloudflareProject, environment: .githubEnvironment})}' sites/registry.json)" >> "$GITHUB_OUTPUT"
+          echo "sites=$(jq -c '{include: map({id, cloudflareProject, environment: .githubEnvironment, analyticsEnabled, adsEnabled})}' sites/registry.json)" >> "$GITHUB_OUTPUT"
 
   deploy:
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
@@ -49,9 +49,9 @@ jobs:
         run: pnpm build
         env:
           KERBSIDE_SITE: ${{ matrix.id }}
-          VITE_GA_MEASUREMENT_ID: ${{ vars.GA_MEASUREMENT_ID }}
-          VITE_ADSENSE_CLIENT: ${{ vars.ADSENSE_CLIENT }}
-          VITE_ADSENSE_SLOT: ${{ vars.ADSENSE_SLOT }}
+          VITE_GA_MEASUREMENT_ID: ${{ matrix.analyticsEnabled && vars.GA_MEASUREMENT_ID || '' }}
+          VITE_ADSENSE_CLIENT: ${{ matrix.adsEnabled && vars.ADSENSE_CLIENT || '' }}
+          VITE_ADSENSE_SLOT: ${{ matrix.adsEnabled && vars.ADSENSE_SLOT || '' }}
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:

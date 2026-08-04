@@ -15,6 +15,7 @@
   "scripts": {
     "dev": "vite",
     "dev:brisbane": "KERBSIDE_SITE=brisbane vite",
+    "dev:logan": "KERBSIDE_SITE=logan vite",
     "data:update": "node scripts/update-data.mjs",
     "data:update:all": "node scripts/update-all-data.mjs",
     "build": "node scripts/build.mjs && node scripts/verify-seo.mjs",
@@ -22,7 +23,8 @@
     "seo:verify": "node scripts/verify-seo.mjs",
     "preview": "vite preview --outDir dist/${KERBSIDE_SITE:-brisbane}",
     "typecheck": "tsc --noEmit",
-    "deploy:brisbane": "wrangler pages deploy dist/brisbane --project-name=brisbane-kerbside"
+    "deploy:brisbane": "wrangler pages deploy dist/brisbane --project-name=brisbane-kerbside",
+    "deploy:logan": "wrangler pages deploy dist/logan --project-name=logan-kerbside"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

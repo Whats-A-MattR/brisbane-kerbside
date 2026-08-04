@@ -1,11 +1,13 @@
 export type CollectionArea = {
   id: string;
   name: string;
+  note?: string;
 };
 
 export type Collection = {
   id: string;
   startsOn: string;
+  endsOn?: string;
   putOutFrom: string;
   areas: CollectionArea[];
 };

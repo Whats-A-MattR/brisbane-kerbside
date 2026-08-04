@@ -85,6 +85,7 @@ export function transform(records) {
         areaName: name,
         startsOn,
         putOutFrom: record.items_out_on_footpath,
+        areaNote: undefined,
       },
       geometry: record.geo_shape.geometry,
     });

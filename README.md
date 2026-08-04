@@ -1,6 +1,6 @@
 # Kerbside Site Factory
 
-This repository builds fast, council-specific kerbside collection sites from public data. The first site is [Brisbane Kerbside Collection Map](https://brisbanekerbside.app).
+This repository builds fast, council-specific kerbside collection sites from public data. It currently packages [Brisbane Kerbside Collection Map](https://brisbanekerbside.app) and Logan Kerbside Clean-up Map.
 
 Each council keeps its own domain, content, branding, public assets, data adapter, analytics and Cloudflare Pages project. The React app, static renderer, schema validation and GitHub Actions machinery are shared.
 
@@ -28,9 +28,10 @@ There is no application server or database. The weekly data workflow refreshes e
 - `scripts/` — shared data runner, validation, static rendering and SEO checks.
 - `sites/registry.json` — deployable councils and their Cloudflare targets.
 - `sites/brisbane/` — Brisbane config, editorial content, source adapter and public assets.
+- `sites/logan/` — Logan’s separate two-week schedule adapter, local content and assets.
 - `dist/<site-id>/` — generated static output; never committed.
 
-The shared schedule contract is versioned with `schemaVersion: 1` and documented in [`schema/schedule.schema.json`](schema/schedule.schema.json). A collection has `startsOn`, `putOutFrom` and a list of generic `areas`; a council adapter is responsible for translating its source fields into that contract. GeoJSON features use the matching `collectionId`, `areaId`, `areaName`, `startsOn` and `putOutFrom` properties. Builds fail if schedule and geometry records disagree.
+The shared schedule contract is versioned with `schemaVersion: 1` and documented in [`schema/schedule.schema.json`](schema/schedule.schema.json). A collection has `startsOn`, optional `endsOn`, `putOutFrom` and a list of generic `areas`; areas can carry an honest coverage note when operational boundaries differ from official locality polygons. A council adapter is responsible for translating its source fields into that contract. GeoJSON features repeat the matching timing and area properties. Builds fail if schedule and geometry records disagree.
 
 ## Local development
 
@@ -47,9 +48,11 @@ Brisbane is the default. To select a site explicitly:
 ```sh
 KERBSIDE_SITE=brisbane pnpm dev
 KERBSIDE_SITE=brisbane pnpm build
+KERBSIDE_SITE=logan pnpm dev
+KERBSIDE_SITE=logan pnpm build
 ```
 
-`pnpm build` writes `dist/brisbane` and checks all pre-rendered routes, canonicals, sitemap entries and social cards. `pnpm data:update:all` and `pnpm build:all` process every registered council.
+`pnpm build` writes `dist/<selected-site>` and checks all pre-rendered routes, canonicals, sitemap entries and social cards. `pnpm data:update:all` and `pnpm build:all` process every registered council.
 
 Copy `.env.example` to `.env.local` only to test public analytics or advertising identifiers. API tokens and credentials must never use a `VITE_` variable or enter the repository.
 
@@ -73,6 +76,8 @@ Each registry entry names a GitHub environment. Put council-specific public buil
 - `ADSENSE_SLOT` — numeric responsive display-ad unit ID.
 
 Repository-level values still work as a shared fallback. Keep Auto ads disabled if the intended experience is the single restrained placement supplied by this project.
+
+The registry also contains explicit `analyticsEnabled` and `adsEnabled` switches. New councils start with both disabled so Brisbane’s repository-level identifiers cannot leak into a new domain before its own analytics stream, consent setup and AdSense approval exist.
 
 No Cloudflare credentials belong in source files, council folders or local `.env` files.
 

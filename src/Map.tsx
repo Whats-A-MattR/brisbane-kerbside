@@ -62,7 +62,10 @@ export function CollectionMap({ selectedDate, selectedLabel, selectedArea }: Map
             };
           },
           onEachFeature: (feature, layer) => {
-            layer.bindTooltip(feature.properties.areaName, {
+            const tooltip = feature.properties.areaNote
+              ? `${feature.properties.areaName}: ${feature.properties.areaNote}`
+              : feature.properties.areaName;
+            layer.bindTooltip(tooltip, {
               sticky: true,
               direction: 'top',
             });
@@ -135,7 +138,7 @@ export function CollectionMap({ selectedDate, selectedLabel, selectedArea }: Map
   return (
     <div className="map-shell">
       <div className="map-caption" aria-live="polite">
-        <span>Showing collection week</span>
+        <span>{siteConfig.schedule.mapCaption}</span>
         <strong>{selectedLabel}</strong>
       </div>
       <div

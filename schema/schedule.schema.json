@@ -25,10 +25,11 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "startsOn", "putOutFrom", "areas"],
+          "required": ["id", "startsOn", "putOutFrom", "areas"],
         "properties": {
           "id": { "type": "string", "minLength": 1 },
           "startsOn": { "type": "string", "format": "date" },
+          "endsOn": { "type": "string", "format": "date" },
           "putOutFrom": { "type": "string", "format": "date" },
           "areas": {
             "type": "array",
@@ -39,7 +40,8 @@
               "required": ["id", "name"],
               "properties": {
                 "id": { "type": "string", "minLength": 1 },
-                "name": { "type": "string", "minLength": 1 }
+                "name": { "type": "string", "minLength": 1 },
+                "note": { "type": "string", "minLength": 1 }
               }
             }
           }

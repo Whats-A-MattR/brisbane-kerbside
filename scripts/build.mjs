@@ -58,8 +58,8 @@ function pageDetails(schedule, route) {
     const areas = names.length > 6 ? `${names.slice(0, 6).join(', ')} and ${names.length - 6} more` : names.join(', ');
     return {
       path: `/collections/${route.id}/`,
-      title: `${site.placeName} kerbside collection ${longDate(route.id)} | Map`,
-      description: `${site.placeName} kerbside collection week starting ${longDate(route.id)}: ${areas}. See collection areas and the items-out date.`,
+      title: `${site.placeName} ${site.serviceName} ${longDate(route.id)} | Map`,
+      description: `${site.placeName} ${site.serviceName} ${site.schedule.singular} starting ${longDate(route.id)}: ${areas}. See collection areas and the items-out date.`,
     };
   }
   if (route.type === 'area') {
@@ -67,8 +67,8 @@ function pageDetails(schedule, route) {
     const area = collection?.areas.find((item) => item.id === route.id)?.name ?? route.id;
     return {
       path: `/${site.area.routeSegment}/${route.id}/`,
-      title: `${area} kerbside collection date | ${site.placeName} ${collection?.startsOn.slice(0, 4) ?? ''}`,
-      description: `Find the next ${area} kerbside collection date, when to put items out and the official ${site.area.singular} area on a map.`,
+      title: `${area} ${site.serviceName} date | ${site.placeName} ${collection?.startsOn.slice(0, 4) ?? ''}`,
+      description: `Find the next ${area} ${site.serviceName} date, when to put items out and the official ${site.area.singular} area on a map.`,
     };
   }
   return { path: '/', title: site.seo.homeTitle, description: site.seo.homeDescription };
@@ -92,7 +92,7 @@ function structuredData(schedule, route, details) {
       url: `${site.siteUrl}/`,
       ...(schedule.source.licence ? { license: schedule.source.licence } : {}),
       creator: { '@type': 'GovernmentOrganization', name: schedule.source.publisher, url: schedule.source.url },
-      temporalCoverage: `${schedule.collections[0]?.startsOn}/${schedule.collections.at(-1)?.startsOn}`,
+      temporalCoverage: `${schedule.collections[0]?.startsOn}/${schedule.collections.at(-1)?.endsOn ?? schedule.collections.at(-1)?.startsOn}`,
       distribution: {
         '@type': 'DataDownload',
         encodingFormat: 'application/json',

@@ -6,12 +6,20 @@ export type SiteConfig = {
   name: string;
   shortName: string;
   brandMark: string;
+  headerLabel: string;
   placeName: string;
   councilName: string;
   serviceName: string;
   rules: {
     readyBy: string;
     householdLimit: string;
+  };
+  schedule: {
+    singular: string;
+    plural: string;
+    startLabel: string;
+    eyebrow: string;
+    mapCaption: string;
   };
   area: {
     singular: string;

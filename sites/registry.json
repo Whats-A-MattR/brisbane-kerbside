@@ -3,6 +3,16 @@
     "id": "brisbane",
     "label": "Brisbane City Council",
     "cloudflareProject": "brisbane-kerbside",
-    "githubEnvironment": "brisbane"
+    "githubEnvironment": "brisbane",
+    "analyticsEnabled": true,
+    "adsEnabled": true
+  },
+  {
+    "id": "logan",
+    "label": "Logan City Council",
+    "cloudflareProject": "logan-kerbside",
+    "githubEnvironment": "logan",
+    "analyticsEnabled": false,
+    "adsEnabled": false
   }
 ]

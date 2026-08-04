@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f4f1e8"/>
+  <path d="M0 0h34v630H0z" fill="#f59b45"/>
+  <circle cx="112" cy="102" r="46" fill="#182d27"/>
+  <text x="112" y="111" fill="#e4ff68" font-family="Arial, sans-serif" font-size="24" font-weight="700" text-anchor="middle">LOG</text>
+  <text x="182" y="92" fill="#182d27" font-family="Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="3">KERBSIDE CLEAN-UP MAP</text>
+  <text x="86" y="260" fill="#182d27" font-family="Georgia, serif" font-size="72" font-weight="700">Know when Logan’s</text>
+  <text x="86" y="342" fill="#182d27" font-family="Georgia, serif" font-size="72" font-weight="700">kerb clears.</text>
+  <text x="90" y="420" fill="#405b52" font-family="Arial, sans-serif" font-size="27">Upcoming periods, searchable by suburb.</text>
+  <rect x="88" y="495" width="450" height="68" rx="34" fill="#e4ff68"/>
+  <text x="313" y="539" fill="#182d27" font-family="Arial, sans-serif" font-size="24" font-weight="700" text-anchor="middle">LOGAN KERBSIDE DATES</text>
+  <g transform="translate(120 0)">
+    <path d="M955 140c60 30 105 86 121 151 14 61 0 128-40 177-35 44-91 73-148 72-58-1-114-32-146-79-34-50-44-116-25-174 21-64 72-118 136-142 32-12 69-14 102-5z" fill="#dce8de"/>
+    <path d="M895 203c40 18 71 55 81 97 10 44-1 91-29 126-25 31-64 51-104 49-42-2-80-24-104-58-23-35-31-81-18-121 15-45 50-83 95-100 25-9 54-7 79 7z" fill="#e4ff68" stroke="#182d27" stroke-width="8"/>
+    <circle cx="895" cy="203" r="17" fill="#f59b45"/>
+  </g>
+</svg>

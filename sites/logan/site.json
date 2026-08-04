@@ -1,0 +1,86 @@
+{
+  "id": "logan",
+  "siteUrl": "https://logan-kerbside.pages.dev",
+  "locale": "en-AU",
+  "timeZone": "Australia/Brisbane",
+  "name": "Logan Kerbside Clean-up Map",
+  "shortName": "Logan Kerbside",
+  "brandMark": "LOG",
+  "headerLabel": "Kerbside clean-up map",
+  "placeName": "Logan",
+  "councilName": "Logan City Council",
+  "serviceName": "kerbside clean-up",
+  "rules": {
+    "readyBy": "6am on the first collection day",
+    "householdLimit": "Up to 2 cubic metres"
+  },
+  "schedule": {
+    "singular": "period",
+    "plural": "periods",
+    "startLabel": "Starts",
+    "eyebrow": "Collection period",
+    "mapCaption": "Showing clean-up period"
+  },
+  "area": {
+    "singular": "suburb",
+    "plural": "suburbs",
+    "routeSegment": "suburbs"
+  },
+  "map": {
+    "center": [-27.64, 153.11],
+    "zoom": 10,
+    "maxSelectionZoom": 12
+  },
+  "links": {
+    "repository": "https://github.com/Whats-A-MattR/brisbane-kerbside",
+    "sponsor": "https://github.com/sponsors/Whats-A-MattR",
+    "officialCalendar": "https://www.logan.qld.gov.au/residents/waste-and-recycling/kerbside-clean-up/schedule",
+    "acceptedItems": "https://www.logan.qld.gov.au/residents/waste-and-recycling/kerbside-clean-up/items-we-do-and-dont-accept"
+  },
+  "analytics": {},
+  "seo": {
+    "homeTitle": "Logan kerbside clean-up dates and suburb map",
+    "homeDescription": "Find upcoming Logan kerbside clean-up dates. Search your suburb and see the scheduled two-week collection area on a map.",
+    "socialImageAlt": "Logan kerbside clean-up dates and suburb map"
+  },
+  "homeFaq": [
+    {
+      "question": "How long does Logan kerbside clean-up take in each suburb?",
+      "answer": "Logan City Council schedules each area over a specific collection period of roughly two weeks. The exact start and end dates are shown with each published period."
+    },
+    {
+      "question": "When should I put items on the kerb?",
+      "answer": "Council says items can go out on the weekend before the scheduled collection and must be ready by 6am on the first day. Do not put items out more than one week early."
+    },
+    {
+      "question": "How much can I put out?",
+      "answer": "Each dwelling may put out no more than 2 cubic metres: a pile up to 2 metres wide, 1 metre high and 1 metre deep."
+    }
+  ],
+  "guideFaq": [
+    {
+      "question": "Who is eligible for Logan kerbside clean-up?",
+      "answer": "The service is available to residential properties with a Council-provided waste collection service. Commercial properties, schools and vacant land are not eligible."
+    },
+    {
+      "question": "Does Logan collect green waste at kerbside clean-up?",
+      "answer": "Yes. Tree and shrub clippings and palm fronds must be cut into 1 metre lengths and bundled. Leaves and grass clippings must be placed in cardboard boxes, not plastic bags."
+    },
+    {
+      "question": "Can I put out a mattress?",
+      "answer": "Yes. Logan City Council currently lists mattresses as accepted hard waste."
+    },
+    {
+      "question": "Can televisions, refrigerators or glass go out?",
+      "answer": "No. Council excludes refrigerators, air conditioners, freezers, glass and items containing glass, including televisions and computer monitors."
+    },
+    {
+      "question": "What should I do if my pile is missed?",
+      "answer": "Wait until the scheduled period has finished, check for a notice explaining why items were not collected, then contact Logan City Council within two weeks after the period ends."
+    },
+    {
+      "question": "Is this the official Logan City Council schedule?",
+      "answer": "No. This independent site presents Council open data. Confirm dates, eligibility and item rules on Logan City Council’s website."
+    }
+  ]
+}

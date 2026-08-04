@@ -49,11 +49,15 @@ Add an entry to `sites/registry.json`:
   "id": "example",
   "label": "Example City Council",
   "cloudflareProject": "example-kerbside",
-  "githubEnvironment": "example"
+  "githubEnvironment": "example",
+  "analyticsEnabled": false,
+  "adsEnabled": false
 }
 ```
 
 Create the matching Cloudflare Pages project and GitHub environment. Add the custom domain in Cloudflare, then set any council-specific GA4 and AdSense variables in that GitHub environment. Shared Cloudflare credentials remain repository secrets.
+
+Leave analytics and ads disabled for the first deployment. Enable them only after the new domain has its own GA4 stream, privacy/consent setup and AdSense approval; these flags prevent repository-level Brisbane identifiers from being reused accidentally.
 
 The deployment workflow reads the registry automatically; there is no second deploy matrix to edit.
 

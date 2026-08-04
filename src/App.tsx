@@ -26,6 +26,11 @@ type SuburbOption = CollectionArea & {
   collection: Collection;
 };
 
+function collectionRangeLabel(collection: Collection) {
+  const start = formatCollectionDate(collection.startsOn).label;
+  return collection.endsOn ? `${start} – ${formatCollectionDate(collection.endsOn).label}` : start;
+}
+
 function collectionsForRoute(schedule: Schedule, route: Route) {
   if (route.type === 'collection') {
     return schedule.collections.filter((item) => item.id === route.id);
@@ -103,7 +108,7 @@ function SuburbSearch({ className, options, query, onQueryChange, onResultSelect
                 }}
               >
                 <strong>{option.name}</strong>
-                <span>Week starting {formatCollectionDate(option.collection.startsOn).label}</span>
+                <span>{siteConfig.schedule.startLabel} {collectionRangeLabel(option.collection)}</span>
                 <small>View</small>
               </a>
             ))}
@@ -130,9 +135,9 @@ function routeCopy(route: Route, collections: Collection[]) {
     const suburb = collections[0]?.areas.find((item) => item.id === route.id)?.name ?? route.id;
     return {
       eyebrow: `${siteConfig.placeName} ${siteConfig.area.singular} schedule`,
-      title: `${suburb} kerbside collection date`,
+      title: `${suburb} ${siteConfig.serviceName} date`,
       lede: collections[0]
-        ? `The next published large-item kerbside collection for ${suburb} starts ${formatCollectionDate(collections[0].startsOn).label}.`
+        ? `The next published large-item kerbside collection for ${suburb} runs ${collectionRangeLabel(collections[0])}.`
         : `No upcoming large-item collection is currently published for ${suburb}.`,
       areaName: suburb,
     };
@@ -140,17 +145,17 @@ function routeCopy(route: Route, collections: Collection[]) {
   if (route.type === 'collection') {
     const date = collections[0] ? formatCollectionDate(collections[0].startsOn).label : route.id;
     return {
-      eyebrow: 'Collection week',
-      title: `${siteConfig.placeName} kerbside collection — ${date}`,
+      eyebrow: siteConfig.schedule.eyebrow,
+      title: `${siteConfig.placeName} ${siteConfig.serviceName} — ${date}`,
       lede: collections[0]
-        ? `${collections[0].areas.length} ${siteConfig.placeName} ${siteConfig.area.plural} are scheduled for large-item collection this week.`
-        : 'This collection week is no longer in the published schedule.',
+        ? `${collections[0].areas.length} ${siteConfig.placeName} ${siteConfig.area.plural} are scheduled for this collection ${siteConfig.schedule.singular}.`
+        : `This collection ${siteConfig.schedule.singular} is no longer in the published schedule.`,
     };
   }
   return {
     eyebrow: 'Large-item collection',
     title: 'Know when the kerb clears.',
-    lede: `Choose an upcoming collection week or search for your ${siteConfig.area.singular} to see exactly which ${siteConfig.placeName} ${siteConfig.area.plural} are covered.`,
+    lede: `Choose an upcoming collection ${siteConfig.schedule.singular} or search for your ${siteConfig.area.singular} to see exactly which ${siteConfig.placeName} ${siteConfig.area.plural} are covered.`,
   };
 }
 
@@ -158,6 +163,7 @@ function RouteFacts({ route, collection }: { route: Route; collection: Collectio
   if (route.type !== 'area' && route.type !== 'collection') return null;
 
   const collectionDate = formatCollectionDate(collection.startsOn);
+  const collectionEndDate = collection.endsOn ? formatCollectionDate(collection.endsOn) : undefined;
   const itemsOutDate = formatCollectionDate(collection.putOutFrom);
 
   if (route.type === 'area') {
@@ -170,18 +176,22 @@ function RouteFacts({ route, collection }: { route: Route; collection: Collectio
         <p className="eyebrow">At a glance</p>
         <h2 id="route-facts-title">Next published collection for {suburb.name}</h2>
         <p>
-          {siteConfig.councilName}’s current open schedule places {suburb.name} in the week starting {collectionDate.label}.
+          {siteConfig.councilName}’s current open schedule places {suburb.name} in the collection {siteConfig.schedule.singular} starting {collectionDate.label}.
           Put eligible large items out from {itemsOutDate.label}, ready for collection by {siteConfig.rules.readyBy}.
         </p>
         <dl>
-          <div><dt>Collection week</dt><dd>{collectionDate.label}</dd></div>
+          <div><dt>Collection starts</dt><dd>{collectionDate.label}</dd></div>
+          {collectionEndDate && <div><dt>Collection ends</dt><dd>{collectionEndDate.label}</dd></div>}
           <div><dt>Items out from</dt><dd>{itemsOutDate.label}</dd></div>
           <div><dt>Published with</dt><dd>{sameWeek.length} other {sameWeek.length === 1 ? siteConfig.area.singular : siteConfig.area.plural}</dd></div>
           <div><dt>Household limit</dt><dd>{siteConfig.rules.householdLimit}</dd></div>
         </dl>
+        {suburb.note && (
+          <p className="route-facts-related"><strong>Coverage note:</strong> {suburb.note}</p>
+        )}
         {sameWeek.length > 0 && (
           <p className="route-facts-related">
-            The same collection week also covers {sameWeek.slice(0, 5).map((item) => item.name).join(', ')}{sameWeek.length > 5 ? ` and ${sameWeek.length - 5} more` : ''}.
+            The same collection {siteConfig.schedule.singular} also covers {sameWeek.slice(0, 5).map((item) => item.name).join(', ')}{sameWeek.length > 5 ? ` and ${sameWeek.length - 5} more` : ''}.
           </p>
         )}
         <div className="route-facts-links">
@@ -194,13 +204,14 @@ function RouteFacts({ route, collection }: { route: Route; collection: Collectio
 
   return (
     <section className="route-facts" aria-labelledby="route-facts-title">
-      <p className="eyebrow">Week details</p>
+      <p className="eyebrow">{siteConfig.schedule.eyebrow} details</p>
       <h2 id="route-facts-title">{collection.areas.length} {siteConfig.area.plural} are on this published run</h2>
       <p>
-        Eligible large household items can be placed out from {itemsOutDate.label}. Have the pile ready by {siteConfig.rules.readyBy}; this run begins {collectionDate.label} and may happen at any point during the scheduled week.
+        Eligible large household items can be placed out from {itemsOutDate.label}. Have the pile ready by {siteConfig.rules.readyBy}; this run begins {collectionDate.label}{collectionEndDate ? ` and is scheduled through ${collectionEndDate.label}` : ''}.
       </p>
       <dl>
-        <div><dt>Week starts</dt><dd>{collectionDate.label}</dd></div>
+        <div><dt>Collection starts</dt><dd>{collectionDate.label}</dd></div>
+        {collectionEndDate && <div><dt>Collection ends</dt><dd>{collectionEndDate.label}</dd></div>}
         <div><dt>Items out from</dt><dd>{itemsOutDate.label}</dd></div>
         <div><dt>{siteConfig.area.plural[0].toUpperCase()}{siteConfig.area.plural.slice(1)} listed</dt><dd>{collection.areas.length}</dd></div>
         <div><dt>Household limit</dt><dd>{siteConfig.rules.householdLimit}</dd></div>
@@ -256,7 +267,6 @@ export function App({ schedule, route }: AppProps) {
     );
   }
 
-  const selectedDate = formatCollectionDate(selected.startsOn);
   const selectedArea = route.type === 'area' ? route.id : undefined;
   const totalAreas = new Set(
     schedule.collections.flatMap((collection) => collection.areas.map((suburb) => suburb.id)),
@@ -267,7 +277,7 @@ export function App({ schedule, route }: AppProps) {
       <section className="schedule-panel" aria-labelledby="page-title">
         <header className="site-header">
           <a className="brand-mark" href={sitePath('/')} aria-label={`${siteConfig.placeName} kerbside map home`}>{siteConfig.brandMark}</a>
-          <p>Kerbside collection map</p>
+          <p>{siteConfig.headerLabel}</p>
           <nav className="header-actions" aria-label="Project links">
             <a href={sitePath('/guide/')}>Guide</a>
             <a href={sitePath('/about/')}>About</a>
@@ -307,11 +317,11 @@ export function App({ schedule, route }: AppProps) {
                 <strong>
                   {route.type === 'area'
                     ? `You’re viewing ${copy.areaName} only`
-                    : 'You’re viewing one collection week'}
+                    : `You’re viewing one collection ${siteConfig.schedule.singular}`}
                 </strong>
               </span>
               <span className="filter-context-all">
-                <strong>See all {schedule.collections.length} upcoming weeks</strong>
+                <strong>See all {schedule.collections.length} upcoming {siteConfig.schedule.plural}</strong>
                 <small>Covering {totalAreas} {siteConfig.placeName} {siteConfig.area.plural}</small>
               </span>
               <span className="filter-context-arrow" aria-hidden="true">→</span>
@@ -333,7 +343,7 @@ export function App({ schedule, route }: AppProps) {
 
         <div className="list-heading">
           <h2>{route.type === 'home' ? 'Upcoming dates' : 'Published schedule'}</h2>
-          <span>{routeCollections.length} {routeCollections.length === 1 ? 'week' : 'weeks'}</span>
+          <span>{routeCollections.length} {routeCollections.length === 1 ? siteConfig.schedule.singular : siteConfig.schedule.plural}</span>
         </div>
 
         <ol className="collection-list">
@@ -361,9 +371,9 @@ export function App({ schedule, route }: AppProps) {
                   </span>
                   <span className="collection-details">
                     {route.type === 'home' ? (
-                      <strong className="collection-title">Week starting {date.label}</strong>
+                      <strong className="collection-title">{siteConfig.schedule.startLabel} {date.label}</strong>
                     ) : (
-                      <a href={sitePath(`/collections/${collection.id}/`)}>Week starting {date.label}</a>
+                      <a href={sitePath(`/collections/${collection.id}/`)}>{siteConfig.schedule.startLabel} {date.label}</a>
                     )}
                     <span className="suburb-links">
                       {collection.areas.map((suburb, index) => (
@@ -376,7 +386,7 @@ export function App({ schedule, route }: AppProps) {
                         </span>
                       ))}
                     </span>
-                    <small>Put items out from {itemsOut.label}; have them ready by {siteConfig.rules.readyBy}</small>
+                    <small>{collection.endsOn ? `Runs through ${formatCollectionDate(collection.endsOn).label}. ` : ''}Put items out from {itemsOut.label}; have them ready by {siteConfig.rules.readyBy}</small>
                   </span>
                 </article>
               </li>
@@ -425,7 +435,7 @@ export function App({ schedule, route }: AppProps) {
       </section>
 
       <section className="map-panel" aria-label="Collection area map">
-        <CollectionMap selectedDate={selected.startsOn} selectedLabel={selectedDate.label} selectedArea={selectedArea} />
+        <CollectionMap selectedDate={selected.startsOn} selectedLabel={collectionRangeLabel(selected)} selectedArea={selectedArea} />
         {route.type === 'home' && <AdStrip />}
       </section>
 
@@ -447,7 +457,7 @@ export function App({ schedule, route }: AppProps) {
         <header>
           <p className="eyebrow">Schedule</p>
           <h2>All upcoming dates</h2>
-          <span>{schedule.collections.length} weeks</span>
+          <span>{schedule.collections.length} {siteConfig.schedule.plural}</span>
         </header>
         <nav className="date-sheet-nav" aria-label="Site navigation">
           <a href={sitePath('/guide/')}>Guide</a>
@@ -489,7 +499,7 @@ export function App({ schedule, route }: AppProps) {
                     setMenuOpen(false);
                   }}
                 >
-                  <strong>Week starting {date.label}</strong>
+                  <strong>{siteConfig.schedule.startLabel} {date.label}</strong>
                   <span>{collection.areas.map((suburb) => suburb.name).join(' · ')}</span>
                 </a>
               </li>
