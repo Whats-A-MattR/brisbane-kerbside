@@ -19,6 +19,31 @@
         "licence": { "type": "string", "format": "uri" }
       }
     },
+    "areaDirectory": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "name": { "type": "string", "minLength": 1 },
+          "note": { "type": "string", "minLength": 1 },
+          "nextCollectionId": { "type": "string", "minLength": 1 },
+          "lastCollection": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["startsOn", "putOutFrom"],
+            "properties": {
+              "startsOn": { "type": "string", "format": "date" },
+              "endsOn": { "type": "string", "format": "date" },
+              "putOutFrom": { "type": "string", "format": "date" }
+            }
+          }
+        }
+      }
+    },
     "collections": {
       "type": "array",
       "minItems": 1,

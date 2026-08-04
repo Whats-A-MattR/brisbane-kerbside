@@ -6,6 +6,7 @@ type MapProps = {
   selectedDate: string;
   selectedLabel: string;
   selectedArea?: string;
+  caption?: string;
 };
 
 function isSelected(properties: GeoJSON.GeoJsonProperties | undefined, date: string, area?: string) {
@@ -13,7 +14,7 @@ function isSelected(properties: GeoJSON.GeoJsonProperties | undefined, date: str
   return area ? properties.areaId === area : true;
 }
 
-export function CollectionMap({ selectedDate, selectedLabel, selectedArea }: MapProps) {
+export function CollectionMap({ selectedDate, selectedLabel, selectedArea, caption }: MapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<LeafletMap | null>(null);
   const areasRef = useRef<LeafletGeoJSON | null>(null);
@@ -138,14 +139,14 @@ export function CollectionMap({ selectedDate, selectedLabel, selectedArea }: Map
   return (
     <div className="map-shell">
       <div className="map-caption" aria-live="polite">
-        <span>{siteConfig.schedule.mapCaption}</span>
+        <span>{caption ?? siteConfig.schedule.mapCaption}</span>
         <strong>{selectedLabel}</strong>
       </div>
       <div
         ref={containerRef}
         className="map"
         role="img"
-        aria-label={`Map of ${siteConfig.area.plural} with collection starting ${selectedLabel}`}
+        aria-label={`Map of ${siteConfig.area.plural} for ${selectedLabel}`}
       />
       <noscript>The interactive map needs JavaScript, but all upcoming dates are listed on this page.</noscript>
     </div>

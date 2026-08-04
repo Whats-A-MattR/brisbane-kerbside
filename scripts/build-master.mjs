@@ -50,6 +50,11 @@ function pageDetails(route) {
       description: `How to book a kerbside collection in ${area.name}: check ${council.councilName} eligibility, service frequency, item limits and the official booking link.`,
     };
     const collection = council.collections.find((item) => area.collectionIds.includes(item.id));
+    if (!collection && area.lastCollection) return {
+      path: `/councils/${council.id}/suburbs/${area.id}/`,
+      title: `${area.name} kerbside collection date | ${council.placeName}`,
+      description: `${area.name} was last collected on ${longDate(area.lastCollection.startsOn)}. Its next ${council.serviceName} date is not yet published; check the local status and official Council calendar.`,
+    };
     return {
       path: `/councils/${council.id}/suburbs/${area.id}/`,
       title: `${area.name} kerbside collection dates | ${council.placeName}`,

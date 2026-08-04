@@ -24,4 +24,4 @@ await Promise.all([
   writeFile(resolve(outputDir, 'areas.geojson'), `${JSON.stringify(outputs.areas)}\n`),
 ]);
 
-console.log(`[${siteId}] Wrote ${outputs.schedule.collections.length} collection runs and ${outputs.areas.features.length} mapped areas.`);
+console.log(`[${siteId}] Wrote ${outputs.schedule.collections.length} collection runs, ${outputs.schedule.areaDirectory?.length ?? 'no'} directory areas and ${outputs.areas.features.length} mapped records.`);

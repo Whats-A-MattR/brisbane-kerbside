@@ -1,12 +1,982 @@
 {
   "schemaVersion": 1,
   "siteId": "brisbane",
-  "generatedAt": "2026-08-04T09:53:03.906Z",
+  "generatedAt": "2026-08-04T12:10:31.848Z",
   "source": {
     "publisher": "Brisbane City Council",
     "url": "https://data.brisbane.qld.gov.au/explore/dataset/kerbside-large-item-collection-schedule/",
     "licence": "https://creativecommons.org/licenses/by/4.0/"
   },
+  "areaDirectory": [
+    {
+      "id": "acacia-ridge",
+      "name": "Acacia Ridge",
+      "nextCollectionId": "2026-08-31"
+    },
+    {
+      "id": "albion",
+      "name": "Albion",
+      "nextCollectionId": "2026-10-26"
+    },
+    {
+      "id": "alderley",
+      "name": "Alderley",
+      "nextCollectionId": "2027-01-18"
+    },
+    {
+      "id": "algester",
+      "name": "Algester",
+      "lastCollection": {
+        "startsOn": "2026-07-13",
+        "putOutFrom": "2026-07-11"
+      }
+    },
+    {
+      "id": "annerley",
+      "name": "Annerley",
+      "nextCollectionId": "2027-04-26"
+    },
+    {
+      "id": "anstead",
+      "name": "Anstead",
+      "lastCollection": {
+        "startsOn": "2026-07-27",
+        "putOutFrom": "2026-07-25"
+      }
+    },
+    {
+      "id": "archerfield",
+      "name": "Archerfield",
+      "nextCollectionId": "2026-08-31"
+    },
+    {
+      "id": "ascot",
+      "name": "Ascot",
+      "nextCollectionId": "2026-11-02"
+    },
+    {
+      "id": "ashgrove",
+      "name": "Ashgrove",
+      "nextCollectionId": "2027-01-18"
+    },
+    {
+      "id": "aspley",
+      "name": "Aspley",
+      "nextCollectionId": "2026-11-30"
+    },
+    {
+      "id": "auchenflower",
+      "name": "Auchenflower",
+      "lastCollection": {
+        "startsOn": "2026-07-20",
+        "putOutFrom": "2026-07-18"
+      }
+    },
+    {
+      "id": "bald-hills",
+      "name": "Bald Hills",
+      "nextCollectionId": "2026-10-06"
+    },
+    {
+      "id": "balmoral",
+      "name": "Balmoral",
+      "nextCollectionId": "2027-02-15"
+    },
+    {
+      "id": "banyo",
+      "name": "Banyo",
+      "nextCollectionId": "2026-10-26"
+    },
+    {
+      "id": "bardon",
+      "name": "Bardon",
+      "nextCollectionId": "2027-02-08"
+    },
+    {
+      "id": "bellbowrie",
+      "name": "Bellbowrie",
+      "lastCollection": {
+        "startsOn": "2026-07-27",
+        "putOutFrom": "2026-07-25"
+      }
+    },
+    {
+      "id": "belmont",
+      "name": "Belmont",
+      "nextCollectionId": "2027-03-01"
+    },
+    {
+      "id": "boondall",
+      "name": "Boondall",
+      "nextCollectionId": "2026-10-19"
+    },
+    {
+      "id": "bowen-hills",
+      "name": "Bowen Hills",
+      "nextCollectionId": "2027-02-01"
+    },
+    {
+      "id": "bracken-ridge",
+      "name": "Bracken Ridge",
+      "nextCollectionId": "2026-10-06"
+    },
+    {
+      "id": "bridgeman-downs",
+      "name": "Bridgeman Downs",
+      "nextCollectionId": "2026-11-30"
+    },
+    {
+      "id": "brighton",
+      "name": "Brighton",
+      "nextCollectionId": "2026-10-12"
+    },
+    {
+      "id": "brisbane-city",
+      "name": "Brisbane City",
+      "nextCollectionId": "2027-01-11"
+    },
+    {
+      "id": "brookfield",
+      "name": "Brookfield",
+      "nextCollectionId": "2026-08-03"
+    },
+    {
+      "id": "bulimba",
+      "name": "Bulimba",
+      "nextCollectionId": "2027-02-15"
+    },
+    {
+      "id": "burbank",
+      "name": "Burbank",
+      "nextCollectionId": "2027-06-07"
+    },
+    {
+      "id": "calamvale",
+      "name": "Calamvale",
+      "lastCollection": {
+        "startsOn": "2026-07-13",
+        "putOutFrom": "2026-07-11"
+      }
+    },
+    {
+      "id": "camp-hill",
+      "name": "Camp Hill",
+      "nextCollectionId": "2027-03-22"
+    },
+    {
+      "id": "cannon-hill",
+      "name": "Cannon Hill",
+      "nextCollectionId": "2027-02-15"
+    },
+    {
+      "id": "carina",
+      "name": "Carina",
+      "nextCollectionId": "2027-03-15"
+    },
+    {
+      "id": "carina-heights",
+      "name": "Carina Heights",
+      "nextCollectionId": "2027-03-15"
+    },
+    {
+      "id": "carindale",
+      "name": "Carindale",
+      "nextCollectionId": "2027-03-22"
+    },
+    {
+      "id": "carseldine",
+      "name": "Carseldine",
+      "nextCollectionId": "2026-11-23"
+    },
+    {
+      "id": "chandler",
+      "name": "Chandler",
+      "nextCollectionId": "2027-03-01"
+    },
+    {
+      "id": "chapel-hill",
+      "name": "Chapel Hill",
+      "nextCollectionId": "2026-08-17"
+    },
+    {
+      "id": "chelmer",
+      "name": "Chelmer",
+      "nextCollectionId": "2026-08-24"
+    },
+    {
+      "id": "chermside",
+      "name": "Chermside",
+      "nextCollectionId": "2026-11-23"
+    },
+    {
+      "id": "chermside-west",
+      "name": "Chermside West",
+      "nextCollectionId": "2026-11-23"
+    },
+    {
+      "id": "chuwar",
+      "name": "Chuwar",
+      "lastCollection": {
+        "startsOn": "2026-07-27",
+        "putOutFrom": "2026-07-25"
+      }
+    },
+    {
+      "id": "clayfield",
+      "name": "Clayfield",
+      "nextCollectionId": "2026-11-02"
+    },
+    {
+      "id": "coopers-plains",
+      "name": "Coopers Plains",
+      "nextCollectionId": "2026-08-31"
+    },
+    {
+      "id": "coorparoo",
+      "name": "Coorparoo",
+      "nextCollectionId": "2027-05-10"
+    },
+    {
+      "id": "corinda",
+      "name": "Corinda",
+      "nextCollectionId": "2026-08-24"
+    },
+    {
+      "id": "darra",
+      "name": "Darra",
+      "nextCollectionId": "2026-09-07"
+    },
+    {
+      "id": "deagon",
+      "name": "Deagon",
+      "nextCollectionId": "2026-10-12"
+    },
+    {
+      "id": "doolandella",
+      "name": "Doolandella",
+      "nextCollectionId": "2026-09-14"
+    },
+    {
+      "id": "drewvale",
+      "name": "Drewvale",
+      "nextCollectionId": "2027-06-14"
+    },
+    {
+      "id": "durack",
+      "name": "Durack",
+      "nextCollectionId": "2026-09-14"
+    },
+    {
+      "id": "dutton-park",
+      "name": "Dutton Park",
+      "nextCollectionId": "2027-04-26"
+    },
+    {
+      "id": "east-brisbane",
+      "name": "East Brisbane",
+      "nextCollectionId": "2027-05-03"
+    },
+    {
+      "id": "eight-mile-plains",
+      "name": "Eight Mile Plains",
+      "nextCollectionId": "2027-06-07"
+    },
+    {
+      "id": "ellen-grove",
+      "name": "Ellen Grove",
+      "nextCollectionId": "2026-09-07"
+    },
+    {
+      "id": "enoggera",
+      "name": "Enoggera",
+      "nextCollectionId": "2027-01-25"
+    },
+    {
+      "id": "enoggera-reservoir",
+      "name": "Enoggera Reservoir",
+      "nextCollectionId": "2027-01-25"
+    },
+    {
+      "id": "everton-park",
+      "name": "Everton Park",
+      "nextCollectionId": "2027-02-01"
+    },
+    {
+      "id": "fairfield",
+      "name": "Fairfield",
+      "nextCollectionId": "2027-04-26"
+    },
+    {
+      "id": "ferny-grove",
+      "name": "Ferny Grove",
+      "nextCollectionId": "2026-12-07"
+    },
+    {
+      "id": "fig-tree-pocket",
+      "name": "Fig Tree Pocket",
+      "nextCollectionId": "2026-08-17"
+    },
+    {
+      "id": "fitzgibbon",
+      "name": "Fitzgibbon",
+      "nextCollectionId": "2026-10-12"
+    },
+    {
+      "id": "forest-lake",
+      "name": "Forest Lake",
+      "nextCollectionId": "2026-09-07"
+    },
+    {
+      "id": "fortitude-valley",
+      "name": "Fortitude Valley",
+      "nextCollectionId": "2027-01-11"
+    },
+    {
+      "id": "gaythorne",
+      "name": "Gaythorne",
+      "nextCollectionId": "2026-12-07"
+    },
+    {
+      "id": "geebung",
+      "name": "Geebung",
+      "nextCollectionId": "2026-10-26"
+    },
+    {
+      "id": "gordon-park",
+      "name": "Gordon Park",
+      "nextCollectionId": "2026-11-09"
+    },
+    {
+      "id": "graceville",
+      "name": "Graceville",
+      "nextCollectionId": "2026-08-24"
+    },
+    {
+      "id": "grange",
+      "name": "Grange",
+      "nextCollectionId": "2027-01-18"
+    },
+    {
+      "id": "greenslopes",
+      "name": "Greenslopes",
+      "nextCollectionId": "2027-05-17"
+    },
+    {
+      "id": "gumdale",
+      "name": "Gumdale",
+      "nextCollectionId": "2027-03-01"
+    },
+    {
+      "id": "hamilton",
+      "name": "Hamilton",
+      "nextCollectionId": "2026-11-02"
+    },
+    {
+      "id": "hawthorne",
+      "name": "Hawthorne",
+      "nextCollectionId": "2027-02-22"
+    },
+    {
+      "id": "heathwood",
+      "name": "Heathwood",
+      "nextCollectionId": "2026-08-31"
+    },
+    {
+      "id": "hemmant",
+      "name": "Hemmant",
+      "nextCollectionId": "2027-02-22"
+    },
+    {
+      "id": "hendra",
+      "name": "Hendra",
+      "nextCollectionId": "2026-11-02"
+    },
+    {
+      "id": "herston",
+      "name": "Herston",
+      "nextCollectionId": "2027-02-01"
+    },
+    {
+      "id": "highgate-hill",
+      "name": "Highgate Hill",
+      "nextCollectionId": "2027-04-19"
+    },
+    {
+      "id": "holland-park",
+      "name": "Holland Park",
+      "nextCollectionId": "2027-05-17"
+    },
+    {
+      "id": "holland-park-west",
+      "name": "Holland Park West",
+      "nextCollectionId": "2027-05-17"
+    },
+    {
+      "id": "inala",
+      "name": "Inala",
+      "nextCollectionId": "2026-09-14"
+    },
+    {
+      "id": "indooroopilly",
+      "name": "Indooroopilly",
+      "nextCollectionId": "2026-08-17"
+    },
+    {
+      "id": "jamboree-heights",
+      "name": "Jamboree Heights",
+      "nextCollectionId": "2026-08-10"
+    },
+    {
+      "id": "jindalee",
+      "name": "Jindalee",
+      "nextCollectionId": "2026-08-10"
+    },
+    {
+      "id": "kalinga",
+      "name": "Kalinga",
+      "nextCollectionId": "2026-10-26"
+    },
+    {
+      "id": "kangaroo-point",
+      "name": "Kangaroo Point",
+      "nextCollectionId": "2027-04-19"
+    },
+    {
+      "id": "karana-downs",
+      "name": "Karana Downs",
+      "lastCollection": {
+        "startsOn": "2026-07-27",
+        "putOutFrom": "2026-07-25"
+      }
+    },
+    {
+      "id": "karawatha",
+      "name": "Karawatha",
+      "nextCollectionId": "2027-06-21"
+    },
+    {
+      "id": "kedron",
+      "name": "Kedron",
+      "nextCollectionId": "2026-11-16"
+    },
+    {
+      "id": "kelvin-grove",
+      "name": "Kelvin Grove",
+      "nextCollectionId": "2027-02-01"
+    },
+    {
+      "id": "kenmore",
+      "name": "Kenmore",
+      "nextCollectionId": "2026-08-03"
+    },
+    {
+      "id": "kenmore-hills",
+      "name": "Kenmore Hills",
+      "nextCollectionId": "2026-08-03"
+    },
+    {
+      "id": "keperra",
+      "name": "Keperra",
+      "nextCollectionId": "2026-12-07"
+    },
+    {
+      "id": "kholo",
+      "name": "Kholo",
+      "lastCollection": {
+        "startsOn": "2026-07-27",
+        "putOutFrom": "2026-07-25"
+      }
+    },
+    {
+      "id": "kuraby",
+      "name": "Kuraby",
+      "nextCollectionId": "2027-06-14"
+    },
+    {
+      "id": "lake-manchester",
+      "name": "Lake Manchester",
+      "lastCollection": {
+        "startsOn": "2026-07-27",
+        "putOutFrom": "2026-07-25"
+      }
+    },
+    {
+      "id": "larapinta",
+      "name": "Larapinta",
+      "nextCollectionId": "2026-08-31"
+    },
+    {
+      "id": "lota",
+      "name": "Lota",
+      "nextCollectionId": "2027-02-22"
+    },
+    {
+      "id": "lutwyche",
+      "name": "Lutwyche",
+      "nextCollectionId": "2026-11-09"
+    },
+    {
+      "id": "lytton",
+      "name": "Lytton",
+      "nextCollectionId": "2027-02-22"
+    },
+    {
+      "id": "macgregor",
+      "name": "MacGregor",
+      "nextCollectionId": "2026-08-31"
+    },
+    {
+      "id": "mackenzie",
+      "name": "Mackenzie",
+      "nextCollectionId": "2027-06-07"
+    },
+    {
+      "id": "manly",
+      "name": "Manly",
+      "nextCollectionId": "2027-03-01"
+    },
+    {
+      "id": "manly-west",
+      "name": "Manly West",
+      "nextCollectionId": "2027-03-08"
+    },
+    {
+      "id": "mansfield",
+      "name": "Mansfield",
+      "nextCollectionId": "2027-03-15"
+    },
+    {
+      "id": "mcdowall",
+      "name": "McDowall",
+      "nextCollectionId": "2026-11-30"
+    },
+    {
+      "id": "middle-park",
+      "name": "Middle Park",
+      "nextCollectionId": "2026-08-10"
+    },
+    {
+      "id": "milton",
+      "name": "Milton",
+      "lastCollection": {
+        "startsOn": "2026-07-20",
+        "putOutFrom": "2026-07-18"
+      }
+    },
+    {
+      "id": "mitchelton",
+      "name": "Mitchelton",
+      "nextCollectionId": "2026-12-07"
+    },
+    {
+      "id": "moggill",
+      "name": "Moggill",
+      "lastCollection": {
+        "startsOn": "2026-07-27",
+        "putOutFrom": "2026-07-25"
+      }
+    },
+    {
+      "id": "moorooka",
+      "name": "Moorooka",
+      "nextCollectionId": "2027-05-03"
+    },
+    {
+      "id": "morningside",
+      "name": "Morningside",
+      "nextCollectionId": "2027-02-15"
+    },
+    {
+      "id": "mount-crosby",
+      "name": "Mount Crosby",
+      "lastCollection": {
+        "startsOn": "2026-07-27",
+        "putOutFrom": "2026-07-25"
+      }
+    },
+    {
+      "id": "mount-gravatt",
+      "name": "Mount Gravatt",
+      "nextCollectionId": "2027-05-31"
+    },
+    {
+      "id": "mount-gravatt-east",
+      "name": "Mount Gravatt East",
+      "nextCollectionId": "2027-05-31"
+    },
+    {
+      "id": "mount-ommaney",
+      "name": "Mount Ommaney",
+      "nextCollectionId": "2026-08-10"
+    },
+    {
+      "id": "murarrie",
+      "name": "Murarrie",
+      "nextCollectionId": "2027-02-15"
+    },
+    {
+      "id": "nathan",
+      "name": "Nathan",
+      "nextCollectionId": "2027-05-24"
+    },
+    {
+      "id": "new-farm",
+      "name": "New Farm",
+      "nextCollectionId": "2027-01-11"
+    },
+    {
+      "id": "newmarket",
+      "name": "Newmarket",
+      "nextCollectionId": "2027-01-25"
+    },
+    {
+      "id": "newstead",
+      "name": "Newstead",
+      "nextCollectionId": "2027-01-11"
+    },
+    {
+      "id": "norman-park",
+      "name": "Norman Park",
+      "nextCollectionId": "2027-05-10"
+    },
+    {
+      "id": "northgate",
+      "name": "Northgate",
+      "nextCollectionId": "2026-10-26"
+    },
+    {
+      "id": "nudgee",
+      "name": "Nudgee",
+      "nextCollectionId": "2026-10-19"
+    },
+    {
+      "id": "nudgee-beach",
+      "name": "Nudgee Beach",
+      "nextCollectionId": "2026-10-19"
+    },
+    {
+      "id": "nundah",
+      "name": "Nundah",
+      "nextCollectionId": "2026-11-09"
+    },
+    {
+      "id": "oxley",
+      "name": "Oxley",
+      "nextCollectionId": "2026-08-24"
+    },
+    {
+      "id": "paddington",
+      "name": "Paddington",
+      "nextCollectionId": "2027-02-08"
+    },
+    {
+      "id": "pallara",
+      "name": "Pallara",
+      "nextCollectionId": "2026-08-31"
+    },
+    {
+      "id": "parkinson",
+      "name": "Parkinson",
+      "lastCollection": {
+        "startsOn": "2026-07-13",
+        "putOutFrom": "2026-07-11"
+      }
+    },
+    {
+      "id": "petrie-terrace",
+      "name": "Petrie Terrace",
+      "nextCollectionId": "2027-02-08"
+    },
+    {
+      "id": "pinjarra-hills",
+      "name": "Pinjarra Hills",
+      "lastCollection": {
+        "startsOn": "2026-07-27",
+        "putOutFrom": "2026-07-25"
+      }
+    },
+    {
+      "id": "pinkenba",
+      "name": "Pinkenba",
+      "nextCollectionId": "2026-10-19"
+    },
+    {
+      "id": "pullenvale",
+      "name": "Pullenvale",
+      "nextCollectionId": "2026-08-03"
+    },
+    {
+      "id": "ransome",
+      "name": "Ransome",
+      "nextCollectionId": "2027-03-01"
+    },
+    {
+      "id": "red-hill",
+      "name": "Red Hill",
+      "nextCollectionId": "2027-02-08"
+    },
+    {
+      "id": "richlands",
+      "name": "Richlands",
+      "nextCollectionId": "2026-09-07"
+    },
+    {
+      "id": "riverhills",
+      "name": "Riverhills",
+      "nextCollectionId": "2026-08-10"
+    },
+    {
+      "id": "robertson",
+      "name": "Robertson",
+      "nextCollectionId": "2026-08-31"
+    },
+    {
+      "id": "rochedale",
+      "name": "Rochedale",
+      "nextCollectionId": "2027-06-07"
+    },
+    {
+      "id": "rocklea",
+      "name": "Rocklea",
+      "nextCollectionId": "2027-05-03"
+    },
+    {
+      "id": "runcorn",
+      "name": "Runcorn",
+      "nextCollectionId": "2027-06-14"
+    },
+    {
+      "id": "salisbury",
+      "name": "Salisbury",
+      "nextCollectionId": "2027-05-24"
+    },
+    {
+      "id": "sandgate",
+      "name": "Sandgate",
+      "nextCollectionId": "2026-10-12"
+    },
+    {
+      "id": "seven-hills",
+      "name": "Seven Hills",
+      "nextCollectionId": "2027-05-10"
+    },
+    {
+      "id": "seventeen-mile-rocks",
+      "name": "Seventeen Mile Rocks",
+      "nextCollectionId": "2026-08-24"
+    },
+    {
+      "id": "sherwood",
+      "name": "Sherwood",
+      "nextCollectionId": "2026-08-24"
+    },
+    {
+      "id": "shorncliffe",
+      "name": "Shorncliffe",
+      "nextCollectionId": "2026-10-06"
+    },
+    {
+      "id": "sinnamon-park",
+      "name": "Sinnamon Park",
+      "nextCollectionId": "2026-08-10"
+    },
+    {
+      "id": "south-brisbane",
+      "name": "South Brisbane",
+      "nextCollectionId": "2027-04-19"
+    },
+    {
+      "id": "spring-hill",
+      "name": "Spring Hill",
+      "nextCollectionId": "2027-01-11"
+    },
+    {
+      "id": "st-lucia",
+      "name": "St Lucia",
+      "lastCollection": {
+        "startsOn": "2026-07-20",
+        "putOutFrom": "2026-07-18"
+      }
+    },
+    {
+      "id": "stafford",
+      "name": "Stafford",
+      "nextCollectionId": "2026-11-16"
+    },
+    {
+      "id": "stafford-heights",
+      "name": "Stafford Heights",
+      "nextCollectionId": "2026-11-16"
+    },
+    {
+      "id": "stones-corner",
+      "name": "Stones Corner",
+      "nextCollectionId": "2027-05-17"
+    },
+    {
+      "id": "stretton",
+      "name": "Stretton",
+      "nextCollectionId": "2027-06-14"
+    },
+    {
+      "id": "sumner",
+      "name": "Sumner",
+      "nextCollectionId": "2026-08-24"
+    },
+    {
+      "id": "sunnybank",
+      "name": "Sunnybank",
+      "nextCollectionId": "2027-06-21"
+    },
+    {
+      "id": "sunnybank-hills",
+      "name": "Sunnybank Hills",
+      "nextCollectionId": "2027-06-21"
+    },
+    {
+      "id": "taigum",
+      "name": "Taigum",
+      "nextCollectionId": "2026-10-12"
+    },
+    {
+      "id": "taringa",
+      "name": "Taringa",
+      "lastCollection": {
+        "startsOn": "2026-07-20",
+        "putOutFrom": "2026-07-18"
+      }
+    },
+    {
+      "id": "tarragindi",
+      "name": "Tarragindi",
+      "nextCollectionId": "2027-05-24"
+    },
+    {
+      "id": "teneriffe",
+      "name": "Teneriffe",
+      "nextCollectionId": "2027-01-11"
+    },
+    {
+      "id": "tennyson",
+      "name": "Tennyson",
+      "nextCollectionId": "2027-04-26"
+    },
+    {
+      "id": "the-gap",
+      "name": "The Gap",
+      "nextCollectionId": "2027-01-25"
+    },
+    {
+      "id": "tingalpa",
+      "name": "Tingalpa",
+      "nextCollectionId": "2027-03-08"
+    },
+    {
+      "id": "toowong",
+      "name": "Toowong",
+      "nextCollectionId": "2026-08-17"
+    },
+    {
+      "id": "upper-brookfield",
+      "name": "Upper Brookfield",
+      "nextCollectionId": "2026-08-03"
+    },
+    {
+      "id": "upper-kedron",
+      "name": "Upper Kedron",
+      "nextCollectionId": "2026-12-07"
+    },
+    {
+      "id": "upper-mount-gravatt",
+      "name": "Upper Mount Gravatt",
+      "nextCollectionId": "2027-05-31"
+    },
+    {
+      "id": "virginia",
+      "name": "Virginia",
+      "nextCollectionId": "2026-10-19"
+    },
+    {
+      "id": "wacol",
+      "name": "Wacol",
+      "nextCollectionId": "2026-09-07"
+    },
+    {
+      "id": "wakerley",
+      "name": "Wakerley",
+      "nextCollectionId": "2027-03-08"
+    },
+    {
+      "id": "wavell-heights",
+      "name": "Wavell Heights",
+      "nextCollectionId": "2026-11-09"
+    },
+    {
+      "id": "west-end",
+      "name": "West End",
+      "nextCollectionId": "2027-04-19"
+    },
+    {
+      "id": "westlake",
+      "name": "Westlake",
+      "nextCollectionId": "2026-08-10"
+    },
+    {
+      "id": "willawong",
+      "name": "Willawong",
+      "nextCollectionId": "2026-08-31"
+    },
+    {
+      "id": "wilston",
+      "name": "Wilston",
+      "nextCollectionId": "2027-01-18"
+    },
+    {
+      "id": "windsor",
+      "name": "Windsor",
+      "nextCollectionId": "2027-02-01"
+    },
+    {
+      "id": "wishart",
+      "name": "Wishart",
+      "nextCollectionId": "2027-06-07"
+    },
+    {
+      "id": "woolloongabba",
+      "name": "Woolloongabba",
+      "nextCollectionId": "2027-05-03"
+    },
+    {
+      "id": "wooloowin",
+      "name": "Wooloowin",
+      "nextCollectionId": "2026-10-26"
+    },
+    {
+      "id": "wynnum",
+      "name": "Wynnum",
+      "nextCollectionId": "2027-02-22"
+    },
+    {
+      "id": "wynnum-west",
+      "name": "Wynnum West",
+      "nextCollectionId": "2027-03-01"
+    },
+    {
+      "id": "yeerongpilly",
+      "name": "Yeerongpilly",
+      "nextCollectionId": "2027-04-26"
+    },
+    {
+      "id": "yeronga",
+      "name": "Yeronga",
+      "nextCollectionId": "2027-04-26"
+    },
+    {
+      "id": "zillmere",
+      "name": "Zillmere",
+      "nextCollectionId": "2026-10-19"
+    }
+  ],
   "collections": [
     {
       "id": "2026-08-03",

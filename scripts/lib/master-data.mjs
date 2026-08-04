@@ -74,12 +74,15 @@ export async function masterData() {
     const siteDir = resolve(appDir, 'sites', registryEntry.id);
     const config = JSON.parse(await readFile(resolve(siteDir, 'site.json'), 'utf8'));
     const schedule = JSON.parse(await readFile(resolve(siteDir, 'public/data/schedule.json'), 'utf8'));
-    const areaNames = [...new Set(schedule.collections.flatMap((collection) => collection.areas.map((area) => area.name)))].sort();
-    const areaDetails = [...new Map(schedule.collections.flatMap((collection) => collection.areas.map((area) => [area.id, area]))).values()]
+    const scheduledAreas = [...new Map(schedule.collections.flatMap((collection) => collection.areas.map((area) => [area.id, area]))).values()];
+    const directoryAreas = schedule.areaDirectory ?? scheduledAreas;
+    const areaNames = directoryAreas.map((area) => area.name).sort((a, b) => a.localeCompare(b, config.locale));
+    const areaDetails = directoryAreas
       .map((area) => ({
         id: area.id,
         name: area.name,
         collectionIds: schedule.collections.filter((collection) => collection.areas.some((item) => item.id === area.id)).map((collection) => collection.id),
+        ...(area.lastCollection ? { lastCollection: area.lastCollection } : {}),
       }))
       .sort((a, b) => a.name.localeCompare(b.name, config.locale));
     const collections = schedule.collections.map((collection) => ({

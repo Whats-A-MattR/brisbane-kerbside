@@ -64,7 +64,13 @@ function pageDetails(schedule, route) {
   }
   if (route.type === 'area') {
     const collection = schedule.collections.find((item) => item.areas.some((area) => area.id === route.id));
-    const area = collection?.areas.find((item) => item.id === route.id)?.name ?? route.id;
+    const directoryArea = schedule.areaDirectory?.find((item) => item.id === route.id);
+    const area = collection?.areas.find((item) => item.id === route.id)?.name ?? directoryArea?.name ?? route.id;
+    if (!collection && directoryArea?.lastCollection) return {
+      path: `/${site.area.routeSegment}/${route.id}/`,
+      title: `${area} ${site.serviceName} date | ${site.placeName}`,
+      description: `${area} was last collected on ${longDate(directoryArea.lastCollection.startsOn)}. Its next ${site.serviceName} date is not yet published; check Council and upcoming Brisbane dates.`,
+    };
     return {
       path: `/${site.area.routeSegment}/${route.id}/`,
       title: `${area} ${site.serviceName} date | ${site.placeName} ${collection?.startsOn.slice(0, 4) ?? ''}`,
@@ -137,7 +143,8 @@ const dataJson = JSON.stringify(schedule).replaceAll('<', '\\u003c');
 const adsenseHead = adsenseClient
   ? `<meta name="google-adsense-account" content="${escapeAttribute(adsenseClient)}"><script async data-adsense-client="${escapeAttribute(adsenseClient)}" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(adsenseClient)}" crossorigin="anonymous"></script>`
   : '';
-const areaIds = [...new Set(schedule.collections.flatMap((item) => item.areas.map((area) => area.id)))];
+const areaIds = schedule.areaDirectory?.map((area) => area.id)
+  ?? [...new Set(schedule.collections.flatMap((item) => item.areas.map((area) => area.id)))];
 const routes = [
   { type: 'home' },
   { type: 'guide' },

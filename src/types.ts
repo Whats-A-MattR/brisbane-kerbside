@@ -12,6 +12,15 @@ export type Collection = {
   areas: CollectionArea[];
 };
 
+export type AreaDirectoryEntry = CollectionArea & {
+  nextCollectionId?: string;
+  lastCollection?: {
+    startsOn: string;
+    endsOn?: string;
+    putOutFrom: string;
+  };
+};
+
 export type Schedule = {
   schemaVersion: 1;
   siteId: string;
@@ -21,6 +30,7 @@ export type Schedule = {
     url: string;
     licence?: string;
   };
+  areaDirectory?: AreaDirectoryEntry[];
   collections: Collection[];
 };
 

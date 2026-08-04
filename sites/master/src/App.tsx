@@ -486,6 +486,30 @@ function AreaPage({ council, areaId }: { council: MasterCouncil; areaId: string 
   const next = collections[0];
   const localUrl = `${council.siteUrl}/${council.areaRouteSegment}/${area.id}/`;
 
+  if (!next && area.lastCollection) {
+    return (
+      <main className="inner-page council-page">
+        <nav className="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><a href="/councils/">Councils</a><span>›</span><a href={councilPath(council.id)}>{council.placeName}</a><span>›</span><span>{area.name}</span></nav>
+        <p className="eyebrow">{council.councilName} {council.serviceName}</p>
+        <h1>{area.name} kerbside collection date</h1>
+        <p className="lead">{area.name} was last collected on {formatDate(area.lastCollection.startsOn)}. Council has not yet published its next date, so the suburb remains searchable while the schedule rolls forward.</p>
+        <div className="council-hero-actions">
+          <a className="primary-action large" href={localUrl} onClick={() => rememberCouncil(council)}>See the {area.name} status and map ↗</a>
+          <a href={council.links.officialCalendar}>Check the official Council calendar ↗</a>
+        </div>
+        <section className="date-feature service-feature">
+          <p className="eyebrow">Most recent published collection</p>
+          <h2>{formatDate(area.lastCollection.startsOn)}</h2>
+          <p>Items were placed out from {formatDate(area.lastCollection.putOutFrom)}. This collection has passed; do not put items out until a new date is published.</p>
+        </section>
+        <section className="prose-grid">
+          <article><h2>Why the suburb is still listed</h2><p>Recently collected suburbs should not disappear from search. This page retains Council’s most recent record and will automatically show the next collection when it enters the published schedule.</p></article>
+          <article><h2>Confirm before putting items out</h2><p>When's Kerbside is independent. Check the official calendar for schedule changes, eligibility and address-level confirmation.</p><p><a href={council.links.acceptedItems}>Accepted and excluded items ↗</a></p></article>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className="inner-page council-page">
       <nav className="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><a href="/councils/">Councils</a><span>›</span><a href={councilPath(council.id)}>{council.placeName}</a><span>›</span><span>{area.name}</span></nav>

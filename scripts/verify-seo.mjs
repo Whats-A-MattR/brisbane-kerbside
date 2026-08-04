@@ -14,6 +14,7 @@ function assert(condition, message) {
 const sitemap = await readFile(resolve(distDir, 'sitemap.xml'), 'utf8');
 const robots = await readFile(resolve(distDir, 'robots.txt'), 'utf8');
 const image = await readFile(resolve(distDir, 'og.png'));
+const schedule = JSON.parse(await readFile(resolve(distDir, 'data/schedule.json'), 'utf8'));
 const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
 
 assert(sitemap.startsWith('<?xml version="1.0" encoding="UTF-8"?>'), 'sitemap is not UTF-8 XML');
@@ -25,6 +26,17 @@ assert(urls.includes(`${site.siteUrl}/about/`), 'about page is missing from the 
 assert(robots.includes(`Sitemap: ${site.siteUrl}/sitemap.xml`), 'robots.txt does not advertise the sitemap');
 assert(image.toString('ascii', 1, 4) === 'PNG', 'social card is not a PNG');
 assert(image.readUInt32BE(16) === 1200 && image.readUInt32BE(20) === 630, 'social card must be 1200x630');
+
+if (schedule.areaDirectory?.length) {
+  for (const area of schedule.areaDirectory) {
+    assert(urls.includes(`${site.siteUrl}/${site.area.routeSegment}/${area.id}/`), `areaDirectory page missing for ${area.id}`);
+  }
+  for (const area of schedule.areaDirectory.filter((item) => !item.nextCollectionId && item.lastCollection)) {
+    const html = await readFile(resolve(distDir, site.area.routeSegment, area.id, 'index.html'), 'utf8');
+    assert(html.includes(`${area.name}`) && html.includes('next date is not published yet'), `historical status missing for ${area.id}`);
+    assert(!html.includes('Next published collection'), `historical page implies an upcoming collection for ${area.id}`);
+  }
+}
 
 for (const url of urls) {
   assert(url.startsWith(`${site.siteUrl}/`), `non-canonical URL in sitemap: ${url}`);

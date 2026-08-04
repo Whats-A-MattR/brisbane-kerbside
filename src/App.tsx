@@ -17,7 +17,7 @@ import {
   siteConfig,
   sitePath,
 } from './site';
-import type { Collection, CollectionArea, Route, Schedule } from './types';
+import type { AreaDirectoryEntry, Collection, CollectionArea, Route, Schedule } from './types';
 
 type AppProps = {
   schedule: Schedule;
@@ -25,7 +25,8 @@ type AppProps = {
 };
 
 type SuburbOption = CollectionArea & {
-  collection: Collection;
+  collection?: Collection;
+  lastCollection?: AreaDirectoryEntry['lastCollection'];
 };
 
 function collectionRangeLabel(collection: Collection) {
@@ -44,6 +45,16 @@ function collectionsForRoute(schedule: Schedule, route: Route) {
 }
 
 function suburbOptions(schedule: Schedule) {
+  if (schedule.areaDirectory?.length) {
+    return schedule.areaDirectory.map((area) => ({
+      ...area,
+      collection: area.nextCollectionId
+        ? schedule.collections.find((collection) => collection.id === area.nextCollectionId)
+        : undefined,
+    })).sort((a, b) => (
+      (a.collection?.startsOn ?? '9999').localeCompare(b.collection?.startsOn ?? '9999') || a.name.localeCompare(b.name)
+    ));
+  }
   const options = new Map<string, SuburbOption>();
 
   for (const collection of schedule.collections) {
@@ -55,7 +66,7 @@ function suburbOptions(schedule: Schedule) {
   }
 
   return [...options.values()].sort((a, b) => (
-    a.collection.startsOn.localeCompare(b.collection.startsOn) || a.name.localeCompare(b.name)
+    (a.collection?.startsOn ?? '9999').localeCompare(b.collection?.startsOn ?? '9999') || a.name.localeCompare(b.name)
   ));
 }
 
@@ -104,23 +115,27 @@ function SuburbSearch({ className, options, query, onQueryChange, onResultSelect
                 onClick={() => {
                   trackEvent('suburb_search_select', {
                     suburb: option.name,
-                    collection_date: option.collection.startsOn,
+                    collection_date: option.collection?.startsOn ?? option.lastCollection?.startsOn ?? 'not_published',
                   });
                   onResultSelect?.();
                 }}
               >
                 <strong>{option.name}</strong>
-                <span>{siteConfig.schedule.startLabel} {collectionRangeLabel(option.collection)}</span>
+                <span>{option.collection
+                  ? `${siteConfig.schedule.startLabel} ${collectionRangeLabel(option.collection)}`
+                  : option.lastCollection
+                    ? `Last collected ${formatCollectionDate(option.lastCollection.startsOn).label}; next date not published`
+                    : 'Next date not published'}</span>
                 <small>View</small>
               </a>
             ))}
           </div>
         ) : (
           <div className="suburb-search-results suburb-search-empty" id={listId} role="status">
-            <strong>No upcoming date found</strong>
+            <strong>No matching {siteConfig.area.singular} found</strong>
             <p>
-              We couldn’t find “{query.trim()}” in the currently published Council schedule.
-              Its next collection date may not be available yet.
+              We couldn’t find “{query.trim()}” in Council’s current suburb data.
+              Check the spelling or use the official calendar for an address-level check.
             </p>
             <a href={COUNCIL_CALENDAR_URL} target="_blank" rel="noreferrer">
               Check the official calendar <span aria-hidden="true">↗</span>
@@ -132,15 +147,18 @@ function SuburbSearch({ className, options, query, onQueryChange, onResultSelect
   );
 }
 
-function routeCopy(route: Route, collections: Collection[]) {
+function routeCopy(route: Route, collections: Collection[], schedule: Schedule) {
   if (route.type === 'area') {
-    const suburb = collections[0]?.areas.find((item) => item.id === route.id)?.name ?? route.id;
+    const directoryArea = schedule.areaDirectory?.find((item) => item.id === route.id);
+    const suburb = collections[0]?.areas.find((item) => item.id === route.id)?.name ?? directoryArea?.name ?? route.id;
     return {
       eyebrow: `${siteConfig.placeName} ${siteConfig.area.singular} schedule`,
       title: `${suburb} ${siteConfig.serviceName} date`,
       lede: collections[0]
         ? `The next published large-item kerbside collection for ${suburb} runs ${collectionRangeLabel(collections[0])}.`
-        : `No upcoming large-item collection is currently published for ${suburb}.`,
+        : directoryArea?.lastCollection
+          ? `${suburb} was last collected on ${formatCollectionDate(directoryArea.lastCollection.startsOn).label}. Council has not yet published its next date.`
+          : `No upcoming large-item collection is currently published for ${suburb}.`,
       areaName: suburb,
     };
   }
@@ -226,17 +244,47 @@ function RouteFacts({ route, collection }: { route: Route; collection: Collectio
   );
 }
 
+function HistoricalAreaFacts({ area }: { area: AreaDirectoryEntry }) {
+  const last = area.lastCollection;
+  if (!last) return null;
+  return (
+    <section className="route-facts route-facts--historical" aria-labelledby="route-facts-title">
+      <p className="eyebrow">Current status</p>
+      <h2 id="route-facts-title">{area.name}’s next date is not published yet</h2>
+      <p>
+        Council’s source shows the most recent collection for {area.name} started {formatCollectionDate(last.startsOn).label}, with items placed out from {formatCollectionDate(last.putOutFrom).label}. That collection has passed, but the suburb remains searchable while Council prepares its next schedule.
+      </p>
+      <dl>
+        <div><dt>Last collection</dt><dd>{formatCollectionDate(last.startsOn).label}</dd></div>
+        <div><dt>Items were out from</dt><dd>{formatCollectionDate(last.putOutFrom).label}</dd></div>
+        <div><dt>Next collection</dt><dd>Not yet published</dd></div>
+      </dl>
+      <div className="route-facts-links">
+        <a href={COUNCIL_CALENDAR_URL} target="_blank" rel="noreferrer">Check the official calendar ↗</a>
+        <a href={sitePath('/')}>Browse all upcoming dates</a>
+      </div>
+    </section>
+  );
+}
+
 export function App({ schedule, route }: AppProps) {
   const routeCollections = collectionsForRoute(schedule, route);
+  const routeArea = route.type === 'area' ? schedule.areaDirectory?.find((item) => item.id === route.id) : undefined;
+  const historicalCollection: Collection | undefined = routeArea?.lastCollection && routeCollections.length === 0
+    ? {
+        id: routeArea.lastCollection.startsOn,
+        startsOn: routeArea.lastCollection.startsOn,
+        ...(routeArea.lastCollection.endsOn ? { endsOn: routeArea.lastCollection.endsOn } : {}),
+        putOutFrom: routeArea.lastCollection.putOutFrom,
+        areas: [{ id: routeArea.id, name: routeArea.name, ...(routeArea.note ? { note: routeArea.note } : {}) }],
+      }
+    : undefined;
   const [selectedId, setSelectedId] = useState(routeCollections[0]?.id ?? schedule.collections[0]?.id ?? '');
   const [menuOpen, setMenuOpen] = useState(false);
   const [suburbQuery, setSuburbQuery] = useState('');
   const suburbs = useMemo(() => suburbOptions(schedule), [schedule]);
-  const selected = useMemo(
-    () => routeCollections.find((item) => item.id === selectedId) ?? routeCollections[0] ?? schedule.collections[0],
-    [routeCollections, schedule.collections, selectedId],
-  );
-  const copy = routeCopy(route, routeCollections);
+  const selected = routeCollections.find((item) => item.id === selectedId) ?? routeCollections[0] ?? historicalCollection ?? schedule.collections[0];
+  const copy = routeCopy(route, routeCollections, schedule);
 
   useEffect(() => {
     if (!menuOpen) return undefined;
@@ -270,9 +318,10 @@ export function App({ schedule, route }: AppProps) {
   }
 
   const selectedArea = route.type === 'area' ? route.id : undefined;
-  const totalAreas = new Set(
+  const totalAreas = schedule.areaDirectory?.length ?? new Set(
     schedule.collections.flatMap((collection) => collection.areas.map((suburb) => suburb.id)),
   ).size;
+  const historicalAreaRoute = route.type === 'area' && routeCollections.length === 0 && Boolean(routeArea?.lastCollection);
 
   return (
     <main className="app-shell">
@@ -324,7 +373,7 @@ export function App({ schedule, route }: AppProps) {
               </span>
               <span className="filter-context-all">
                 <strong>See all {schedule.collections.length} upcoming {siteConfig.schedule.plural}</strong>
-                <small>Covering {totalAreas} {siteConfig.placeName} {siteConfig.area.plural}</small>
+                <small>{totalAreas} searchable {siteConfig.placeName} {siteConfig.area.plural}</small>
               </span>
               <span className="filter-context-arrow" aria-hidden="true">→</span>
             </a>
@@ -341,15 +390,23 @@ export function App({ schedule, route }: AppProps) {
           onQueryChange={setSuburbQuery}
         />
 
-        <RouteFacts route={route} collection={selected} />
+        {historicalAreaRoute && routeArea ? <HistoricalAreaFacts area={routeArea} /> : <RouteFacts route={route} collection={selected} />}
 
-        <div className="list-heading">
-          <h2>{route.type === 'home' ? 'Upcoming dates' : 'Published schedule'}</h2>
-          <span>{routeCollections.length} {routeCollections.length === 1 ? siteConfig.schedule.singular : siteConfig.schedule.plural}</span>
-        </div>
+        {historicalAreaRoute ? (
+          <section className="schedule-unavailable" aria-labelledby="unavailable-title">
+            <p className="eyebrow">What happens next</p>
+            <h2 id="unavailable-title">Keep the suburb; wait for the date.</h2>
+            <p>{routeArea?.name} and other recently collected suburbs remain in search and keep their static pages. When Council publishes the next run, this page will update automatically with the new date and preparation timing.</p>
+          </section>
+        ) : (
+          <>
+            <div className="list-heading">
+              <h2>{route.type === 'home' ? 'Upcoming dates' : 'Published schedule'}</h2>
+              <span>{routeCollections.length} {routeCollections.length === 1 ? siteConfig.schedule.singular : siteConfig.schedule.plural}</span>
+            </div>
 
-        <ol className="collection-list">
-          {routeCollections.map((collection) => {
+            <ol className="collection-list">
+              {routeCollections.map((collection) => {
             const date = formatCollectionDate(collection.startsOn);
             const itemsOut = formatCollectionDate(collection.putOutFrom);
             const active = collection.id === selected.id;
@@ -393,8 +450,10 @@ export function App({ schedule, route }: AppProps) {
                 </article>
               </li>
             );
-          })}
-        </ol>
+              })}
+            </ol>
+          </>
+        )}
 
         <section className="trust-section" aria-labelledby="trust-title">
           <p className="eyebrow">Useful, current, independent</p>
@@ -444,7 +503,12 @@ export function App({ schedule, route }: AppProps) {
       </section>
 
       <section className="map-panel" aria-label="Collection area map">
-        <CollectionMap selectedDate={selected.startsOn} selectedLabel={collectionRangeLabel(selected)} selectedArea={selectedArea} />
+        <CollectionMap
+          selectedDate={selected.startsOn}
+          selectedLabel={historicalAreaRoute ? `Last collected ${formatCollectionDate(selected.startsOn).label}` : collectionRangeLabel(selected)}
+          selectedArea={selectedArea}
+          caption={historicalAreaRoute ? 'Showing most recent collection' : undefined}
+        />
         {route.type === 'home' && <AdStrip />}
       </section>
 
