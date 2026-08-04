@@ -34,17 +34,38 @@ function collectionsForRoute(schedule: Schedule, route: Route) {
   return schedule.collections;
 }
 
-function BackToTop() {
+type BackToTopProps = {
+  disabled?: boolean;
+  target?: 'page' | 'mobile-sheet';
+};
+
+function BackToTop({ disabled = false, target = 'page' }: BackToTopProps) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    if (disabled) {
+      setVisible(false);
+      return undefined;
+    }
+
+    if (target === 'mobile-sheet') {
+      const dateList = document.querySelector<HTMLElement>('.date-sheet-list');
+      if (!dateList) return undefined;
+
+      const updateVisibility = () => setVisible(dateList.scrollTop > 280);
+      dateList.addEventListener('scroll', updateVisibility, { passive: true });
+      updateVisibility();
+
+      return () => dateList.removeEventListener('scroll', updateVisibility);
+    }
+
     const mobileLayout = window.matchMedia('(max-width: 900px)');
     const schedulePanel = document.querySelector<HTMLElement>('.schedule-panel');
     let scrollTarget: EventTarget = window;
 
     const updateVisibility = () => {
       const scrollTop = mobileLayout.matches || !schedulePanel ? window.scrollY : schedulePanel.scrollTop;
-      setVisible(scrollTop > 520);
+      setVisible(scrollTop > (mobileLayout.matches ? 320 : 520));
     };
 
     const bindScrollTarget = () => {
@@ -61,10 +82,17 @@ function BackToTop() {
       scrollTarget.removeEventListener('scroll', updateVisibility);
       mobileLayout.removeEventListener('change', bindScrollTarget);
     };
-  }, []);
+  }, [disabled, target]);
 
   const returnToTop = () => {
     const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+
+    if (target === 'mobile-sheet') {
+      document.querySelector<HTMLElement>('.date-sheet-list')?.scrollTo({ top: 0, behavior });
+      trackEvent('back_to_top', { layout: 'mobile_sheet' });
+      return;
+    }
+
     const mobileLayout = window.matchMedia('(max-width: 900px)').matches;
     const schedulePanel = document.querySelector<HTMLElement>('.schedule-panel');
 
@@ -79,7 +107,7 @@ function BackToTop() {
 
   return (
     <button
-      className="back-to-top"
+      className={`back-to-top${target === 'mobile-sheet' ? ' back-to-top--sheet' : ''}`}
       data-visible={visible}
       type="button"
       aria-label="Back to top"
@@ -505,8 +533,9 @@ export function App({ schedule, route }: AppProps) {
             );
           })}
         </ol>
+        <BackToTop disabled={!menuOpen} target="mobile-sheet" />
       </aside>
-      <BackToTop />
+      <BackToTop disabled={menuOpen} />
     </main>
   );
 }
