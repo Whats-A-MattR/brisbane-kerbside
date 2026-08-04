@@ -27,6 +27,11 @@ export type MasterCouncil = {
     id: string;
     name: string;
     collectionIds: string[];
+    lastCollection?: {
+      startsOn: string;
+      endsOn?: string;
+      putOutFrom: string;
+    };
   }>;
   collections: Array<{
     id: string;

@@ -252,7 +252,7 @@ export function GuidePage() {
           <article><h3>Can I put out a mattress?</h3><p>Yes. Council currently lists mattresses as accepted kerbside items.</p></article>
           <article><h3>Can televisions and computers go out?</h3><p>Yes. Electronic waste such as televisions and computer monitors is currently accepted.</p></article>
           <article><h3>Can I put out paint, glass or tyres?</h3><p>No. Council directs these items to other disposal or recycling options. Do not place paint, glass, mirrors or tyres in a kerbside pile.</p></article>
-          <article><h3>Why is my suburb missing from the search?</h3><p>The map only lists current and future dates present in the published open dataset. A suburb may be absent after its collection has passed or before the next financial year’s date is published.</p></article>
+          <article><h3>Why is my suburb missing from the search?</h3><p>The search retains every suburb currently present in Council’s schedule data, including recently collected suburbs whose next date is not published yet. If a suburb is still missing, check the spelling or use Council’s official address-level calendar.</p></article>
           <article><h3>Is this the official Council calendar?</h3><p>No. This is an independent presentation of Council’s open data. Use the official calendar for final confirmation, especially during severe weather or service changes.</p></article>
         </section>
 

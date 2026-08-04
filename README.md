@@ -38,7 +38,7 @@ There is no application server or database. The weekly data workflow refreshes e
 - `sites/master/` — the master directory UI and assets. Scheduled council data is derived from the registry; verified on-demand service and suburb data lives in `sites/master/data/booking-councils.json`.
 - `dist/<site-id>/` — generated static output; never committed.
 
-The shared schedule contract is versioned with `schemaVersion: 1` and documented in [`schema/schedule.schema.json`](schema/schedule.schema.json). A collection has `startsOn`, optional `endsOn`, `putOutFrom` and a list of generic `areas`; areas can carry an honest coverage note when operational boundaries differ from official locality polygons. A council adapter is responsible for translating its source fields into that contract. GeoJSON features repeat the matching timing and area properties. Builds fail if schedule and geometry records disagree.
+The shared schedule contract is versioned with `schemaVersion: 1` and documented in [`schema/schedule.schema.json`](schema/schedule.schema.json). A collection has `startsOn`, optional `endsOn`, `putOutFrom` and a list of generic `areas`; areas can carry an honest coverage note when operational boundaries differ from official locality polygons. An optional top-level `areaDirectory` retains known areas when their latest collection has passed and their next date is not yet published. A council adapter is responsible for translating its source fields into that contract. GeoJSON features repeat the matching timing and area properties. Builds fail if schedule, directory and geometry records disagree.
 
 ## Local development
 

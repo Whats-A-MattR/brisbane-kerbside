@@ -80,7 +80,7 @@
     },
     {
       "question": "Why is my suburb missing from the kerbside search?",
-      "answer": "The map lists current and future dates in the published open dataset. A suburb may be absent after its collection has passed or before its next date is published."
+      "answer": "The search retains every suburb currently present in Council’s schedule data, including recently collected suburbs whose next date is not published yet. If a suburb is still missing, check the spelling or use Council’s official address-level calendar."
     },
     {
       "question": "Is this the official Brisbane City Council calendar?",

@@ -38,13 +38,41 @@ export function validateOutputs(siteId, schedule, areas) {
     }
   }
 
+  const directoryById = new Map();
+  const historicalPairs = new Map();
+  if (schedule.areaDirectory !== undefined) {
+    assert(Array.isArray(schedule.areaDirectory) && schedule.areaDirectory.length > 0, 'areaDirectory must contain at least one area');
+    for (const area of schedule.areaDirectory) {
+      assert(area.id && area.name, 'areaDirectory contains an invalid area');
+      assert(!directoryById.has(area.id), `duplicate areaDirectory id ${area.id}`);
+      if (area.nextCollectionId) {
+        assert(collectionIds.has(area.nextCollectionId), `areaDirectory ${area.id} references unknown collection ${area.nextCollectionId}`);
+        assert(scheduledPairs.has(`${area.nextCollectionId}:${area.id}`), `areaDirectory ${area.id} is not listed in ${area.nextCollectionId}`);
+      }
+      if (area.lastCollection) {
+        const previous = area.lastCollection;
+        assert(/^\d{4}-\d{2}-\d{2}$/.test(previous.startsOn), `invalid last collection date for ${area.id}`);
+        assert(/^\d{4}-\d{2}-\d{2}$/.test(previous.putOutFrom), `invalid last put-out date for ${area.id}`);
+        if (previous.endsOn) assert(previous.endsOn >= previous.startsOn, `last collection end precedes start for ${area.id}`);
+        historicalPairs.set(`${previous.startsOn}:${area.id}`, previous);
+      }
+      directoryById.set(area.id, area);
+    }
+    for (const pair of scheduledPairs.keys()) {
+      const areaId = pair.slice(pair.indexOf(':') + 1);
+      assert(directoryById.has(areaId), `scheduled area ${areaId} is missing from areaDirectory`);
+    }
+  }
+
   const geometryPairs = new Map();
   for (const feature of areas.features) {
     const properties = feature?.properties;
     assert(properties?.collectionId && properties?.areaId && properties?.areaName, 'each feature needs collectionId, areaId and areaName');
     assert(properties?.startsOn && properties?.putOutFrom, 'each feature needs startsOn and putOutFrom');
     assert(feature?.geometry?.coordinates, `feature ${properties.areaId} has no geometry`);
-    geometryPairs.set(`${properties.collectionId}:${properties.areaId}`, properties);
+    const pair = `${properties.collectionId}:${properties.areaId}`;
+    assert(!geometryPairs.has(pair), `duplicate geometry for ${pair}`);
+    geometryPairs.set(pair, properties);
   }
 
   for (const [pair, scheduled] of scheduledPairs) {
@@ -55,5 +83,16 @@ export function validateOutputs(siteId, schedule, areas) {
     assert(geometry.putOutFrom === scheduled.putOutFrom, `putOutFrom mismatch for ${pair}`);
     assert(geometry.areaNote === scheduled.note, `area note mismatch for ${pair}`);
   }
-  for (const pair of geometryPairs.keys()) assert(scheduledPairs.has(pair), `geometry has no schedule record for ${pair}`);
+  for (const [pair, historical] of historicalPairs) {
+    const areaId = pair.slice(pair.indexOf(':') + 1);
+    const directoryArea = directoryById.get(areaId);
+    if (directoryArea?.nextCollectionId) continue;
+    assert(geometryPairs.has(pair), `missing historical geometry for ${pair}`);
+    const geometry = geometryPairs.get(pair);
+    assert(geometry.startsOn === historical.startsOn, `historical startsOn mismatch for ${pair}`);
+    assert(geometry.putOutFrom === historical.putOutFrom, `historical putOutFrom mismatch for ${pair}`);
+  }
+  for (const pair of geometryPairs.keys()) {
+    assert(scheduledPairs.has(pair) || historicalPairs.has(pair), `geometry has no schedule or area-history record for ${pair}`);
+  }
 }

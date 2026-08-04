@@ -13,11 +13,14 @@ function loadMasterData() {
     const siteDir = resolve(appDir, 'sites', entry.id);
     const config = JSON.parse(readFileSync(resolve(siteDir, 'site.json'), 'utf8'));
     const schedule = JSON.parse(readFileSync(resolve(siteDir, 'public/data/schedule.json'), 'utf8'));
-    const areas = [...new Set<string>(schedule.collections.flatMap((collection: { areas: Array<{ name: string }> }) => collection.areas.map((area) => area.name)))].sort();
-    const areaDetails = [...new Map<string, { id: string; name: string }>(schedule.collections.flatMap((collection: { areas: Array<{ id: string; name: string }> }) => collection.areas.map((area) => [area.id, area]))).values()]
+    const scheduledAreas = [...new Map<string, { id: string; name: string }>(schedule.collections.flatMap((collection: { areas: Array<{ id: string; name: string }> }) => collection.areas.map((area) => [area.id, area]))).values()];
+    const directoryAreas: Array<{ id: string; name: string; lastCollection?: { startsOn: string; endsOn?: string; putOutFrom: string } }> = schedule.areaDirectory ?? scheduledAreas;
+    const areas = directoryAreas.map((area) => area.name).sort((a, b) => a.localeCompare(b, config.locale));
+    const areaDetails = directoryAreas
       .map((area) => ({
-        ...area,
+        id: area.id, name: area.name,
         collectionIds: schedule.collections.filter((collection: { id: string; areas: Array<{ id: string }> }) => collection.areas.some((item) => item.id === area.id)).map((collection: { id: string }) => collection.id),
+        ...(area.lastCollection ? { lastCollection: area.lastCollection } : {}),
       }))
       .sort((a, b) => a.name.localeCompare(b.name, config.locale));
     const collections = schedule.collections.map((collection: { id: string; startsOn: string; endsOn?: string; putOutFrom?: string; areas: Array<{ id: string; name: string }> }) => ({

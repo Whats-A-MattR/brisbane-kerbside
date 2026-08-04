@@ -54,16 +54,15 @@ export async function extract() {
 
 export function transform(records) {
   const weekStart = startOfCurrentWeek(brisbaneToday());
-  const usable = records.filter((record) => (
+  const valid = records.filter((record) => (
     typeof record.suburb === 'string' &&
     typeof record.date_of_collection === 'string' &&
     typeof record.items_out_on_footpath === 'string' &&
-    record.date_of_collection >= weekStart &&
     record.geo_shape?.geometry?.coordinates
   ));
+  const usable = valid.filter((record) => record.date_of_collection >= weekStart);
 
   const grouped = new Map();
-  const features = [];
   for (const record of usable) {
     const id = areaId(record.suburb);
     const name = areaName(record.suburb);
@@ -76,25 +75,58 @@ export function transform(records) {
     };
     collection.areas.push({ id, name });
     grouped.set(startsOn, collection);
-    features.push({
-      type: 'Feature',
-      id: `${startsOn}-${id}`,
-      properties: {
-        collectionId: startsOn,
-        areaId: id,
-        areaName: name,
-        startsOn,
-        putOutFrom: record.items_out_on_footpath,
-        areaNote: undefined,
-      },
-      geometry: record.geo_shape.geometry,
-    });
   }
 
   const collections = [...grouped.values()]
     .map((collection) => ({ ...collection, areas: collection.areas.sort((a, b) => a.name.localeCompare(b.name)) }))
     .sort((a, b) => a.startsOn.localeCompare(b.startsOn));
-  if (!collections.length || !features.length) throw new Error('Brisbane data contained no current or upcoming collections.');
+  if (!collections.length) throw new Error('Brisbane data contained no current or upcoming collections.');
+
+  const recordsByArea = new Map();
+  for (const record of valid) {
+    const id = areaId(record.suburb);
+    const entries = recordsByArea.get(id) ?? [];
+    entries.push(record);
+    recordsByArea.set(id, entries);
+  }
+
+  const historicalMapRecords = [];
+  const areaDirectory = [...recordsByArea.entries()].map(([id, areaRecords]) => {
+    const ordered = areaRecords.sort((a, b) => a.date_of_collection.localeCompare(b.date_of_collection));
+    const next = ordered.find((record) => record.date_of_collection >= weekStart);
+    const previous = ordered.filter((record) => record.date_of_collection < weekStart).at(-1);
+    if (!next && previous) historicalMapRecords.push(previous);
+    return {
+      id,
+      name: areaName(ordered[0].suburb),
+      ...(next ? { nextCollectionId: next.date_of_collection } : {}),
+      ...(previous ? {
+        lastCollection: {
+          startsOn: previous.date_of_collection,
+          putOutFrom: previous.items_out_on_footpath,
+        },
+      } : {}),
+    };
+  }).sort((a, b) => a.name.localeCompare(b.name));
+
+  const featureRecords = [...usable, ...historicalMapRecords];
+  const features = featureRecords.map((record) => {
+    const id = areaId(record.suburb);
+    const startsOn = record.date_of_collection;
+    return {
+      type: 'Feature',
+      id: `${startsOn}-${id}`,
+      properties: {
+        collectionId: startsOn,
+        areaId: id,
+        areaName: areaName(record.suburb),
+        startsOn,
+        putOutFrom: record.items_out_on_footpath,
+        areaNote: undefined,
+      },
+      geometry: record.geo_shape.geometry,
+    };
+  });
 
   return {
     schedule: {
@@ -106,6 +138,7 @@ export function transform(records) {
         url: SOURCE_URL,
         licence: 'https://creativecommons.org/licenses/by/4.0/',
       },
+      areaDirectory,
       collections,
     },
     areas: { type: 'FeatureCollection', features },
