@@ -34,6 +34,7 @@ export type SiteConfig = {
   links: {
     repository: string;
     sponsor: string;
+    kofi: string;
     officialCalendar: string;
     acceptedItems: string;
     directory: string;

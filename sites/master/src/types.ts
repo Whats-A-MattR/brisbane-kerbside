@@ -8,7 +8,20 @@ export type MasterCouncil = {
   center: [number, number];
   scheduleLabel: string;
   areaLabel: string;
+  areaRouteSegment: string;
   areas: string[];
+  areaDetails: Array<{
+    id: string;
+    name: string;
+    collectionIds: string[];
+  }>;
+  collections: Array<{
+    id: string;
+    startsOn: string;
+    endsOn?: string;
+    putOutFrom?: string;
+    areas: Array<{ id: string; name: string }>;
+  }>;
   collectionCount: number;
   generatedAt: string;
   nextCollection: null | {
@@ -36,5 +49,7 @@ export type MasterRoute =
   | { type: 'home' }
   | { type: 'councils' }
   | { type: 'council'; id: string }
+  | { type: 'area'; councilId: string; id: string }
+  | { type: 'collection'; councilId: string; id: string }
   | { type: 'about' }
   | { type: 'privacy' };
