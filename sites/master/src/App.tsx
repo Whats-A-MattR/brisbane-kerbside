@@ -96,8 +96,18 @@ function Footer({ generatedAt }: { generatedAt: string }) {
   );
 }
 
-function CouncilCard({ council, onChoose }: { council: MasterCouncil; onChoose?: () => void }) {
+function CouncilCard({
+  council,
+  onChoose,
+  matchedAreas = [],
+}: {
+  council: MasterCouncil;
+  onChoose?: () => void;
+  matchedAreas?: MasterCouncil['areaDetails'];
+}) {
   const next = council.nextCollection;
+  const exactArea = matchedAreas.length === 1 ? matchedAreas[0] : undefined;
+  const destination = exactArea ? areaPath(council.id, exactArea.id) : primaryDestination(council);
   return (
     <article className="council-card">
       <div className="council-card-topline">
@@ -114,15 +124,29 @@ function CouncilCard({ council, onChoose }: { council: MasterCouncil; onChoose?:
           <strong>{formatDate(next.startsOn)}{next.endsOn ? ` – ${formatDate(next.endsOn)}` : ''}</strong>
         </div>
       )}
+      {matchedAreas.length > 0 && (
+        <div className="matched-areas">
+          <span>Matching {matchedAreas.length === 1 ? 'suburb' : 'suburbs'}</span>
+          <div>
+            {matchedAreas.map((area) => (
+              <a key={area.id} href={areaPath(council.id, area.id)}>{area.name}</a>
+            ))}
+          </div>
+        </div>
+      )}
       <div className="card-actions">
         <a
           className="primary-action"
-          href={primaryDestination(council)}
+          href={destination}
           onClick={() => {
             rememberCouncil(council);
             onChoose?.();
           }}
-        >{isScheduled(council) ? `Open ${council.placeName} dates` : 'Book or check eligibility'} <span aria-hidden="true">↗</span></a>
+        >{exactArea
+          ? `Open ${exactArea.name} details`
+          : isScheduled(council)
+            ? `Open ${council.placeName} dates`
+            : 'Book or check eligibility'} <span aria-hidden="true">↗</span></a>
         <a href={councilPath(council.id)} onClick={() => rememberCouncil(council)}>Council overview</a>
       </div>
     </article>
@@ -158,6 +182,9 @@ function CouncilFinder({ councils }: { councils: MasterCouncil[] }) {
       ...council.areas,
     ].some((value) => value.toLocaleLowerCase('en-AU').includes(normalized)));
   }, [councils, normalized]);
+  const matchingAreas = (council: MasterCouncil) => normalized
+    ? council.areaDetails.filter((area) => area.name.toLocaleLowerCase('en-AU').includes(normalized)).slice(0, 8)
+    : [];
   const saved = councils.find((council) => council.id === savedId);
   const suggested = councils.find((council) => council.id === suggestedId);
 
@@ -242,7 +269,9 @@ function CouncilFinder({ councils }: { councils: MasterCouncil[] }) {
       </div>
       {results.length ? (
         <div className="council-grid">
-          {results.map((council) => <CouncilCard key={council.id} council={council} />)}
+          {results.map((council) => (
+            <CouncilCard key={council.id} council={council} matchedAreas={matchingAreas(council)} />
+          ))}
         </div>
       ) : (
         <div className="empty-state">
