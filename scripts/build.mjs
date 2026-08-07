@@ -6,13 +6,23 @@ import { appDir, assertRegisteredSite, selectedSiteId } from './lib/site-registr
 import { validateOutputs } from './lib/validate-data.mjs';
 
 const siteId = selectedSiteId();
-await assertRegisteredSite(siteId);
+const registrySite = await assertRegisteredSite(siteId);
 const siteDir = resolve(appDir, 'sites', siteId);
 const publicDir = resolve(siteDir, 'public');
 const outputDir = resolve(appDir, 'dist', siteId);
 const serverDir = resolve(outputDir, 'server');
 const site = JSON.parse(await readFile(resolve(siteDir, 'site.json'), 'utf8'));
 const adsenseClient = process.env.VITE_ADSENSE_CLIENT?.trim();
+const analyticsMeasurementId = registrySite.analyticsEnabled
+  ? process.env.VITE_GA_MEASUREMENT_ID?.trim() || site.analytics?.measurementId?.trim()
+  : undefined;
+
+if (registrySite.analyticsEnabled && !analyticsMeasurementId) {
+  throw new Error(`[${siteId}] Analytics is enabled but no GA4 measurement ID is configured.`);
+}
+if (analyticsMeasurementId && !/^G-[A-Z0-9]+$/.test(analyticsMeasurementId)) {
+  throw new Error(`[${siteId}] GA4 measurement ID must use the G-XXXXXXXXXX format.`);
+}
 
 function run(command, args) {
   return new Promise((resolvePromise, reject) => {
@@ -143,6 +153,9 @@ const dataJson = JSON.stringify(schedule).replaceAll('<', '\\u003c');
 const adsenseHead = adsenseClient
   ? `<meta name="google-adsense-account" content="${escapeAttribute(adsenseClient)}"><script async data-adsense-client="${escapeAttribute(adsenseClient)}" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(adsenseClient)}" crossorigin="anonymous"></script>`
   : '';
+const analyticsHead = analyticsMeasurementId
+  ? `<script async data-google-tag="${escapeAttribute(analyticsMeasurementId)}" src="https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(analyticsMeasurementId)}"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}window.gtag=gtag;if(navigator.doNotTrack!=="1"){gtag("js",new Date());gtag("config","${escapeAttribute(analyticsMeasurementId)}",{anonymize_ip:true})}</script>`
+  : '';
 const areaIds = schedule.areaDirectory?.map((area) => area.id)
   ?? [...new Set(schedule.collections.flatMap((item) => item.areas.map((area) => area.id)))];
 const routes = [
@@ -158,6 +171,7 @@ for (const route of routes) {
   const details = pageDetails(schedule, route);
   const pageUrl = `${site.siteUrl}${details.path}`;
   const html = template
+    .replace('<!--analytics-head-->', analyticsHead)
     .replace('<!--app-html-->', serverEntry.render(schedule, route))
     .replace('<!--data-json-->', dataJson)
     .replace('<!--route-json-->', JSON.stringify(route))

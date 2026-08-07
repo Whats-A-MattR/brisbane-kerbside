@@ -3,7 +3,7 @@ import { resolve } from 'node:path';
 import { appDir, assertRegisteredSite, selectedSiteId } from './lib/site-registry.mjs';
 
 const siteId = selectedSiteId();
-await assertRegisteredSite(siteId);
+const registrySite = await assertRegisteredSite(siteId);
 const site = JSON.parse(await readFile(resolve(appDir, 'sites', siteId, 'site.json'), 'utf8'));
 const distDir = resolve(appDir, 'dist', siteId);
 
@@ -46,6 +46,11 @@ for (const url of urls) {
   assert(html.includes(`<link rel="canonical" href="${url}"`), `canonical mismatch for ${url}`);
   assert(html.includes(`<meta property="og:image" content="${site.siteUrl}/og.png"`), `Open Graph card missing for ${url}`);
   assert(html.includes('<meta name="twitter:card" content="summary_large_image"'), `Twitter card missing for ${url}`);
+  const analyticsTags = html.match(/data-google-tag=/g) ?? [];
+  assert(analyticsTags.length === (registrySite.analyticsEnabled ? 1 : 0), `expected ${registrySite.analyticsEnabled ? 'one' : 'no'} Google tag for ${url}`);
+  if (registrySite.analyticsEnabled) {
+    assert(html.includes(`gtag("config","${site.analytics.measurementId}"`), `GA4 configuration missing or incorrect for ${url}`);
+  }
   assert(!html.includes('__PAGE_') && !html.includes('__SITE_') && !html.includes('__SOCIAL_') && !html.includes('<!--app-html-->'), `unreplaced template marker in ${url}`);
 }
 

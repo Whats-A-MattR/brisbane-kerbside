@@ -2,14 +2,25 @@ import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { spawn } from 'node:child_process';
-import { appDir } from './lib/site-registry.mjs';
+import { appDir, assertRegisteredSite } from './lib/site-registry.mjs';
 import { masterData } from './lib/master-data.mjs';
 
 const site = JSON.parse(await readFile(resolve(appDir, 'sites/master/site.json'), 'utf8'));
+const registrySite = await assertRegisteredSite('master');
 const outputDir = resolve(appDir, 'dist/master');
 const serverDir = resolve(outputDir, 'server');
 const data = await masterData();
 const adsenseClient = process.env.VITE_ADSENSE_CLIENT?.trim();
+const analyticsMeasurementId = registrySite.analyticsEnabled
+  ? process.env.VITE_GA_MEASUREMENT_ID?.trim() || site.analytics?.measurementId?.trim()
+  : undefined;
+
+if (registrySite.analyticsEnabled && !analyticsMeasurementId) {
+  throw new Error('[master] Analytics is enabled but no GA4 measurement ID is configured.');
+}
+if (analyticsMeasurementId && !/^G-[A-Z0-9]+$/.test(analyticsMeasurementId)) {
+  throw new Error('[master] GA4 measurement ID must use the G-XXXXXXXXXX format.');
+}
 
 if (adsenseClient && !/^ca-pub-\d+$/.test(adsenseClient)) {
   throw new Error('VITE_ADSENSE_CLIENT must use the ca-pub-123 format.');
@@ -212,6 +223,9 @@ const dataJson = JSON.stringify(data).replaceAll('<', '\\u003c');
 const adsenseHead = adsenseClient
   ? `<meta name="google-adsense-account" content="${escapeAttribute(adsenseClient)}"><script async data-adsense-client="${escapeAttribute(adsenseClient)}" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(adsenseClient)}" crossorigin="anonymous"></script>`
   : '';
+const analyticsHead = analyticsMeasurementId
+  ? `<script async data-google-tag="${escapeAttribute(analyticsMeasurementId)}" src="https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(analyticsMeasurementId)}"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}window.gtag=gtag;if(navigator.doNotTrack!=="1"){gtag("js",new Date());gtag("config","${escapeAttribute(analyticsMeasurementId)}",{anonymize_ip:true})}</script>`
+  : '';
 const routes = [
   { type: 'home' },
   { type: 'councils' },
@@ -226,6 +240,7 @@ for (const route of routes) {
   const details = pageDetails(route);
   const url = `${site.siteUrl}${details.path}`;
   const html = template
+    .replace('<!--analytics-head-->', analyticsHead)
     .replace('<!--app-html-->', serverEntry.render(data, route))
     .replace('<!--data-json-->', dataJson)
     .replace('<!--route-json-->', JSON.stringify(route))
