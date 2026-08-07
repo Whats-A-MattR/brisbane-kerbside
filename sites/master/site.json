@@ -8,5 +8,8 @@
   "description": "Find kerbside collection dates and official council resources across supported Australian council areas.",
   "repository": "https://github.com/Whats-A-MattR/brisbane-kerbside",
   "sponsor": "https://github.com/sponsors/Whats-A-MattR",
-  "kofi": "https://ko-fi.com/whatsamattr"
+  "kofi": "https://ko-fi.com/whatsamattr",
+  "analytics": {
+    "measurementId": "G-ZSELLKS723"
+  }
 }

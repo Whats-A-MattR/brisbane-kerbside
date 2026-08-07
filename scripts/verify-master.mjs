@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { appDir, councilSites } from './lib/site-registry.mjs';
+import { appDir, assertRegisteredSite, councilSites } from './lib/site-registry.mjs';
 
 const site = JSON.parse(await readFile(resolve(appDir, 'sites/master/site.json'), 'utf8'));
 const distDir = resolve(appDir, 'dist/master');
@@ -15,6 +15,7 @@ function assert(condition, message) {
 }
 
 const councils = await councilSites();
+const registrySite = await assertRegisteredSite('master');
 assert(data.councils.length > councils.length, 'directory must include scheduled and booking-based councils');
 for (const entry of councils) {
   assert(data.councils.some((council) => council.id === entry.id && council.serviceModel === 'scheduled'), `missing registered scheduled council ${entry.id}`);
@@ -48,6 +49,11 @@ for (const url of urls) {
   assert(html.includes(`<link rel="canonical" href="${url}"`), `canonical mismatch for ${url}`);
   assert(html.includes('<meta property="og:image" content="https://whenskerbside.com/og.png"'), `social card missing for ${url}`);
   assert(html.includes('<script type="application/ld+json">'), `structured data missing for ${url}`);
+  const analyticsTags = html.match(/data-google-tag=/g) ?? [];
+  assert(analyticsTags.length === (registrySite.analyticsEnabled ? 1 : 0), `expected ${registrySite.analyticsEnabled ? 'one' : 'no'} Google tag for ${url}`);
+  if (registrySite.analyticsEnabled) {
+    assert(html.includes(`gtag("config","${site.analytics.measurementId}"`), `GA4 configuration missing or incorrect for ${url}`);
+  }
   assert(!html.includes('__PAGE_') && !html.includes('<!--app-html-->'), `unreplaced template marker in ${url}`);
   const root = html.match(/<div id="root">([\s\S]*?)<\/div>\s*<script id="master-data"/)?.[1] ?? '';
   assert(root.replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length > 30, `page has too little pre-rendered content: ${url}`);

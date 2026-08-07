@@ -1,3 +1,5 @@
+import { siteConfig } from './site';
+
 type AnalyticsValue = string | number | boolean;
 
 declare global {
@@ -37,4 +39,3 @@ export function trackEvent(name: string, parameters: Record<string, AnalyticsVal
   if (!analyticsAllowed()) return;
   window.gtag?.('event', name, parameters);
 }
-import { siteConfig } from './site';
