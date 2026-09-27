@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import masterSite from '../site.json';
 import type { MasterCouncil, MasterData, MasterRoute } from './types';
+import type { ComponentType } from 'react';
 
 const STORAGE_KEY = 'whenskerbside:selected-council';
 const KO_FI_URL = masterSite.kofi;
@@ -284,7 +285,7 @@ function CouncilFinder({ councils }: { councils: MasterCouncil[] }) {
   );
 }
 
-function Home({ data }: { data: MasterData }) {
+function Home({ data, formBuilder: FormBuilder }: { data: MasterData; formBuilder: ComponentType<{ data: MasterData }> }) {
   return (
     <>
       <main>
@@ -299,6 +300,7 @@ function Home({ data }: { data: MasterData }) {
           </div>
         </section>
         <CouncilFinder councils={data.councils} />
+        {masterSite.updates.enabled && <FormBuilder data={data} />}
         <section className="explanation" aria-labelledby="how-title">
           <p className="eyebrow">A growing public directory</p>
           <h2 id="how-title">Local sites, shared standards.</h2>
@@ -635,6 +637,8 @@ function PrivacyPage() {
       <p className="eyebrow">Privacy</p>
       <h1>Your location stays a moment, not a profile.</h1>
       <p className="lead">The directory works without an account and does not request location unless you press the location button.</p>
+      <h2>Local email updates</h2>
+      <p>If you opt in, we send your first name, email address, council, suburb, postcode, state and consent timestamp to Plunk to manage your subscription and match local collection notices. Updates may include relevant sponsor offers. You can unsubscribe at any time; sponsors do not receive your email address or subscriber details.</p>
       <h2>Saved council</h2>
       <p>When you choose a council, the site may store that council's short identifier in local storage on your device. This lets us show a useful “welcome back” shortcut. It does not contain your address or coordinates, and you can remove it by clearing site data in your browser.</p>
       <h2>Location suggestion</h2>
@@ -647,13 +651,13 @@ function PrivacyPage() {
   );
 }
 
-export function App({ data, route }: { data: MasterData; route: MasterRoute }) {
+export function App({ data, route, formBuilder: FormBuilder }: { data: MasterData; route: MasterRoute; formBuilder: ComponentType<{ data: MasterData }> }) {
   const councilId = route.type === 'council' ? route.id : route.type === 'area' || route.type === 'collection' ? route.councilId : undefined;
   const council = data.councils.find((item) => item.id === councilId);
   return (
     <div className="site-shell">
       <Header />
-      {route.type === 'home' && <Home data={data} />}
+      {route.type === 'home' && <Home data={data} formBuilder={FormBuilder} />}
       {route.type === 'councils' && <CouncilsPage data={data} />}
       {route.type === 'council' && council && <CouncilPage council={council} />}
       {route.type === 'council' && !council && <CouncilsPage data={data} />}

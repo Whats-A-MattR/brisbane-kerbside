@@ -11,5 +11,13 @@
   "kofi": "https://ko-fi.com/whatsamattr",
   "analytics": {
     "measurementId": "G-ZSELLKS723"
+  },
+  "updates": {
+    "enabled": true,
+    "heading": "Get local kerbside reminders.",
+    "description": "Choose a scheduled council and suburb for collection reminders, local events and relevant sponsor offers.",
+    "consentLabel": "Yes, email me collection dates, local events and relevant sponsor offers. I can unsubscribe at any time.",
+    "submitLabel": "Get local updates",
+    "successMessage": "You’re subscribed to local kerbside updates."
   }
 }

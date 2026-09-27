@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import { initAnalytics } from './analytics';
 import { App } from './App';
+import { MasterUpdatesForm } from './UpdatesForm';
 import type { MasterData, MasterRoute } from './types';
 import './styles.css';
 
@@ -18,6 +19,7 @@ const app = (
     <App
       data={JSON.parse(dataElement.textContent) as MasterData}
       route={JSON.parse(routeElement.textContent) as MasterRoute}
+      formBuilder={MasterUpdatesForm}
     />
   </StrictMode>
 );

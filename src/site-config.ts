@@ -8,6 +8,7 @@ export type SiteConfig = {
   brandMark: string;
   headerLabel: string;
   placeName: string;
+  state: string;
   councilName: string;
   serviceName: string;
   rules: {
@@ -55,4 +56,17 @@ export type SiteConfig = {
     question: string;
     answer: string;
   }>;
+  updates: {
+    enabled: boolean;
+    heading: string;
+    description: string;
+    consentLabel: string;
+    submitLabel: string;
+    successMessage: string;
+    notifications: {
+      fromEmail: string;
+      collectionLeadDays: number;
+      itemsOutLeadDays: number;
+    };
+  };
 };

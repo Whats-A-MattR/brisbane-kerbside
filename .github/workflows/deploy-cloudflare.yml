@@ -44,6 +44,7 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm notifications:config:check
       - run: pnpm typecheck
       - name: Build ${{ matrix.id }}
         run: pnpm build

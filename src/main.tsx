@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import 'leaflet/dist/leaflet.css';
 import { App } from './App';
+import { UpdatesFormBuilder } from '@site/form-builder';
 import { initAnalytics } from './analytics';
 import './styles.css';
 import type { Route, Schedule } from './types';
@@ -19,7 +20,7 @@ const route = JSON.parse(routeElement.textContent) as Route;
 
 const app = (
   <StrictMode>
-    <App schedule={schedule} route={route} />
+    <App schedule={schedule} route={route} formBuilder={UpdatesFormBuilder} />
   </StrictMode>
 );
 
