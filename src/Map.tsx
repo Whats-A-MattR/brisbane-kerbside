@@ -103,10 +103,10 @@ export function CollectionMap({
 
       L.control.zoom({ position: 'bottomright' }).addTo(map);
       L.tileLayer(
-        'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
+        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
         {
           maxZoom: 19,
-          attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         },
       ).addTo(map);
 
