@@ -8,6 +8,7 @@
   "brandMark": "BNE",
   "headerLabel": "Kerbside collection map",
   "placeName": "Brisbane",
+  "state": "QLD",
   "councilName": "Brisbane City Council",
   "serviceName": "large-item kerbside collection",
   "rules": {
@@ -27,7 +28,10 @@
     "routeSegment": "suburbs"
   },
   "map": {
-    "center": [-27.4698, 153.0251],
+    "center": [
+      -27.4698,
+      153.0251
+    ],
     "zoom": 10,
     "maxSelectionZoom": 12
   },
@@ -86,5 +90,18 @@
       "question": "Is this the official Brisbane City Council calendar?",
       "answer": "No. This is an independent presentation of Council open data. Use the official calendar for final confirmation."
     }
-  ]
+  ],
+  "updates": {
+    "enabled": true,
+    "heading": "Know when your suburb is coming up.",
+    "description": "Get a timely heads-up before Brisbane large-item collection, local events and relevant sponsor offers in your area.",
+    "consentLabel": "Yes, email me local collection dates, events and relevant sponsor offers. I can unsubscribe at any time.",
+    "submitLabel": "Get Brisbane updates",
+    "successMessage": "You’re subscribed to Brisbane area updates.",
+    "notifications": {
+      "fromEmail": "updates@whenskerbside.com",
+      "collectionLeadDays": 14,
+      "itemsOutLeadDays": 2
+    }
+  }
 }

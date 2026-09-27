@@ -3,6 +3,7 @@ export type MasterCouncil = {
   label: string;
   councilName: string;
   placeName: string;
+  state?: string;
   serviceModel: 'scheduled' | 'on_demand' | 'hybrid';
   siteUrl: string;
   actionUrl: string;

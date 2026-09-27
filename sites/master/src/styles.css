@@ -56,6 +56,19 @@ h1, h2 { margin: 0; font-family: 'Fraunces', Georgia, serif; letter-spacing: -.0
 .recall-card a, .suggestion-card a { flex: none; color: var(--lime); font-weight: 700; }
 .suggestion-card small { max-width: 620px; color: #c9d8d3; line-height: 1.45; }
 .finder-message { margin: 0 0 26px; padding: 16px 18px; border-radius: 10px; background: rgba(255,255,255,.08); }
+.updates-card { margin: 72px 0; padding: 42px; display: grid; grid-template-columns: minmax(220px, .8fr) minmax(280px, 1.2fr); gap: 36px; border-radius: 18px; background: var(--ink); color: var(--white); }
+.updates-card .eyebrow { color: #a9c2ba; }
+.updates-card h2 { font-size: clamp(2.4rem, 4.5vw, 4.5rem); }
+.updates-copy > p:last-child { color: #c9d8d3; line-height: 1.6; }
+.updates-card form { display: grid; gap: 13px; }
+.updates-card label { display: grid; gap: 6px; font-size: .82rem; font-weight: 700; }
+.updates-card input:not([type="checkbox"]), .updates-card select { width: 100%; min-height: 44px; padding: 9px 12px; border: 1px solid #a5b7ae; border-radius: 5px; color: var(--ink); background: var(--white); font: inherit; }
+.updates-location-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.updates-card .updates-consent { display: grid; grid-template-columns: 18px 1fr; align-items: start; gap: 9px; color: #e0e9e4; font-weight: 500; line-height: 1.45; }
+.updates-consent input { width: 17px; height: 17px; margin: 1px 0 0; accent-color: var(--lime); }
+.updates-card button { min-height: 48px; border: 0; border-radius: 999px; color: var(--ink); background: var(--lime); font-weight: 800; cursor: pointer; }
+.updates-card button:disabled { opacity: .7; cursor: wait; }
+.updates-status { min-height: 1.2em; margin: 0; color: var(--lime); font-size: .84rem; }
 .result-heading { margin: 38px 0 16px; display: flex; justify-content: space-between; align-items: center; }
 .result-heading h3 { margin: 0; font-size: .78rem; letter-spacing: .13em; text-transform: uppercase; }
 .result-heading span { color: #abc1ba; font-size: .76rem; }
@@ -147,6 +160,7 @@ h1, h2 { margin: 0; font-family: 'Fraunces', Georgia, serif; letter-spacing: -.0
   .hero-facts strong { font-size: 1.25rem; }
   .finder { padding-top: 48px; padding-bottom: 54px; }
   .finder-heading { align-items: stretch; flex-direction: column; }
+  .updates-card { margin-block: 48px; padding: 30px 22px; grid-template-columns: 1fr; gap: 10px; }
   .finder h2 { font-size: 2.85rem; }
   .location-button { width: 100%; }
   .search-field { margin-top: 30px; }

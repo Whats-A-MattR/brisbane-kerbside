@@ -1,0 +1,30 @@
+[
+  {
+    "id": "brisbane",
+    "name": "BNE Kerbside",
+    "placeName": "Brisbane",
+    "serviceName": "large-item kerbside collection",
+    "siteUrl": "https://brisbanekerbside.app",
+    "scheduleUrl": "https://brisbanekerbside.app/data/schedule.json",
+    "fromEmail": "updates@whenskerbside.com",
+    "locale": "en-AU",
+    "timeZone": "Australia/Brisbane",
+    "state": "QLD",
+    "collectionLeadDays": 14,
+    "itemsOutLeadDays": 2
+  },
+  {
+    "id": "logan",
+    "name": "Logan Kerbside",
+    "placeName": "Logan",
+    "serviceName": "kerbside clean-up",
+    "siteUrl": "https://logankerbside.app",
+    "scheduleUrl": "https://logankerbside.app/data/schedule.json",
+    "fromEmail": "updates@whenskerbside.com",
+    "locale": "en-AU",
+    "timeZone": "Australia/Brisbane",
+    "state": "QLD",
+    "collectionLeadDays": 7,
+    "itemsOutLeadDays": 2
+  }
+]

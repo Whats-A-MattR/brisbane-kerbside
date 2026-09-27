@@ -1,0 +1,22 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "kerbside-local-updates",
+  "main": "workers/notifications.ts",
+  "compatibility_date": "2026-09-27",
+  "triggers": {
+    "crons": [
+      "0 22 * * *"
+    ]
+  },
+  "vars": {
+    "EVENTS_JSON": "[]"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "kerbside-local-updates",
+      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

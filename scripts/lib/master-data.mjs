@@ -99,6 +99,7 @@ export async function masterData() {
       label: registryEntry.label,
       councilName: config.councilName,
       placeName: config.placeName,
+      state: config.state,
       serviceModel: 'scheduled',
       siteUrl: config.siteUrl,
       actionUrl: config.siteUrl,
