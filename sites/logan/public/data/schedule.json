@@ -1,125 +1,13 @@
 {
   "schemaVersion": 1,
   "siteId": "logan",
-  "generatedAt": "2026-08-04T09:53:04.450Z",
+  "generatedAt": "2026-11-14T05:22:57.732Z",
   "source": {
     "publisher": "Logan City Council",
     "url": "https://www.arcgis.com/home/item.html?id=17ae783777574d33bbf992c08fc24be0",
     "licence": "https://creativecommons.org/licenses/by/3.0/au/"
   },
   "collections": [
-    {
-      "id": "2026-08-03",
-      "startsOn": "2026-08-03",
-      "endsOn": "2026-08-14",
-      "putOutFrom": "2026-08-01",
-      "areas": [
-        {
-          "id": "bahrs-scrub",
-          "name": "Bahrs Scrub"
-        },
-        {
-          "id": "bannockburn",
-          "name": "Bannockburn"
-        },
-        {
-          "id": "belivah",
-          "name": "Belivah"
-        },
-        {
-          "id": "mount-warren-park",
-          "name": "Mount Warren Park"
-        },
-        {
-          "id": "windaroo",
-          "name": "Windaroo"
-        },
-        {
-          "id": "wolffdene",
-          "name": "Wolffdene"
-        }
-      ]
-    },
-    {
-      "id": "2026-08-24",
-      "startsOn": "2026-08-24",
-      "endsOn": "2026-09-04",
-      "putOutFrom": "2026-08-22",
-      "areas": [
-        {
-          "id": "logan-central",
-          "name": "Logan Central"
-        },
-        {
-          "id": "woodridge",
-          "name": "Woodridge"
-        }
-      ]
-    },
-    {
-      "id": "2026-09-07",
-      "startsOn": "2026-09-07",
-      "endsOn": "2026-09-18",
-      "putOutFrom": "2026-09-05",
-      "areas": [
-        {
-          "id": "kingston",
-          "name": "Kingston"
-        },
-        {
-          "id": "loganlea",
-          "name": "Loganlea"
-        }
-      ]
-    },
-    {
-      "id": "2026-09-21",
-      "startsOn": "2026-09-21",
-      "endsOn": "2026-10-02",
-      "putOutFrom": "2026-09-19",
-      "areas": [
-        {
-          "id": "berrinba",
-          "name": "Berrinba"
-        },
-        {
-          "id": "marsden",
-          "name": "Marsden"
-        }
-      ]
-    },
-    {
-      "id": "2026-10-12",
-      "startsOn": "2026-10-12",
-      "endsOn": "2026-10-23",
-      "putOutFrom": "2026-10-10",
-      "areas": [
-        {
-          "id": "meadowbrook",
-          "name": "Meadowbrook"
-        },
-        {
-          "id": "slacks-creek",
-          "name": "Slacks Creek"
-        }
-      ]
-    },
-    {
-      "id": "2026-10-26",
-      "startsOn": "2026-10-26",
-      "endsOn": "2026-11-06",
-      "putOutFrom": "2026-10-24",
-      "areas": [
-        {
-          "id": "crestmead",
-          "name": "Crestmead"
-        },
-        {
-          "id": "heritage-park",
-          "name": "Heritage Park"
-        }
-      ]
-    },
     {
       "id": "2026-11-09",
       "startsOn": "2026-11-09",

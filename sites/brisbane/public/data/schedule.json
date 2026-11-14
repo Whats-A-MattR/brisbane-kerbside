@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "siteId": "brisbane",
-  "generatedAt": "2026-08-04T12:10:31.848Z",
+  "generatedAt": "2026-11-14T05:22:55.622Z",
   "source": {
     "publisher": "Brisbane City Council",
     "url": "https://data.brisbane.qld.gov.au/explore/dataset/kerbside-large-item-collection-schedule/",
@@ -11,12 +11,18 @@
     {
       "id": "acacia-ridge",
       "name": "Acacia Ridge",
-      "nextCollectionId": "2026-08-31"
+      "lastCollection": {
+        "startsOn": "2026-08-31",
+        "putOutFrom": "2026-08-29"
+      }
     },
     {
       "id": "albion",
       "name": "Albion",
-      "nextCollectionId": "2026-10-26"
+      "lastCollection": {
+        "startsOn": "2026-10-26",
+        "putOutFrom": "2026-10-24"
+      }
     },
     {
       "id": "alderley",
@@ -47,12 +53,18 @@
     {
       "id": "archerfield",
       "name": "Archerfield",
-      "nextCollectionId": "2026-08-31"
+      "lastCollection": {
+        "startsOn": "2026-08-31",
+        "putOutFrom": "2026-08-29"
+      }
     },
     {
       "id": "ascot",
       "name": "Ascot",
-      "nextCollectionId": "2026-11-02"
+      "lastCollection": {
+        "startsOn": "2026-11-02",
+        "putOutFrom": "2026-10-31"
+      }
     },
     {
       "id": "ashgrove",
@@ -75,7 +87,10 @@
     {
       "id": "bald-hills",
       "name": "Bald Hills",
-      "nextCollectionId": "2026-10-06"
+      "lastCollection": {
+        "startsOn": "2026-10-06",
+        "putOutFrom": "2026-10-03"
+      }
     },
     {
       "id": "balmoral",
@@ -85,7 +100,10 @@
     {
       "id": "banyo",
       "name": "Banyo",
-      "nextCollectionId": "2026-10-26"
+      "lastCollection": {
+        "startsOn": "2026-10-26",
+        "putOutFrom": "2026-10-24"
+      }
     },
     {
       "id": "bardon",
@@ -108,7 +126,10 @@
     {
       "id": "boondall",
       "name": "Boondall",
-      "nextCollectionId": "2026-10-19"
+      "lastCollection": {
+        "startsOn": "2026-10-19",
+        "putOutFrom": "2026-10-17"
+      }
     },
     {
       "id": "bowen-hills",
@@ -118,7 +139,10 @@
     {
       "id": "bracken-ridge",
       "name": "Bracken Ridge",
-      "nextCollectionId": "2026-10-06"
+      "lastCollection": {
+        "startsOn": "2026-10-06",
+        "putOutFrom": "2026-10-03"
+      }
     },
     {
       "id": "bridgeman-downs",
@@ -128,7 +152,10 @@
     {
       "id": "brighton",
       "name": "Brighton",
-      "nextCollectionId": "2026-10-12"
+      "lastCollection": {
+        "startsOn": "2026-10-12",
+        "putOutFrom": "2026-10-10"
+      }
     },
     {
       "id": "brisbane-city",
@@ -138,7 +165,10 @@
     {
       "id": "brookfield",
       "name": "Brookfield",
-      "nextCollectionId": "2026-08-03"
+      "lastCollection": {
+        "startsOn": "2026-08-03",
+        "putOutFrom": "2026-08-01"
+      }
     },
     {
       "id": "bulimba",
@@ -196,12 +226,18 @@
     {
       "id": "chapel-hill",
       "name": "Chapel Hill",
-      "nextCollectionId": "2026-08-17"
+      "lastCollection": {
+        "startsOn": "2026-08-17",
+        "putOutFrom": "2026-08-15"
+      }
     },
     {
       "id": "chelmer",
       "name": "Chelmer",
-      "nextCollectionId": "2026-08-24"
+      "lastCollection": {
+        "startsOn": "2026-08-24",
+        "putOutFrom": "2026-08-22"
+      }
     },
     {
       "id": "chermside",
@@ -224,12 +260,18 @@
     {
       "id": "clayfield",
       "name": "Clayfield",
-      "nextCollectionId": "2026-11-02"
+      "lastCollection": {
+        "startsOn": "2026-11-02",
+        "putOutFrom": "2026-10-31"
+      }
     },
     {
       "id": "coopers-plains",
       "name": "Coopers Plains",
-      "nextCollectionId": "2026-08-31"
+      "lastCollection": {
+        "startsOn": "2026-08-31",
+        "putOutFrom": "2026-08-29"
+      }
     },
     {
       "id": "coorparoo",
@@ -239,22 +281,34 @@
     {
       "id": "corinda",
       "name": "Corinda",
-      "nextCollectionId": "2026-08-24"
+      "lastCollection": {
+        "startsOn": "2026-08-24",
+        "putOutFrom": "2026-08-22"
+      }
     },
     {
       "id": "darra",
       "name": "Darra",
-      "nextCollectionId": "2026-09-07"
+      "lastCollection": {
+        "startsOn": "2026-09-07",
+        "putOutFrom": "2026-09-05"
+      }
     },
     {
       "id": "deagon",
       "name": "Deagon",
-      "nextCollectionId": "2026-10-12"
+      "lastCollection": {
+        "startsOn": "2026-10-12",
+        "putOutFrom": "2026-10-10"
+      }
     },
     {
       "id": "doolandella",
       "name": "Doolandella",
-      "nextCollectionId": "2026-09-14"
+      "lastCollection": {
+        "startsOn": "2026-09-14",
+        "putOutFrom": "2026-09-12"
+      }
     },
     {
       "id": "drewvale",
@@ -264,7 +318,10 @@
     {
       "id": "durack",
       "name": "Durack",
-      "nextCollectionId": "2026-09-14"
+      "lastCollection": {
+        "startsOn": "2026-09-14",
+        "putOutFrom": "2026-09-12"
+      }
     },
     {
       "id": "dutton-park",
@@ -284,7 +341,10 @@
     {
       "id": "ellen-grove",
       "name": "Ellen Grove",
-      "nextCollectionId": "2026-09-07"
+      "lastCollection": {
+        "startsOn": "2026-09-07",
+        "putOutFrom": "2026-09-05"
+      }
     },
     {
       "id": "enoggera",
@@ -314,17 +374,26 @@
     {
       "id": "fig-tree-pocket",
       "name": "Fig Tree Pocket",
-      "nextCollectionId": "2026-08-17"
+      "lastCollection": {
+        "startsOn": "2026-08-17",
+        "putOutFrom": "2026-08-15"
+      }
     },
     {
       "id": "fitzgibbon",
       "name": "Fitzgibbon",
-      "nextCollectionId": "2026-10-12"
+      "lastCollection": {
+        "startsOn": "2026-10-12",
+        "putOutFrom": "2026-10-10"
+      }
     },
     {
       "id": "forest-lake",
       "name": "Forest Lake",
-      "nextCollectionId": "2026-09-07"
+      "lastCollection": {
+        "startsOn": "2026-09-07",
+        "putOutFrom": "2026-09-05"
+      }
     },
     {
       "id": "fortitude-valley",
@@ -339,7 +408,10 @@
     {
       "id": "geebung",
       "name": "Geebung",
-      "nextCollectionId": "2026-10-26"
+      "lastCollection": {
+        "startsOn": "2026-10-26",
+        "putOutFrom": "2026-10-24"
+      }
     },
     {
       "id": "gordon-park",
@@ -349,7 +421,10 @@
     {
       "id": "graceville",
       "name": "Graceville",
-      "nextCollectionId": "2026-08-24"
+      "lastCollection": {
+        "startsOn": "2026-08-24",
+        "putOutFrom": "2026-08-22"
+      }
     },
     {
       "id": "grange",
@@ -369,7 +444,10 @@
     {
       "id": "hamilton",
       "name": "Hamilton",
-      "nextCollectionId": "2026-11-02"
+      "lastCollection": {
+        "startsOn": "2026-11-02",
+        "putOutFrom": "2026-10-31"
+      }
     },
     {
       "id": "hawthorne",
@@ -379,7 +457,10 @@
     {
       "id": "heathwood",
       "name": "Heathwood",
-      "nextCollectionId": "2026-08-31"
+      "lastCollection": {
+        "startsOn": "2026-08-31",
+        "putOutFrom": "2026-08-29"
+      }
     },
     {
       "id": "hemmant",
@@ -389,7 +470,10 @@
     {
       "id": "hendra",
       "name": "Hendra",
-      "nextCollectionId": "2026-11-02"
+      "lastCollection": {
+        "startsOn": "2026-11-02",
+        "putOutFrom": "2026-10-31"
+      }
     },
     {
       "id": "herston",
@@ -414,27 +498,42 @@
     {
       "id": "inala",
       "name": "Inala",
-      "nextCollectionId": "2026-09-14"
+      "lastCollection": {
+        "startsOn": "2026-09-14",
+        "putOutFrom": "2026-09-12"
+      }
     },
     {
       "id": "indooroopilly",
       "name": "Indooroopilly",
-      "nextCollectionId": "2026-08-17"
+      "lastCollection": {
+        "startsOn": "2026-08-17",
+        "putOutFrom": "2026-08-15"
+      }
     },
     {
       "id": "jamboree-heights",
       "name": "Jamboree Heights",
-      "nextCollectionId": "2026-08-10"
+      "lastCollection": {
+        "startsOn": "2026-08-10",
+        "putOutFrom": "2026-08-08"
+      }
     },
     {
       "id": "jindalee",
       "name": "Jindalee",
-      "nextCollectionId": "2026-08-10"
+      "lastCollection": {
+        "startsOn": "2026-08-10",
+        "putOutFrom": "2026-08-08"
+      }
     },
     {
       "id": "kalinga",
       "name": "Kalinga",
-      "nextCollectionId": "2026-10-26"
+      "lastCollection": {
+        "startsOn": "2026-10-26",
+        "putOutFrom": "2026-10-24"
+      }
     },
     {
       "id": "kangaroo-point",
@@ -467,12 +566,18 @@
     {
       "id": "kenmore",
       "name": "Kenmore",
-      "nextCollectionId": "2026-08-03"
+      "lastCollection": {
+        "startsOn": "2026-08-03",
+        "putOutFrom": "2026-08-01"
+      }
     },
     {
       "id": "kenmore-hills",
       "name": "Kenmore Hills",
-      "nextCollectionId": "2026-08-03"
+      "lastCollection": {
+        "startsOn": "2026-08-03",
+        "putOutFrom": "2026-08-01"
+      }
     },
     {
       "id": "keperra",
@@ -503,7 +608,10 @@
     {
       "id": "larapinta",
       "name": "Larapinta",
-      "nextCollectionId": "2026-08-31"
+      "lastCollection": {
+        "startsOn": "2026-08-31",
+        "putOutFrom": "2026-08-29"
+      }
     },
     {
       "id": "lota",
@@ -523,7 +631,10 @@
     {
       "id": "macgregor",
       "name": "MacGregor",
-      "nextCollectionId": "2026-08-31"
+      "lastCollection": {
+        "startsOn": "2026-08-31",
+        "putOutFrom": "2026-08-29"
+      }
     },
     {
       "id": "mackenzie",
@@ -553,7 +664,10 @@
     {
       "id": "middle-park",
       "name": "Middle Park",
-      "nextCollectionId": "2026-08-10"
+      "lastCollection": {
+        "startsOn": "2026-08-10",
+        "putOutFrom": "2026-08-08"
+      }
     },
     {
       "id": "milton",
@@ -607,7 +721,10 @@
     {
       "id": "mount-ommaney",
       "name": "Mount Ommaney",
-      "nextCollectionId": "2026-08-10"
+      "lastCollection": {
+        "startsOn": "2026-08-10",
+        "putOutFrom": "2026-08-08"
+      }
     },
     {
       "id": "murarrie",
@@ -642,17 +759,26 @@
     {
       "id": "northgate",
       "name": "Northgate",
-      "nextCollectionId": "2026-10-26"
+      "lastCollection": {
+        "startsOn": "2026-10-26",
+        "putOutFrom": "2026-10-24"
+      }
     },
     {
       "id": "nudgee",
       "name": "Nudgee",
-      "nextCollectionId": "2026-10-19"
+      "lastCollection": {
+        "startsOn": "2026-10-19",
+        "putOutFrom": "2026-10-17"
+      }
     },
     {
       "id": "nudgee-beach",
       "name": "Nudgee Beach",
-      "nextCollectionId": "2026-10-19"
+      "lastCollection": {
+        "startsOn": "2026-10-19",
+        "putOutFrom": "2026-10-17"
+      }
     },
     {
       "id": "nundah",
@@ -662,7 +788,10 @@
     {
       "id": "oxley",
       "name": "Oxley",
-      "nextCollectionId": "2026-08-24"
+      "lastCollection": {
+        "startsOn": "2026-08-24",
+        "putOutFrom": "2026-08-22"
+      }
     },
     {
       "id": "paddington",
@@ -672,7 +801,10 @@
     {
       "id": "pallara",
       "name": "Pallara",
-      "nextCollectionId": "2026-08-31"
+      "lastCollection": {
+        "startsOn": "2026-08-31",
+        "putOutFrom": "2026-08-29"
+      }
     },
     {
       "id": "parkinson",
@@ -698,12 +830,18 @@
     {
       "id": "pinkenba",
       "name": "Pinkenba",
-      "nextCollectionId": "2026-10-19"
+      "lastCollection": {
+        "startsOn": "2026-10-19",
+        "putOutFrom": "2026-10-17"
+      }
     },
     {
       "id": "pullenvale",
       "name": "Pullenvale",
-      "nextCollectionId": "2026-08-03"
+      "lastCollection": {
+        "startsOn": "2026-08-03",
+        "putOutFrom": "2026-08-01"
+      }
     },
     {
       "id": "ransome",
@@ -718,17 +856,26 @@
     {
       "id": "richlands",
       "name": "Richlands",
-      "nextCollectionId": "2026-09-07"
+      "lastCollection": {
+        "startsOn": "2026-09-07",
+        "putOutFrom": "2026-09-05"
+      }
     },
     {
       "id": "riverhills",
       "name": "Riverhills",
-      "nextCollectionId": "2026-08-10"
+      "lastCollection": {
+        "startsOn": "2026-08-10",
+        "putOutFrom": "2026-08-08"
+      }
     },
     {
       "id": "robertson",
       "name": "Robertson",
-      "nextCollectionId": "2026-08-31"
+      "lastCollection": {
+        "startsOn": "2026-08-31",
+        "putOutFrom": "2026-08-29"
+      }
     },
     {
       "id": "rochedale",
@@ -753,7 +900,10 @@
     {
       "id": "sandgate",
       "name": "Sandgate",
-      "nextCollectionId": "2026-10-12"
+      "lastCollection": {
+        "startsOn": "2026-10-12",
+        "putOutFrom": "2026-10-10"
+      }
     },
     {
       "id": "seven-hills",
@@ -763,22 +913,34 @@
     {
       "id": "seventeen-mile-rocks",
       "name": "Seventeen Mile Rocks",
-      "nextCollectionId": "2026-08-24"
+      "lastCollection": {
+        "startsOn": "2026-08-24",
+        "putOutFrom": "2026-08-22"
+      }
     },
     {
       "id": "sherwood",
       "name": "Sherwood",
-      "nextCollectionId": "2026-08-24"
+      "lastCollection": {
+        "startsOn": "2026-08-24",
+        "putOutFrom": "2026-08-22"
+      }
     },
     {
       "id": "shorncliffe",
       "name": "Shorncliffe",
-      "nextCollectionId": "2026-10-06"
+      "lastCollection": {
+        "startsOn": "2026-10-06",
+        "putOutFrom": "2026-10-03"
+      }
     },
     {
       "id": "sinnamon-park",
       "name": "Sinnamon Park",
-      "nextCollectionId": "2026-08-10"
+      "lastCollection": {
+        "startsOn": "2026-08-10",
+        "putOutFrom": "2026-08-08"
+      }
     },
     {
       "id": "south-brisbane",
@@ -821,7 +983,10 @@
     {
       "id": "sumner",
       "name": "Sumner",
-      "nextCollectionId": "2026-08-24"
+      "lastCollection": {
+        "startsOn": "2026-08-24",
+        "putOutFrom": "2026-08-22"
+      }
     },
     {
       "id": "sunnybank",
@@ -836,7 +1001,10 @@
     {
       "id": "taigum",
       "name": "Taigum",
-      "nextCollectionId": "2026-10-12"
+      "lastCollection": {
+        "startsOn": "2026-10-12",
+        "putOutFrom": "2026-10-10"
+      }
     },
     {
       "id": "taringa",
@@ -874,12 +1042,18 @@
     {
       "id": "toowong",
       "name": "Toowong",
-      "nextCollectionId": "2026-08-17"
+      "lastCollection": {
+        "startsOn": "2026-08-17",
+        "putOutFrom": "2026-08-15"
+      }
     },
     {
       "id": "upper-brookfield",
       "name": "Upper Brookfield",
-      "nextCollectionId": "2026-08-03"
+      "lastCollection": {
+        "startsOn": "2026-08-03",
+        "putOutFrom": "2026-08-01"
+      }
     },
     {
       "id": "upper-kedron",
@@ -894,12 +1068,18 @@
     {
       "id": "virginia",
       "name": "Virginia",
-      "nextCollectionId": "2026-10-19"
+      "lastCollection": {
+        "startsOn": "2026-10-19",
+        "putOutFrom": "2026-10-17"
+      }
     },
     {
       "id": "wacol",
       "name": "Wacol",
-      "nextCollectionId": "2026-09-07"
+      "lastCollection": {
+        "startsOn": "2026-09-07",
+        "putOutFrom": "2026-09-05"
+      }
     },
     {
       "id": "wakerley",
@@ -919,12 +1099,18 @@
     {
       "id": "westlake",
       "name": "Westlake",
-      "nextCollectionId": "2026-08-10"
+      "lastCollection": {
+        "startsOn": "2026-08-10",
+        "putOutFrom": "2026-08-08"
+      }
     },
     {
       "id": "willawong",
       "name": "Willawong",
-      "nextCollectionId": "2026-08-31"
+      "lastCollection": {
+        "startsOn": "2026-08-31",
+        "putOutFrom": "2026-08-29"
+      }
     },
     {
       "id": "wilston",
@@ -949,7 +1135,10 @@
     {
       "id": "wooloowin",
       "name": "Wooloowin",
-      "nextCollectionId": "2026-10-26"
+      "lastCollection": {
+        "startsOn": "2026-10-26",
+        "putOutFrom": "2026-10-24"
+      }
     },
     {
       "id": "wynnum",
@@ -974,350 +1163,13 @@
     {
       "id": "zillmere",
       "name": "Zillmere",
-      "nextCollectionId": "2026-10-19"
+      "lastCollection": {
+        "startsOn": "2026-10-19",
+        "putOutFrom": "2026-10-17"
+      }
     }
   ],
   "collections": [
-    {
-      "id": "2026-08-03",
-      "startsOn": "2026-08-03",
-      "putOutFrom": "2026-08-01",
-      "areas": [
-        {
-          "id": "brookfield",
-          "name": "Brookfield"
-        },
-        {
-          "id": "kenmore",
-          "name": "Kenmore"
-        },
-        {
-          "id": "kenmore-hills",
-          "name": "Kenmore Hills"
-        },
-        {
-          "id": "pullenvale",
-          "name": "Pullenvale"
-        },
-        {
-          "id": "upper-brookfield",
-          "name": "Upper Brookfield"
-        }
-      ]
-    },
-    {
-      "id": "2026-08-10",
-      "startsOn": "2026-08-10",
-      "putOutFrom": "2026-08-08",
-      "areas": [
-        {
-          "id": "jamboree-heights",
-          "name": "Jamboree Heights"
-        },
-        {
-          "id": "jindalee",
-          "name": "Jindalee"
-        },
-        {
-          "id": "middle-park",
-          "name": "Middle Park"
-        },
-        {
-          "id": "mount-ommaney",
-          "name": "Mount Ommaney"
-        },
-        {
-          "id": "riverhills",
-          "name": "Riverhills"
-        },
-        {
-          "id": "sinnamon-park",
-          "name": "Sinnamon Park"
-        },
-        {
-          "id": "westlake",
-          "name": "Westlake"
-        }
-      ]
-    },
-    {
-      "id": "2026-08-17",
-      "startsOn": "2026-08-17",
-      "putOutFrom": "2026-08-15",
-      "areas": [
-        {
-          "id": "chapel-hill",
-          "name": "Chapel Hill"
-        },
-        {
-          "id": "fig-tree-pocket",
-          "name": "Fig Tree Pocket"
-        },
-        {
-          "id": "indooroopilly",
-          "name": "Indooroopilly"
-        },
-        {
-          "id": "toowong",
-          "name": "Toowong"
-        }
-      ]
-    },
-    {
-      "id": "2026-08-24",
-      "startsOn": "2026-08-24",
-      "putOutFrom": "2026-08-22",
-      "areas": [
-        {
-          "id": "chelmer",
-          "name": "Chelmer"
-        },
-        {
-          "id": "corinda",
-          "name": "Corinda"
-        },
-        {
-          "id": "graceville",
-          "name": "Graceville"
-        },
-        {
-          "id": "oxley",
-          "name": "Oxley"
-        },
-        {
-          "id": "seventeen-mile-rocks",
-          "name": "Seventeen Mile Rocks"
-        },
-        {
-          "id": "sherwood",
-          "name": "Sherwood"
-        },
-        {
-          "id": "sumner",
-          "name": "Sumner"
-        }
-      ]
-    },
-    {
-      "id": "2026-08-31",
-      "startsOn": "2026-08-31",
-      "putOutFrom": "2026-08-29",
-      "areas": [
-        {
-          "id": "acacia-ridge",
-          "name": "Acacia Ridge"
-        },
-        {
-          "id": "archerfield",
-          "name": "Archerfield"
-        },
-        {
-          "id": "coopers-plains",
-          "name": "Coopers Plains"
-        },
-        {
-          "id": "heathwood",
-          "name": "Heathwood"
-        },
-        {
-          "id": "larapinta",
-          "name": "Larapinta"
-        },
-        {
-          "id": "macgregor",
-          "name": "MacGregor"
-        },
-        {
-          "id": "pallara",
-          "name": "Pallara"
-        },
-        {
-          "id": "robertson",
-          "name": "Robertson"
-        },
-        {
-          "id": "willawong",
-          "name": "Willawong"
-        }
-      ]
-    },
-    {
-      "id": "2026-09-07",
-      "startsOn": "2026-09-07",
-      "putOutFrom": "2026-09-05",
-      "areas": [
-        {
-          "id": "darra",
-          "name": "Darra"
-        },
-        {
-          "id": "ellen-grove",
-          "name": "Ellen Grove"
-        },
-        {
-          "id": "forest-lake",
-          "name": "Forest Lake"
-        },
-        {
-          "id": "richlands",
-          "name": "Richlands"
-        },
-        {
-          "id": "wacol",
-          "name": "Wacol"
-        }
-      ]
-    },
-    {
-      "id": "2026-09-14",
-      "startsOn": "2026-09-14",
-      "putOutFrom": "2026-09-12",
-      "areas": [
-        {
-          "id": "doolandella",
-          "name": "Doolandella"
-        },
-        {
-          "id": "durack",
-          "name": "Durack"
-        },
-        {
-          "id": "inala",
-          "name": "Inala"
-        }
-      ]
-    },
-    {
-      "id": "2026-10-06",
-      "startsOn": "2026-10-06",
-      "putOutFrom": "2026-10-03",
-      "areas": [
-        {
-          "id": "bald-hills",
-          "name": "Bald Hills"
-        },
-        {
-          "id": "bracken-ridge",
-          "name": "Bracken Ridge"
-        },
-        {
-          "id": "shorncliffe",
-          "name": "Shorncliffe"
-        }
-      ]
-    },
-    {
-      "id": "2026-10-12",
-      "startsOn": "2026-10-12",
-      "putOutFrom": "2026-10-10",
-      "areas": [
-        {
-          "id": "brighton",
-          "name": "Brighton"
-        },
-        {
-          "id": "deagon",
-          "name": "Deagon"
-        },
-        {
-          "id": "fitzgibbon",
-          "name": "Fitzgibbon"
-        },
-        {
-          "id": "sandgate",
-          "name": "Sandgate"
-        },
-        {
-          "id": "taigum",
-          "name": "Taigum"
-        }
-      ]
-    },
-    {
-      "id": "2026-10-19",
-      "startsOn": "2026-10-19",
-      "putOutFrom": "2026-10-17",
-      "areas": [
-        {
-          "id": "boondall",
-          "name": "Boondall"
-        },
-        {
-          "id": "nudgee",
-          "name": "Nudgee"
-        },
-        {
-          "id": "nudgee-beach",
-          "name": "Nudgee Beach"
-        },
-        {
-          "id": "pinkenba",
-          "name": "Pinkenba"
-        },
-        {
-          "id": "virginia",
-          "name": "Virginia"
-        },
-        {
-          "id": "zillmere",
-          "name": "Zillmere"
-        }
-      ]
-    },
-    {
-      "id": "2026-10-26",
-      "startsOn": "2026-10-26",
-      "putOutFrom": "2026-10-24",
-      "areas": [
-        {
-          "id": "albion",
-          "name": "Albion"
-        },
-        {
-          "id": "banyo",
-          "name": "Banyo"
-        },
-        {
-          "id": "geebung",
-          "name": "Geebung"
-        },
-        {
-          "id": "kalinga",
-          "name": "Kalinga"
-        },
-        {
-          "id": "northgate",
-          "name": "Northgate"
-        },
-        {
-          "id": "wooloowin",
-          "name": "Wooloowin"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-02",
-      "startsOn": "2026-11-02",
-      "putOutFrom": "2026-10-31",
-      "areas": [
-        {
-          "id": "ascot",
-          "name": "Ascot"
-        },
-        {
-          "id": "clayfield",
-          "name": "Clayfield"
-        },
-        {
-          "id": "hamilton",
-          "name": "Hamilton"
-        },
-        {
-          "id": "hendra",
-          "name": "Hendra"
-        }
-      ]
-    },
     {
       "id": "2026-11-09",
       "startsOn": "2026-11-09",
