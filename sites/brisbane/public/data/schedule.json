@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "siteId": "brisbane",
-  "generatedAt": "2026-11-14T05:22:55.622Z",
+  "generatedAt": "2026-11-16T02:26:32.480Z",
   "source": {
     "publisher": "Brisbane City Council",
     "url": "https://data.brisbane.qld.gov.au/explore/dataset/kerbside-large-item-collection-schedule/",
@@ -416,7 +416,10 @@
     {
       "id": "gordon-park",
       "name": "Gordon Park",
-      "nextCollectionId": "2026-11-09"
+      "lastCollection": {
+        "startsOn": "2026-11-09",
+        "putOutFrom": "2026-11-07"
+      }
     },
     {
       "id": "graceville",
@@ -621,7 +624,10 @@
     {
       "id": "lutwyche",
       "name": "Lutwyche",
-      "nextCollectionId": "2026-11-09"
+      "lastCollection": {
+        "startsOn": "2026-11-09",
+        "putOutFrom": "2026-11-07"
+      }
     },
     {
       "id": "lytton",
@@ -783,7 +789,10 @@
     {
       "id": "nundah",
       "name": "Nundah",
-      "nextCollectionId": "2026-11-09"
+      "lastCollection": {
+        "startsOn": "2026-11-09",
+        "putOutFrom": "2026-11-07"
+      }
     },
     {
       "id": "oxley",
@@ -1089,7 +1098,10 @@
     {
       "id": "wavell-heights",
       "name": "Wavell Heights",
-      "nextCollectionId": "2026-11-09"
+      "lastCollection": {
+        "startsOn": "2026-11-09",
+        "putOutFrom": "2026-11-07"
+      }
     },
     {
       "id": "west-end",
@@ -1170,29 +1182,6 @@
     }
   ],
   "collections": [
-    {
-      "id": "2026-11-09",
-      "startsOn": "2026-11-09",
-      "putOutFrom": "2026-11-07",
-      "areas": [
-        {
-          "id": "gordon-park",
-          "name": "Gordon Park"
-        },
-        {
-          "id": "lutwyche",
-          "name": "Lutwyche"
-        },
-        {
-          "id": "nundah",
-          "name": "Nundah"
-        },
-        {
-          "id": "wavell-heights",
-          "name": "Wavell Heights"
-        }
-      ]
-    },
     {
       "id": "2026-11-16",
       "startsOn": "2026-11-16",
