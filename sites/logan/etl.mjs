@@ -1,3 +1,4 @@
+import stormNotice from './storm-notice.json' with { type: 'json' };
 const SITE_ID = 'logan';
 const SCHEDULE_ITEM_ID = '17ae783777574d33bbf992c08fc24be0';
 const SCHEDULE_URL = `https://www.arcgis.com/sharing/rest/content/items/${SCHEDULE_ITEM_ID}/data`;
@@ -125,7 +126,11 @@ export function transform({ rows, boundaries }) {
   const today = brisbaneToday();
   const usable = rows
     .map((row) => ({ ...row, startsOn: isoDate(row.Start_Date), endsOn: isoDate(row.End_Date) }))
-    .filter((row) => row.endsOn >= today);
+    // Keep the original dated routes reachable while Council’s delay notice is active.
+    .filter((row) => row.endsOn >= today || (
+      stormNotice.active && row.startsOn === stormNotice.collectionId
+      && stormNotice.areaIds.includes(areaDetails(row).id)
+    ));
   const geometryByName = new Map(boundaries.features.map((feature) => [feature.properties.locality, feature.geometry]));
   const grouped = new Map();
   const features = [];
