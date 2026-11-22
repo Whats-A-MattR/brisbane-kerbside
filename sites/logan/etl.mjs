@@ -128,7 +128,7 @@ export function transform({ rows, boundaries }) {
     .map((row) => ({ ...row, startsOn: isoDate(row.Start_Date), endsOn: isoDate(row.End_Date) }))
     // Keep the original dated routes reachable while Council’s delay notice is active.
     .filter((row) => row.endsOn >= today || (
-      stormNotice.active && row.startsOn === stormNotice.collectionId
+      stormNotice.status === 'delayed' && row.startsOn === stormNotice.collectionId
       && stormNotice.areaIds.includes(areaDetails(row).id)
     ));
   const geometryByName = new Map(boundaries.features.map((feature) => [feature.properties.locality, feature.geometry]));
