@@ -7,6 +7,12 @@ on:
     workflows: [Update council data]
     types: [completed]
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      logan_only:
+        description: Deploy only Logan and the directory
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -19,10 +25,14 @@ jobs:
       sites: ${{ steps.registry.outputs.sites }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: refs/heads/main
       - id: registry
         name: Read the site registry
+        env:
+          LOGAN_ONLY: ${{ inputs.logan_only || false }}
         run: |
-          echo "sites=$(jq -c '{include: map({id, cloudflareProject, environment: .githubEnvironment, analyticsEnabled, adsEnabled})}' sites/registry.json)" >> "$GITHUB_OUTPUT"
+          echo "sites=$(jq -c --arg only "$LOGAN_ONLY" '{include: map(select($only != "true" or .id == "logan" or .id == "master") | {id, cloudflareProject, environment: .githubEnvironment, analyticsEnabled, adsEnabled})}' sites/registry.json)" >> "$GITHUB_OUTPUT"
 
   deploy:
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
@@ -38,6 +48,8 @@ jobs:
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: refs/heads/main
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
