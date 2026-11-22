@@ -13,6 +13,10 @@ on:
         description: Deploy only Logan and the directory
         type: boolean
         default: false
+      revision:
+        description: Exact source revision to deploy
+        type: string
+        default: ''
 
 permissions:
   contents: read
@@ -23,15 +27,17 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       sites: ${{ steps.registry.outputs.sites }}
+      revision: ${{ steps.registry.outputs.revision }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: refs/heads/main
+          ref: ${{ inputs.revision || 'refs/heads/main' }}
       - id: registry
         name: Read the site registry
         env:
           LOGAN_ONLY: ${{ inputs.logan_only || false }}
         run: |
+          echo "revision=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
           echo "sites=$(jq -c --arg only "$LOGAN_ONLY" '{include: map(select($only != "true" or .id == "logan" or .id == "master") | {id, cloudflareProject, environment: .githubEnvironment, analyticsEnabled, adsEnabled})}' sites/registry.json)" >> "$GITHUB_OUTPUT"
 
   deploy:
@@ -49,7 +55,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: refs/heads/main
+          ref: ${{ needs.prepare.outputs.revision }}
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -64,10 +70,17 @@ jobs:
           VITE_GA_MEASUREMENT_ID: ${{ matrix.analyticsEnabled && vars.GA_MEASUREMENT_ID || '' }}
           VITE_ADSENSE_CLIENT: ${{ matrix.adsEnabled && vars.ADSENSE_CLIENT || '' }}
           VITE_ADSENSE_SLOT: ${{ matrix.adsEnabled && vars.ADSENSE_SLOT || '' }}
+      - name: Stamp the public Logan notice version
+        if: matrix.id == 'logan' || matrix.id == 'master'
+        env:
+          SITE: ${{ matrix.id }}
+        run: |
+          mkdir -p "dist/$SITE/data"
+          sha256sum sites/logan/storm-notice.json | cut -d ' ' -f 1 > "dist/$SITE/data/logan-notice-version.txt"
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist/${{ matrix.id }} --project-name=${{ matrix.cloudflareProject }}
+          command: pages deploy dist/${{ matrix.id }} --project-name=${{ matrix.cloudflareProject }} --branch=main --commit-hash=${{ needs.prepare.outputs.revision }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
