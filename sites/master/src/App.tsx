@@ -425,7 +425,7 @@ function BookingCouncilPage({ council }: { council: MasterCouncil }) {
 
 function CouncilPage({ council }: { council: MasterCouncil }) {
   if (!isScheduled(council)) return <BookingCouncilPage council={council} />;
-  const stormDelayed = hasLoganStormNotice(council.id, council.nextCollection?.startsOn);
+  const stormDelayed = Boolean(council.nextCollection && hasLoganStormNotice(council.id, council.nextCollection.startsOn));
   return (
     <main className="inner-page council-page">
       <nav className="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><a href="/councils/">Councils</a><span>›</span><span>{council.placeName}</span></nav>
