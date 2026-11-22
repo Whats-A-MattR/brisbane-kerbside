@@ -1,3 +1,4 @@
+import { hasLoganStormNotice, LoganStormNotice } from '../sites/logan/StormNotice';
 import { useEffect, useId, useMemo, useState } from 'react';
 import { MdClose, MdMenu, MdSearch } from 'react-icons/md';
 import { AdStrip } from './AdStrip';
@@ -156,7 +157,9 @@ function routeCopy(route: Route, collections: Collection[], schedule: Schedule) 
       eyebrow: `${siteConfig.placeName} ${siteConfig.area.singular} schedule`,
       title: `${suburb} ${siteConfig.serviceName} date`,
       lede: collections[0]
-        ? `The next published large-item kerbside collection for ${suburb} runs ${collectionRangeLabel(collections[0])}.`
+        ? hasLoganStormNotice(siteConfig.id, collections[0].id, route.id)
+          ? `Council originally scheduled this collection for ${collectionRangeLabel(collections[0])}.`
+          : `The next published large-item kerbside collection for ${suburb} runs ${collectionRangeLabel(collections[0])}.`
         : directoryArea?.lastCollection
           ? `${suburb} was last collected on ${formatCollectionDate(directoryArea.lastCollection.startsOn).label}. Council has not yet published its next date.`
           : `No upcoming large-item collection is currently published for ${suburb}.`,
@@ -186,6 +189,7 @@ function RouteFacts({ route, collection }: { route: Route; collection: Collectio
   const collectionDate = formatCollectionDate(collection.startsOn);
   const collectionEndDate = collection.endsOn ? formatCollectionDate(collection.endsOn) : undefined;
   const itemsOutDate = formatCollectionDate(collection.putOutFrom);
+  const stormDelayed = hasLoganStormNotice(siteConfig.id, collection.id);
 
   if (route.type === 'area') {
     const suburb = collection.areas.find((item) => item.id === route.id);
@@ -195,15 +199,15 @@ function RouteFacts({ route, collection }: { route: Route; collection: Collectio
     return (
       <section className="route-facts" aria-labelledby="route-facts-title">
         <p className="eyebrow">At a glance</p>
-        <h2 id="route-facts-title">Next published collection for {suburb.name}</h2>
+        <h2 id="route-facts-title">{stormDelayed ? 'Originally scheduled collection' : 'Next published collection'} for {suburb.name}</h2>
         <p>
           {siteConfig.councilName}’s current open schedule places {suburb.name} in the collection {siteConfig.schedule.singular} starting {collectionDate.label}.
-          Put eligible large items out from {itemsOutDate.label}, ready for collection by {siteConfig.rules.readyBy}.
+          {!stormDelayed && <> Put eligible large items out from {itemsOutDate.label}, ready for collection by {siteConfig.rules.readyBy}.</>}
         </p>
         <dl>
-          <div><dt>Collection starts</dt><dd>{collectionDate.label}</dd></div>
-          {collectionEndDate && <div><dt>Collection ends</dt><dd>{collectionEndDate.label}</dd></div>}
-          <div><dt>Items out from</dt><dd>{itemsOutDate.label}</dd></div>
+          <div><dt>{stormDelayed ? 'Original start' : 'Collection starts'}</dt><dd>{collectionDate.label}</dd></div>
+          {collectionEndDate && <div><dt>{stormDelayed ? 'Original end' : 'Collection ends'}</dt><dd>{collectionEndDate.label}</dd></div>}
+          {!stormDelayed && <div><dt>Items out from</dt><dd>{itemsOutDate.label}</dd></div>}
           <div><dt>Published with</dt><dd>{sameWeek.length} other {sameWeek.length === 1 ? siteConfig.area.singular : siteConfig.area.plural}</dd></div>
           <div><dt>Household limit</dt><dd>{siteConfig.rules.householdLimit}</dd></div>
         </dl>
@@ -227,13 +231,13 @@ function RouteFacts({ route, collection }: { route: Route; collection: Collectio
     <section className="route-facts" aria-labelledby="route-facts-title">
       <p className="eyebrow">{siteConfig.schedule.eyebrow} details</p>
       <h2 id="route-facts-title">{collection.areas.length} {siteConfig.area.plural} are on this published run</h2>
-      <p>
-        Eligible large household items can be placed out from {itemsOutDate.label}. Have the pile ready by {siteConfig.rules.readyBy}; this run begins {collectionDate.label}{collectionEndDate ? ` and is scheduled through ${collectionEndDate.label}` : ''}.
-      </p>
+      {!stormDelayed && (
+        <p>Eligible large household items can be placed out from {itemsOutDate.label}. Have the pile ready by {siteConfig.rules.readyBy}; this run begins {collectionDate.label}{collectionEndDate ? ` and is scheduled through ${collectionEndDate.label}` : ''}.</p>
+      )}
       <dl>
-        <div><dt>Collection starts</dt><dd>{collectionDate.label}</dd></div>
-        {collectionEndDate && <div><dt>Collection ends</dt><dd>{collectionEndDate.label}</dd></div>}
-        <div><dt>Items out from</dt><dd>{itemsOutDate.label}</dd></div>
+        <div><dt>{stormDelayed ? 'Original start' : 'Collection starts'}</dt><dd>{collectionDate.label}</dd></div>
+        {collectionEndDate && <div><dt>{stormDelayed ? 'Original end' : 'Collection ends'}</dt><dd>{collectionEndDate.label}</dd></div>}
+        {!stormDelayed && <div><dt>Items out from</dt><dd>{itemsOutDate.label}</dd></div>}
         <div><dt>{siteConfig.area.plural[0].toUpperCase()}{siteConfig.area.plural.slice(1)} listed</dt><dd>{collection.areas.length}</dd></div>
         <div><dt>Household limit</dt><dd>{siteConfig.rules.householdLimit}</dd></div>
       </dl>
@@ -430,6 +434,10 @@ export function App({ schedule, route }: AppProps) {
           onQueryChange={setSuburbQuery}
         />
 
+        {hasLoganStormNotice(siteConfig.id, route.type === 'collection' ? route.id : undefined, selectedArea) && (
+          <LoganStormNotice className="route-facts" />
+        )}
+
         {historicalAreaRoute && routeArea ? <HistoricalAreaFacts area={routeArea} /> : <RouteFacts route={route} collection={selected} />}
 
         {historicalAreaRoute ? (
@@ -485,7 +493,9 @@ export function App({ schedule, route }: AppProps) {
                         </span>
                       ))}
                     </span>
-                    <small>{collection.endsOn ? `Runs through ${formatCollectionDate(collection.endsOn).label}. ` : ''}Put items out from {itemsOut.label}; have them ready by {siteConfig.rules.readyBy}</small>
+                    <small>{hasLoganStormNotice(siteConfig.id, collection.id)
+                      ? 'Original dates. Storm delay; check with Council.'
+                      : <>{collection.endsOn ? `Runs through ${formatCollectionDate(collection.endsOn).label}. ` : ''}Put items out from {itemsOut.label}; have them ready by {siteConfig.rules.readyBy}</>}</small>
                   </span>
                 </article>
               </li>
@@ -623,7 +633,7 @@ export function App({ schedule, route }: AppProps) {
                   }}
                 >
                   <strong>{siteConfig.schedule.startLabel} {date.label}</strong>
-                  <span>{collection.areas.map((suburb) => suburb.name).join(' · ')}</span>
+                  <span>{collection.areas.map((suburb) => suburb.name).join(' · ')}{hasLoganStormNotice(siteConfig.id, collection.id) && ' · Storm delay'}</span>
                 </a>
               </li>
             );
