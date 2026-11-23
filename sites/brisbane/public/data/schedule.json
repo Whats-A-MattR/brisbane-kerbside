@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "siteId": "brisbane",
-  "generatedAt": "2026-11-16T02:26:32.480Z",
+  "generatedAt": "2026-11-23T02:27:36.006Z",
   "source": {
     "publisher": "Brisbane City Council",
     "url": "https://data.brisbane.qld.gov.au/explore/dataset/kerbside-large-item-collection-schedule/",
@@ -559,7 +559,10 @@
     {
       "id": "kedron",
       "name": "Kedron",
-      "nextCollectionId": "2026-11-16"
+      "lastCollection": {
+        "startsOn": "2026-11-16",
+        "putOutFrom": "2026-11-14"
+      }
     },
     {
       "id": "kelvin-grove",
@@ -972,12 +975,18 @@
     {
       "id": "stafford",
       "name": "Stafford",
-      "nextCollectionId": "2026-11-16"
+      "lastCollection": {
+        "startsOn": "2026-11-16",
+        "putOutFrom": "2026-11-14"
+      }
     },
     {
       "id": "stafford-heights",
       "name": "Stafford Heights",
-      "nextCollectionId": "2026-11-16"
+      "lastCollection": {
+        "startsOn": "2026-11-16",
+        "putOutFrom": "2026-11-14"
+      }
     },
     {
       "id": "stones-corner",
@@ -1182,25 +1191,6 @@
     }
   ],
   "collections": [
-    {
-      "id": "2026-11-16",
-      "startsOn": "2026-11-16",
-      "putOutFrom": "2026-11-14",
-      "areas": [
-        {
-          "id": "kedron",
-          "name": "Kedron"
-        },
-        {
-          "id": "stafford",
-          "name": "Stafford"
-        },
-        {
-          "id": "stafford-heights",
-          "name": "Stafford Heights"
-        }
-      ]
-    },
     {
       "id": "2026-11-23",
       "startsOn": "2026-11-23",

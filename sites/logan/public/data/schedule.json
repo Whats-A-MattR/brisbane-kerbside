@@ -1,29 +1,13 @@
 {
   "schemaVersion": 1,
   "siteId": "logan",
-  "generatedAt": "2026-11-16T02:26:34.324Z",
+  "generatedAt": "2026-11-23T02:27:37.756Z",
   "source": {
     "publisher": "Logan City Council",
     "url": "https://www.arcgis.com/home/item.html?id=17ae783777574d33bbf992c08fc24be0",
     "licence": "https://creativecommons.org/licenses/by/3.0/au/"
   },
   "collections": [
-    {
-      "id": "2026-11-09",
-      "startsOn": "2026-11-09",
-      "endsOn": "2026-11-20",
-      "putOutFrom": "2026-11-07",
-      "areas": [
-        {
-          "id": "browns-plains",
-          "name": "Browns Plains"
-        },
-        {
-          "id": "regents-park",
-          "name": "Regents Park"
-        }
-      ]
-    },
     {
       "id": "2026-11-23",
       "startsOn": "2026-11-23",
