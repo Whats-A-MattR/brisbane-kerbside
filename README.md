@@ -95,3 +95,9 @@ No Cloudflare credentials belong in source files, council folders or local `.env
 Issues and pull requests are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md). Code is MIT licensed. Council data retains the licence declared by its publisher and is attributed in each site package.
 
 The sites are independent community projects, not official council services. Always confirm important collection details with the relevant council.
+
+### Logan operational notices
+
+A separate hourly workflow follows Logan Council's banner on the official kerbside schedule and checks the notice independently of the ArcGIS dates. It only labels a collection delayed when the notice explicitly names suburbs that all match one recent round in the official CSV. Ambiguous wording shows a neutral Council link. A failed request leaves the prior snapshot intact; a verified missing banner removes the precise delay and retires the neutral link after a week of continued absence, without claiming completion. Scheduled checks compare the stored notice digest with a marker on each live site. If either target is missing the current digest, both deploy from the same immutable revision. An unchanged poll therefore retries a partial deployment rather than leaving one site stale.
+
+Run the fixtures with `python3 -B scripts/test-logan-notice.py`. Run the actual source check with `python3 scripts/check-logan-notice.py`; this can update the local JSON but does not push or deploy. The watcher does not infer replacement dates from prose.

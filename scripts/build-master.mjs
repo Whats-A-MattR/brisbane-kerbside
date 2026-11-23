@@ -71,6 +71,11 @@ function pageDetails(route) {
       title: `${area.name} kerbside collection date | ${council.placeName}`,
       description: `${area.name} was last collected on ${longDate(area.lastCollection.startsOn)}. Its next ${council.serviceName} date is not yet published; check the local status and official Council calendar.`,
     };
+    if (!collection) return {
+      path: `/councils/${council.id}/suburbs/${area.id}/`,
+      title: `${area.name} kerbside collection date | ${council.placeName}`,
+      description: `No upcoming ${council.serviceName} date is published for ${area.name}. Check the official Council schedule.`,
+    };
     return {
       path: `/councils/${council.id}/suburbs/${area.id}/`,
       title: `${area.name} kerbside collection dates | ${council.placeName}`,

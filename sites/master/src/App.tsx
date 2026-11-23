@@ -1,3 +1,4 @@
+import { hasLoganAreaAdvisory, hasLoganStormNotice, LoganStormNotice } from '../../logan/StormNotice';
 import { useEffect, useMemo, useState } from 'react';
 import masterSite from '../site.json';
 import type { MasterCouncil, MasterData, MasterRoute } from './types';
@@ -424,6 +425,7 @@ function BookingCouncilPage({ council }: { council: MasterCouncil }) {
 
 function CouncilPage({ council }: { council: MasterCouncil }) {
   if (!isScheduled(council)) return <BookingCouncilPage council={council} />;
+  const stormDelayed = Boolean(council.nextCollection && hasLoganStormNotice(council.id, council.nextCollection.startsOn));
   return (
     <main className="inner-page council-page">
       <nav className="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><a href="/councils/">Councils</a><span>›</span><span>{council.placeName}</span></nav>
@@ -434,9 +436,10 @@ function CouncilPage({ council }: { council: MasterCouncil }) {
         <a className="primary-action large" href={council.siteUrl} onClick={() => rememberCouncil(council)}>Open the {council.placeName} date finder ↗</a>
         <a href={council.links.officialCalendar}>Official Council calendar ↗</a>
       </div>
+      {hasLoganStormNotice(council.id) && <LoganStormNotice className="date-feature service-feature" />}
       {council.nextCollection && (
         <section className="date-feature">
-          <p className="eyebrow">Next published collection</p>
+          <p className="eyebrow">{stormDelayed ? 'Originally scheduled collection' : 'Next published collection'}</p>
           <h2>{formatDate(council.nextCollection.startsOn)}{council.nextCollection.endsOn ? ` – ${formatDate(council.nextCollection.endsOn)}` : ''}</h2>
           <p>{council.nextCollection.areas.join(' · ')}</p>
         </section>
@@ -513,6 +516,7 @@ function AreaPage({ council, areaId }: { council: MasterCouncil; areaId: string 
     .map((id) => council.collections.find((collection) => collection.id === id))
     .filter((collection): collection is MasterCouncil['collections'][number] => Boolean(collection));
   const next = collections[0];
+  const stormDelayed = hasLoganStormNotice(council.id, next?.id, areaId);
   const localUrl = `${council.siteUrl}/${council.areaRouteSegment}/${area.id}/`;
 
   if (!next && area.lastCollection) {
@@ -544,16 +548,17 @@ function AreaPage({ council, areaId }: { council: MasterCouncil; areaId: string 
       <nav className="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><a href="/councils/">Councils</a><span>›</span><a href={councilPath(council.id)}>{council.placeName}</a><span>›</span><span>{area.name}</span></nav>
       <p className="eyebrow">{council.councilName} {council.serviceName}</p>
       <h1>{area.name} kerbside collection dates</h1>
-      <p className="lead">Find the published {council.serviceName} schedule for {area.name}, identify the relevant collection period and continue to the dedicated {council.placeName} map.</p>
+      <p className="lead">{next ? <>Find the published {council.serviceName} schedule for {area.name} and open the dedicated map.</> : <>No new collection date is confirmed for {area.name}.</>}</p>
       <div className="council-hero-actions">
-        <a className="primary-action large" href={localUrl} onClick={() => rememberCouncil(council)}>Open the {area.name} map ↗</a>
+        <a className="primary-action large" href={localUrl} onClick={() => rememberCouncil(council)}>{next ? `Open the ${area.name} map` : `See the ${area.name} status`} ↗</a>
         <a href={council.links.officialCalendar}>Confirm with {council.councilName} ↗</a>
       </div>
+      {(stormDelayed || (!next && hasLoganAreaAdvisory(council.id, areaId))) && <LoganStormNotice className="date-feature service-feature" />}
       {next && (
         <section className="date-feature">
-          <p className="eyebrow">Next published collection</p>
+          <p className="eyebrow">{stormDelayed ? 'Originally scheduled collection' : 'Next published collection'}</p>
           <h2>{formatDate(next.startsOn)}{next.endsOn ? ` – ${formatDate(next.endsOn)}` : ''}</h2>
-          {next.putOutFrom && <p>Items may be placed out from {formatDate(next.putOutFrom)}. Confirm local timing and eligibility with Council before using this date.</p>}
+          {!stormDelayed && next.putOutFrom && <p>Items may be placed out from {formatDate(next.putOutFrom)}. Confirm local timing and eligibility with Council before using this date.</p>}
         </section>
       )}
       <section className="route-directory" aria-labelledby="area-dates-title">
@@ -578,6 +583,7 @@ function AreaPage({ council, areaId }: { council: MasterCouncil; areaId: string 
 function CollectionPage({ council, collectionId }: { council: MasterCouncil; collectionId: string }) {
   const collection = council.collections.find((item) => item.id === collectionId);
   if (!collection) return <CouncilPage council={council} />;
+  const stormDelayed = hasLoganStormNotice(council.id, collection.id);
   const localUrl = `${council.siteUrl}/collections/${collection.id}/`;
 
   return (
@@ -590,10 +596,11 @@ function CollectionPage({ council, collectionId }: { council: MasterCouncil; col
         <a className="primary-action large" href={localUrl} onClick={() => rememberCouncil(council)}>Open this collection map ↗</a>
         <a href={council.links.officialCalendar}>Official Council calendar ↗</a>
       </div>
+      {stormDelayed && <LoganStormNotice className="date-feature service-feature" />}
       <section className="date-feature">
-        <p className="eyebrow">Published collection period</p>
+        <p className="eyebrow">{stormDelayed ? 'Originally scheduled collection' : 'Published collection period'}</p>
         <h2>{formatDate(collection.startsOn)}{collection.endsOn ? ` – ${formatDate(collection.endsOn)}` : ''}</h2>
-        {collection.putOutFrom && <p>Items may be placed out from {formatDate(collection.putOutFrom)}. Always confirm the current instructions with Council.</p>}
+        {!stormDelayed && collection.putOutFrom && <p>Items may be placed out from {formatDate(collection.putOutFrom)}. Always confirm the current instructions with Council.</p>}
       </section>
       <section className="route-directory" aria-labelledby="collection-areas-title">
         <p className="eyebrow">Included areas</p>

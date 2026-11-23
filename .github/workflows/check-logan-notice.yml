@@ -1,0 +1,58 @@
+name: Check Logan Council notice
+
+on:
+  schedule:
+    - cron: '23 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kerbside-data-refresh
+  cancel-in-progress: false
+
+jobs:
+  check:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      needs_publish: ${{ steps.snapshot.outputs.needs_publish }}
+      revision: ${{ steps.snapshot.outputs.revision }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refs/heads/main
+      - name: Test and refresh the notice
+        id: snapshot
+        run: |
+          python3 -B scripts/test-logan-notice.py
+          bash scripts/test-logan-notice-publish.sh
+          if ! python3 scripts/check-logan-notice.py; then
+            echo "::warning::Council lookup failed; verifying publication of the last stored notice."
+          fi
+          if ! git diff --quiet -- sites/logan/storm-notice.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add sites/logan/storm-notice.json
+            git commit -m "chore(data): update Logan Council notice"
+            git push
+          fi
+          expected=$(sha256sum sites/logan/storm-notice.json | cut -d ' ' -f 1)
+          needs_publish=$(bash scripts/logan-notice-needs-publish.sh "$expected" "$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT")
+          echo "needs_publish=$needs_publish" >> "$GITHUB_OUTPUT"
+          echo "revision=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+  publish:
+    needs: check
+    if: needs.check.result == 'success' && (needs.check.outputs.needs_publish == 'true' || github.event_name == 'workflow_dispatch')
+    permissions:
+      contents: read
+      deployments: write
+    uses: ./.github/workflows/deploy-cloudflare.yml
+    with:
+      logan_only: true
+      revision: ${{ needs.check.outputs.revision }}
+    secrets: inherit
