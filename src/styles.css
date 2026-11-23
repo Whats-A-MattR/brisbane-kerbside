@@ -252,6 +252,19 @@ h1 { max-width: 650px; margin-bottom: 22px; font-family: Georgia, "Times New Rom
 .collection-details small { color: #6b7c76; font-size: 0.72rem; }
 
 .trust-section { margin-top: 64px; padding: 32px; border: 1px solid rgba(24, 45, 39, 0.18); background: #ebe7da; }
+.updates-card { display: grid; grid-template-columns: minmax(180px, .8fr) minmax(240px, 1.2fr); gap: 30px; margin-top: 36px; padding: 30px; border-radius: 4px; color: #f4f1e8; background: #24483e; }
+.updates-card .eyebrow { color: #d6ec86; }
+.updates-card h2 { margin: 0 0 10px; font: 500 2rem/1.05 Georgia, "Times New Roman", serif; }
+.updates-copy > p:last-child { color: #d0ddd7; line-height: 1.55; }
+.updates-card form { display: grid; gap: 13px; }
+.updates-card label { display: grid; gap: 6px; font-size: .82rem; font-weight: 700; }
+.updates-card input:not([type="checkbox"]), .updates-card select { width: 100%; min-height: 42px; padding: 9px 11px; border: 1px solid #a5b7ae; border-radius: 3px; color: #182d27; background: #fffdf7; font: inherit; }
+.updates-location-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.updates-card .updates-consent { display: grid; grid-template-columns: 18px 1fr; align-items: start; gap: 9px; color: #e0e9e4; font-weight: 500; line-height: 1.45; }
+.updates-consent input { width: 17px; height: 17px; margin: 1px 0 0; accent-color: #d6ec86; }
+.updates-card button { min-height: 46px; border: 0; border-radius: 3px; color: #182d27; background: #e4ff68; font-weight: 800; cursor: pointer; }
+.updates-card button:disabled { opacity: .7; cursor: wait; }
+.updates-status { min-height: 1.2em; margin: 0; color: #e4ff68; font-size: .84rem; }
 .trust-section h2 { margin-bottom: 14px; font-family: Georgia, "Times New Roman", serif; font-size: 2rem; font-weight: 500; }
 .trust-section p { color: #52645e; line-height: 1.65; }
 .trust-links { display: flex; flex-wrap: wrap; gap: 10px 20px; }
@@ -539,6 +552,7 @@ footer a { color: inherit; text-underline-offset: 3px; }
 }
 
 @media (max-width: 520px) {
+  .updates-card { grid-template-columns: 1fr; gap: 10px; padding: 24px; }
   .editorial-name { display: none; }
   .editorial-header nav { gap: 10px 18px; }
   .editorial-header nav .sponsor-link { margin-left: 0; }

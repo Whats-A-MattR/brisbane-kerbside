@@ -2,6 +2,7 @@ import { hasLoganAreaAdvisory, hasLoganStormNotice, LoganStormNotice } from '../
 import { useEffect, useId, useMemo, useState } from 'react';
 import { MdClose, MdMenu, MdSearch } from 'react-icons/md';
 import { AdStrip } from './AdStrip';
+import type { UpdatesFormBuilder } from './forms/types';
 import { trackEvent } from './analytics';
 import { BackToTop } from './BackToTop';
 import { formatCollectionDate, formatGeneratedAt } from './date';
@@ -24,6 +25,7 @@ import type { AreaDirectoryEntry, Collection, CollectionArea, Route, Schedule } 
 type AppProps = {
   schedule: Schedule;
   route: Route;
+  formBuilder: UpdatesFormBuilder;
 };
 
 type SuburbOption = CollectionArea & {
@@ -272,7 +274,7 @@ function HistoricalAreaFacts({ area }: { area: AreaDirectoryEntry }) {
   );
 }
 
-export function App({ schedule, route }: AppProps) {
+export function App({ schedule, route, formBuilder: FormBuilder }: AppProps) {
   const routeCollections = collectionsForRoute(schedule, route);
   const routeArea = route.type === 'area' ? schedule.areaDirectory?.find((item) => item.id === route.id) : undefined;
   const historicalCollection: Collection | undefined = routeArea?.lastCollection && routeCollections.length === 0
@@ -530,6 +532,8 @@ export function App({ schedule, route }: AppProps) {
             <a href={REPOSITORY_URL}>View the source code ↗</a>
           </div>
         </section>
+
+        {siteConfig.updates.enabled && <FormBuilder schedule={schedule} />}
 
         {route.type === 'home' && (
           <section className="faq" aria-labelledby="faq-title">

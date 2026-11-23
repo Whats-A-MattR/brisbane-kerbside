@@ -8,6 +8,7 @@
   "brandMark": "LOG",
   "headerLabel": "Kerbside clean-up map",
   "placeName": "Logan",
+  "state": "QLD",
   "councilName": "Logan City Council",
   "serviceName": "kerbside clean-up",
   "rules": {
@@ -27,7 +28,10 @@
     "routeSegment": "suburbs"
   },
   "map": {
-    "center": [-27.64, 153.11],
+    "center": [
+      -27.64,
+      153.11
+    ],
     "zoom": 10,
     "maxSelectionZoom": 12
   },
@@ -86,5 +90,18 @@
       "question": "Is this the official Logan City Council schedule?",
       "answer": "No. This independent site presents Council open data. Confirm dates, eligibility and item rules on Logan City Council’s website."
     }
-  ]
+  ],
+  "updates": {
+    "enabled": true,
+    "heading": "Get ready for your Logan clean-up.",
+    "description": "We’ll email before your Logan kerbside clean-up period and share local events and relevant sponsor offers.",
+    "consentLabel": "Yes, email me Logan clean-up dates, local events and relevant sponsor offers. I can unsubscribe at any time.",
+    "submitLabel": "Get Logan updates",
+    "successMessage": "You’re subscribed to Logan area updates.",
+    "notifications": {
+      "fromEmail": "updates@whenskerbside.com",
+      "collectionLeadDays": 7,
+      "itemsOutLeadDays": 2
+    }
+  }
 }

@@ -26,7 +26,7 @@ When's Kerbside directory, search and council overview pages
 dist/master → whenskerbside.com
 ```
 
-There is no application server or database. The weekly data workflow refreshes every registered council and commits only the generated data. The deployment workflow reads the same registry and builds/deploys each site independently.
+The sites are statically rendered. An optional Cloudflare Pages Function handles email signup, and an optional scheduled Worker uses D1 to prevent repeat notices. The weekly data workflow refreshes every registered council and commits only the generated data. The deployment workflow reads the same registry and builds/deploys each site independently.
 
 ## Repository layout
 
@@ -65,6 +65,23 @@ KERBSIDE_SITE=master pnpm build
 
 Copy `.env.example` to `.env.local` only to test public analytics or advertising identifiers. API tokens and credentials must never use a `VITE_` variable or enter the repository.
 
+## Local email updates
+
+The Brisbane and Logan builds inject their own `UpdatesFormBuilder` into the shared council app. The form's heading, consent text and success copy live in each council's `site.json`; a site can replace `sites/<site-id>/UpdatesForm.tsx` to provide a different builder. The When's Kerbside home page has a separate builder that asks for a scheduled council before showing its suburb list. All three forms collect first name, email, suburb, postcode and state, with the explicit opt-in selected by default.
+
+The shared Pages Function at `functions/api/subscribe.ts` validates the selected area against that council's published schedule and upserts the contact to Plunk with `siteId`, signup source and consent timestamp. It never exposes the Plunk secret to the browser. Add `PLUNK_API_KEY` as a secret to the Brisbane, Logan and master Pages projects. Configure these runtime variables in each Pages project:
+
+- `ALLOWED_ORIGIN` — that site's canonical HTTPS origin.
+- `SITE_ID` — set to `brisbane`, `logan`, or `master` on the matching Pages project. The master form accepts any enabled scheduled council in the generated notification catalog.
+
+Council schedule URLs, sender addresses and notice lead times come from each enabled council's `site.json` under `updates.notifications`. Run `pnpm notifications:config` after changing that metadata or the site registry. This creates `workers/sites.generated.json`, which both the Pages Function and Worker use. `pnpm notifications:config:check` checks that the generated file is current.
+
+The scheduled Worker in `workers/notifications.ts` pages through subscribed Plunk contacts once a day, filters them by council and area, and sends notices before collection and items-out dates. Optional area events such as free tip days can be added to its `EVENTS_JSON` variable, with a `siteId`, stable `id`, `title`, `date`, and `suburbs` or `postcodes` list. Set `daysBefore` to change the default seven-day lead time. An event may include `sponsorOffer: {"name":"...","title":"...","url":"https://..."}`; the same email is sent by us to the matched audience, without passing subscriber details to the sponsor. A Plunk **marketing** template is required; the Worker overrides its subject and body while Plunk enforces opt-outs and appends its unsubscribe footer. Do not use a transactional template for these emails.
+
+To deploy the job, create the `kerbside-local-updates` D1 database, place its ID in `wrangler.notifications.jsonc`, apply `migrations/0001_sent_notifications.sql`, set `PLUNK_API_KEY` and `PLUNK_MARKETING_TEMPLATE_ID` as Worker secrets with Wrangler, and run `pnpm deploy:notifications`. Verify the configured sender domain in Plunk before the cron sends email. A D1 `pending` row stays reserved if Plunk's response is uncertain; inspect the Worker log and Plunk activity before manually clearing one. This favors avoiding duplicate messages. Privacy pages explain what the opt-in stores and how sponsor placements are handled; subscriber details are not shared with sponsors.
+
+Keep this feature branch unmerged until the three Pages projects have their signup variables and secret, and the Worker has its D1 binding, Plunk secrets and verified sender. The forms are enabled in the metadata and need those services to accept signups.
+
 ## Adding a council
 
 See [docs/adding-a-council.md](docs/adding-a-council.md). A new council is a self-contained site package plus one registry entry; shared code should not acquire council API fields or branding.
@@ -72,6 +89,8 @@ See [docs/adding-a-council.md](docs/adding-a-council.md). A new council is a sel
 ## GitHub and Cloudflare
 
 Every push to `main` builds the registered sites on GitHub and deploys each `dist/<site-id>` directory to the Cloudflare Pages project in `sites/registry.json`. Council entries use `kind: council`; the dynamic directory uses `kind: directory` and is not treated as a data adapter by the weekly ETL job.
+
+Use `vMAJOR.MINOR.PATCH` GitHub release tags for site version milestones. The first baseline is `v1.0.0`. Tags record a known code state; deployment remains on `main`, including the workflow run after weekly data refreshes. A data refresh can therefore deploy without creating another release tag.
 
 The workflow uses these GitHub Actions secrets:
 

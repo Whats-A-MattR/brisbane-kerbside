@@ -49,6 +49,7 @@ export default defineConfig({
     alias: {
       '@site/config': resolve(siteDir, 'config.ts'),
       '@site/editorial-pages': resolve(siteDir, 'EditorialPages.tsx'),
+      '@site/form-builder': resolve(siteDir, 'UpdatesForm.tsx'),
     },
   },
   plugins: [react(), developmentData],

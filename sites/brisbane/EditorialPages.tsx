@@ -55,7 +55,7 @@ export function PrivacyPage() {
 
         <h2>What this site collects</h2>
         <p>
-          Brisbane Kerbside Collection Map does not require an account and does not collect names, addresses or contact details. The site may use Google Analytics 4 to understand aggregate page visits, suburb searches and collection-date selections. Analytics is not loaded when your browser sends a Do Not Track signal.
+          Browsing does not require an account. If you opt in to local updates, we send your first name, email address, suburb, postcode, state and consent timestamp to Plunk to manage subscriptions and match relevant collection notices. Emails may also include local events and sponsor offers. You can unsubscribe from any email. We do not give sponsors your email address or subscriber details; any sponsor placement is sent by this service to the relevant opted-in audience. The site may also use Google Analytics 4 to understand aggregate page visits and searches. Analytics is not loaded when your browser sends a Do Not Track signal.
         </p>
 
         <h2>Advertising</h2>
