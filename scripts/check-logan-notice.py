@@ -99,7 +99,7 @@ def snapshot(previous, source, paragraphs, csv_body, today):
     status, run, end, ids, names = "none", None, None, [], []
     if source:
         status = "advisory"
-        ids = previous["areaIds"]
+        ids, names = previous["areaIds"], previous["areaNames"]
         # Multiple conflicting or unrecognised collection paragraphs are advisory only.
         if len(paragraphs) == 1:
             resumed = RESUMED.fullmatch(paragraphs[0])
@@ -107,7 +107,7 @@ def snapshot(previous, source, paragraphs, csv_body, today):
             if resumed and previous["areaIds"] and named_areas(resumed[1]) == set(previous["areaIds"]):
                 status = "none"
                 # Preserve the scope privately in the snapshot so repeated resolution stays idempotent.
-                ids = previous["areaIds"]
+                ids, names = previous["areaIds"], previous["areaNames"]
             elif delay and (matched := match_run(delay[1], csv_body, today)):
                 status = "delayed"
                 run, end, ids, names = matched
@@ -115,7 +115,7 @@ def snapshot(previous, source, paragraphs, csv_body, today):
         # A verified schedule with no banner is not a resumption report.
         # Retire the neutral pointer after a week with the banner absent.
         if previous["source"] != SCHEDULE or today < date.fromisoformat(previous["checkedOn"]) + timedelta(days=7):
-            status, ids = "advisory", previous["areaIds"]
+            status, ids, names = "advisory", previous["areaIds"], previous["areaNames"]
     result = dict(status=status, councilId="logan", collectionId=run, areaIds=ids,
                   areaNames=names, originalEnd=end, checkedOn=today.isoformat(),
                   source=source or SCHEDULE)

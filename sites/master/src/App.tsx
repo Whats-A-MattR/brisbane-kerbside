@@ -1,4 +1,4 @@
-import { hasLoganStormNotice, LoganStormNotice } from '../../logan/StormNotice';
+import { hasLoganAreaAdvisory, hasLoganStormNotice, LoganStormNotice } from '../../logan/StormNotice';
 import { useEffect, useMemo, useState } from 'react';
 import masterSite from '../site.json';
 import type { MasterCouncil, MasterData, MasterRoute } from './types';
@@ -548,12 +548,12 @@ function AreaPage({ council, areaId }: { council: MasterCouncil; areaId: string 
       <nav className="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><a href="/councils/">Councils</a><span>›</span><a href={councilPath(council.id)}>{council.placeName}</a><span>›</span><span>{area.name}</span></nav>
       <p className="eyebrow">{council.councilName} {council.serviceName}</p>
       <h1>{area.name} kerbside collection dates</h1>
-      <p className="lead">Find the published {council.serviceName} schedule for {area.name}, identify the relevant collection period and continue to the dedicated {council.placeName} map.</p>
+      <p className="lead">{next ? <>Find the published {council.serviceName} schedule for {area.name} and open the dedicated map.</> : <>No new collection date is confirmed for {area.name}.</>}</p>
       <div className="council-hero-actions">
-        <a className="primary-action large" href={localUrl} onClick={() => rememberCouncil(council)}>Open the {area.name} map ↗</a>
+        <a className="primary-action large" href={localUrl} onClick={() => rememberCouncil(council)}>{next ? `Open the ${area.name} map` : `See the ${area.name} status`} ↗</a>
         <a href={council.links.officialCalendar}>Confirm with {council.councilName} ↗</a>
       </div>
-      {stormDelayed && <LoganStormNotice className="date-feature service-feature" />}
+      {(stormDelayed || (!next && hasLoganAreaAdvisory(council.id, areaId))) && <LoganStormNotice className="date-feature service-feature" />}
       {next && (
         <section className="date-feature">
           <p className="eyebrow">{stormDelayed ? 'Originally scheduled collection' : 'Next published collection'}</p>

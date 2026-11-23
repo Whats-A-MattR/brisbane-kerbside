@@ -3,6 +3,7 @@ import { dirname, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { spawn } from 'node:child_process';
 import { appDir, assertRegisteredSite, selectedSiteId } from './lib/site-registry.mjs';
+import { withLoganNoticeAreas } from './lib/logan-notice-areas.mjs';
 import { validateOutputs } from './lib/validate-data.mjs';
 
 const siteId = selectedSiteId();
@@ -81,6 +82,11 @@ function pageDetails(schedule, route) {
       title: `${area} ${site.serviceName} date | ${site.placeName}`,
       description: `${area} was last collected on ${longDate(directoryArea.lastCollection.startsOn)}. Its next ${site.serviceName} date is not yet published; check Council and upcoming Brisbane dates.`,
     };
+    if (!collection && directoryArea) return {
+      path: `/${site.area.routeSegment}/${route.id}/`,
+      title: `${area} ${site.serviceName} date | ${site.placeName}`,
+      description: `No upcoming ${site.serviceName} date is published for ${area}. Check the official Council schedule.`,
+    };
     return {
       path: `/${site.area.routeSegment}/${route.id}/`,
       title: `${area} ${site.serviceName} date | ${site.placeName} ${collection?.startsOn.slice(0, 4) ?? ''}`,
@@ -144,7 +150,9 @@ await rm(outputDir, { recursive: true, force: true });
 await run('vite', ['build', '--outDir', `dist/${siteId}`]);
 await run('vite', ['build', '--ssr', 'src/entry-server.tsx', '--outDir', `dist/${siteId}/server`, '--emptyOutDir', 'false']);
 
-const schedule = JSON.parse(await readFile(resolve(publicDir, 'data/schedule.json'), 'utf8'));
+const sourceSchedule = JSON.parse(await readFile(resolve(publicDir, 'data/schedule.json'), 'utf8'));
+const schedule = await withLoganNoticeAreas(siteId, sourceSchedule);
+if (schedule !== sourceSchedule) await writeFile(resolve(outputDir, 'data/schedule.json'), JSON.stringify(schedule, null, 2) + '\n');
 const areas = JSON.parse(await readFile(resolve(publicDir, 'data/areas.geojson'), 'utf8'));
 validateOutputs(siteId, schedule, areas);
 const serverEntry = await import(`${pathToFileURL(resolve(serverDir, 'entry-server.js')).href}?${Date.now()}`);

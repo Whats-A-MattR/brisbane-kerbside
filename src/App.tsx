@@ -1,4 +1,4 @@
-import { hasLoganStormNotice, LoganStormNotice } from '../sites/logan/StormNotice';
+import { hasLoganAreaAdvisory, hasLoganStormNotice, LoganStormNotice } from '../sites/logan/StormNotice';
 import { useEffect, useId, useMemo, useState } from 'react';
 import { MdClose, MdMenu, MdSearch } from 'react-icons/md';
 import { AdStrip } from './AdStrip';
@@ -326,6 +326,19 @@ export function App({ schedule, route }: AppProps) {
   if (route.type === 'privacy') return <PrivacyPage />;
   if (route.type === 'about') return <AboutPage schedule={schedule} />;
   if (route.type === 'guide') return <GuidePage />;
+
+  if (route.type === 'area' && routeArea && !routeArea.lastCollection && routeCollections.length === 0) {
+    return (
+      <main className="empty-state">
+        <p className="eyebrow">{siteConfig.placeName} kerbside</p>
+        <h1>{routeArea.name} {siteConfig.serviceName} date</h1>
+        <p>No new collection date is confirmed for {routeArea.name}.</p>
+        {hasLoganAreaAdvisory(siteConfig.id, routeArea.id) && <LoganStormNotice className="route-facts" />}
+        <p><a href={siteConfig.links.officialCalendar}>Check the official Council schedule ↗</a></p>
+        <p><a href={sitePath('/')}>Browse upcoming collections</a></p>
+      </main>
+    );
+  }
 
   if (!selected) {
     return (

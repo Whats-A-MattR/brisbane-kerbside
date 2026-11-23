@@ -19,6 +19,10 @@ export function hasLoganStormNotice(councilId: string, collectionId?: string, ar
     && (areaId === undefined || notice.areaIds.includes(areaId));
 }
 
+export function hasLoganAreaAdvisory(councilId: string, areaId: string) {
+  return councilId === notice.councilId && notice.status !== 'none' && notice.areaIds.includes(areaId);
+}
+
 function displayDate(value: string) {
   return new Intl.DateTimeFormat('en-AU', {
     day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Australia/Brisbane',
@@ -34,7 +38,7 @@ export function LoganStormNotice({ className }: { className: string }) {
       ) : (
         <><strong>Check Council for kerbside updates.</strong> The published dates do not confirm whether a weather interruption has ended.</>
       )}</p>
-      <p><small>Source checked <time dateTime={notice.checkedOn}>{displayDate(notice.checkedOn)}</time>. </small><a href={notice.source}>Read Logan City Council’s notice ↗</a></p>
+      <p><small>Source checked <time dateTime={notice.checkedOn}>{displayDate(notice.checkedOn)}</time>. </small><a href={notice.source}>Check Logan City Council ↗</a></p>
     </aside>
   );
 }

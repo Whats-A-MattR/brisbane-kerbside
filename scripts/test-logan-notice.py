@@ -51,6 +51,8 @@ class NoticeTests(unittest.TestCase):
         previous = notice.snapshot(EMPTY, notice.NOTICE, list(notice.kerbside_paragraphs(HTML)), CSV, TODAY)
         absent = notice.snapshot(previous, None, [], "", TODAY)
         self.assertEqual(absent["status"], "advisory")
+        self.assertEqual(absent["areaIds"], previous["areaIds"])
+        self.assertEqual(absent["areaNames"], ["Browns Plains", "Regents Park"])
         self.assertEqual(notice.snapshot(absent, None, [], "", date(2026, 11, 29))["status"], "none")
         self.assertEqual(notice.snapshot(absent, notice.NOTICE, ["Kerbside collections in Browns Plains and Regents Park have resumed."], "", TODAY)["status"], "none")
         self.assertEqual(notice.snapshot(previous, notice.NOTICE, ["Kerbside collections in Browns Plains and Regents Park have resumed."], "", TODAY)["status"], "none")

@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { withLoganNoticeAreas } from './logan-notice-areas.mjs';
 import { appDir, councilSites } from './site-registry.mjs';
 
 function slugify(value) {
@@ -73,7 +74,7 @@ export async function masterData() {
   const scheduledCouncils = await Promise.all((await councilSites()).map(async (registryEntry) => {
     const siteDir = resolve(appDir, 'sites', registryEntry.id);
     const config = JSON.parse(await readFile(resolve(siteDir, 'site.json'), 'utf8'));
-    const schedule = JSON.parse(await readFile(resolve(siteDir, 'public/data/schedule.json'), 'utf8'));
+    const schedule = await withLoganNoticeAreas(registryEntry.id, JSON.parse(await readFile(resolve(siteDir, 'public/data/schedule.json'), 'utf8')));
     const scheduledAreas = [...new Map(schedule.collections.flatMap((collection) => collection.areas.map((area) => [area.id, area]))).values()];
     const directoryAreas = schedule.areaDirectory ?? scheduledAreas;
     const areaNames = directoryAreas.map((area) => area.name).sort((a, b) => a.localeCompare(b, config.locale));
