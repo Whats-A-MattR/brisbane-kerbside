@@ -1,10 +1,13 @@
 {
-  "status": "delayed",
+  "status": "advisory",
   "councilId": "logan",
-  "collectionId": "2026-11-09",
-  "areaIds": ["browns-plains", "regents-park"],
-  "areaNames": ["Browns Plains", "Regents Park"],
-  "originalEnd": "2026-11-20",
-  "checkedOn": "2026-11-22",
-  "source": "https://www.logan.qld.gov.au/announcement"
+  "collectionId": null,
+  "areaIds": [
+    "browns-plains",
+    "regents-park"
+  ],
+  "areaNames": [],
+  "originalEnd": null,
+  "checkedOn": "2026-11-23",
+  "source": "https://www.logan.qld.gov.au/residents/waste-and-recycling/kerbside-clean-up/schedule"
 }
